@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_primary">#dbdbdb</color>
+    <color name="color_primary_dark">#dbdbdb</color>
+    <color name="accent">#000000</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="darkGray">#727272</color>
+    <color name="grayLight">#dbdbdb</color>
+
+</resources>
