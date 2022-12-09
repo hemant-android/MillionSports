@@ -6,15 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.forthpro.millionsport.BuildConfig
 import com.forthpro.millionsport.R
+import com.forthpro.millionsport.model.response.GetAllLanguageResponse
 import com.google.android.material.imageview.ShapeableImageView
 
 
-class LanguageChooseAdapter(val mContext: Context) :
+class LanguageChooseAdapter(private val mContext: Context) :
     androidx.recyclerview.widget.RecyclerView.Adapter<LanguageChooseAdapter.ViewHolder>() {
-    private val items: ArrayList<String> = arrayListOf()
+    private val items: ArrayList<GetAllLanguageResponse.Language> = arrayListOf()
     lateinit var onclick: onClickListner
-    var selectedPosition = -1
+    private var selectedItemPos = 0
 
     interface onClickListner {
         fun clickItem(addressId: String)
@@ -24,24 +27,33 @@ class LanguageChooseAdapter(val mContext: Context) :
         this.onclick = onclick;
     }
 
-    fun setData(item: ArrayList<String>) {
+    fun setData(item: ArrayList<GetAllLanguageResponse.Language>) {
         items!!.clear()
         items.addAll(item)
         notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        /*if (items!![position].vehicle_image != null && items!![position].vehicle_image.isNotEmpty()) {
-            Glide.with(mContext).load(items!![position].vehicle_image[0]).centerCrop()
-                .into(holder.imgPark!!)
-        }*/
 
-        holder.tvLanguage!!.text = "" + position
+        if (items!![position].isSelect != null && items!![position].isSelect) {
+            holder.imgCheck!!.setImageResource(R.drawable.ic_radio_button_checked)
+        } else {
+            holder.imgCheck!!.setImageResource(R.drawable.ic_radio_button_unchecked)
+        }
+
+        if (items!![position].language_logo != null && items!![position].language_logo.isNotEmpty()) {
+            Glide.with(mContext).load(BuildConfig.SERVER_URL + items!![position].language_logo)
+                .centerCrop()
+                .into(holder.imgFlag!!)
+        }
+
+        holder.tvLanguage!!.text = "" + items[position].name
 
         holder.itemView!!.setOnClickListener {
             /*Intent(mContext, ChooseTimeFormatActivity::class.java).also {
                 mContext.startActivity(it)
             }*/
+            selectClickedAndUnselectPrevious(holder)
             onclick.clickItem("" + position)
         }
 
@@ -54,13 +66,21 @@ class LanguageChooseAdapter(val mContext: Context) :
     }
 
     override fun getItemCount(): Int {
-        return 5
+        return items.size
     }
 
     class ViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
         val imgFlag: ShapeableImageView? = view.findViewById(R.id.imgFlag)
         val tvLanguage: TextView? = view.findViewById(R.id.tvLanguage)
         val imgCheck: ImageView? = view.findViewById(R.id.imgCheck)
+    }
+
+    private fun selectClickedAndUnselectPrevious(holder: ViewHolder) {
+        items[selectedItemPos].isSelect = false
+        items[holder.adapterPosition].isSelect = true
+        notifyItemChanged(selectedItemPos)
+        notifyItemChanged(holder.adapterPosition)
+        selectedItemPos = holder.adapterPosition
     }
 }
 

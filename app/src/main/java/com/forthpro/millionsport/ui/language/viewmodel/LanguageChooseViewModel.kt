@@ -1,4 +1,4 @@
-package com.forthpro.millionsport.ui.main.viewmodel
+package com.forthpro.millionsport.ui.language.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -7,7 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.forthpro.millionsport.R
 import com.forthpro.millionsport.app.MyApplication
-import com.forthpro.millionsport.model.response.GetMovieList
+import com.forthpro.millionsport.model.RequestBodies
+import com.forthpro.millionsport.model.response.CommonResponse
+import com.forthpro.millionsport.model.response.GetAllLanguageResponse
 import com.forthpro.millionsport.repository.AppRepository
 import com.forthpro.millionsport.util.Event
 import com.forthpro.millionsport.util.Resource
@@ -15,33 +17,33 @@ import com.forthpro.millionsport.util.Utils
 import kotlinx.coroutines.launch
 import java.io.IOException
 
-class MainViewModel(
-    app: Application,
-    private val appRepository: AppRepository,
-) : AndroidViewModel(app) {
+class LanguageChooseViewModel(app: Application, private val appRepository: AppRepository) :
+    AndroidViewModel(app) {
 
-    private val _getAllListResponse = MutableLiveData<Event<Resource<GetMovieList>>>()
-    private val _getAllListNextResponse = MutableLiveData<Event<Resource<GetMovieList>>>()
-    val getAllListResponse: LiveData<Event<Resource<GetMovieList>>> = _getAllListResponse
-    val getAllListNextResponse: LiveData<Event<Resource<GetMovieList>>> = _getAllListNextResponse
+    private val _getAllLanguageResponse = MutableLiveData<Event<Resource<GetAllLanguageResponse>>>()
+    val getAllLanguageResponse: LiveData<Event<Resource<GetAllLanguageResponse>>> =
+        _getAllLanguageResponse
 
+    private val _getLanguageTextResponse = MutableLiveData<Event<Resource<CommonResponse>>>()
+    val getLanguageTextResponse: LiveData<Event<Resource<CommonResponse>>> =
+        _getLanguageTextResponse
 
-    fun getAllList() = viewModelScope.launch {
-        getAllListData()
+    fun getAllLanguageList() = viewModelScope.launch {
+        getAllLanguageData()
     }
 
-    fun getAllListNext() = viewModelScope.launch {
-        getAllListNextData()
+    fun getLanguageLabel(body: RequestBodies.LanguageLabelBody) = viewModelScope.launch {
+        getLanguageLabelData(body)
     }
 
-    private suspend fun getAllListData() {
-        _getAllListResponse.postValue(Event(Resource.Loading()))
+    private suspend fun getAllLanguageData() {
+        _getAllLanguageResponse.postValue(Event(Resource.Loading()))
         try {
             if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
-                val response = appRepository.getAllListData()
-                _getAllListResponse.postValue(response?.let { handleAllListResponse(it) })
+                val response = appRepository.getAllLanguageData()
+                _getAllLanguageResponse.postValue(response?.let { handleCommonResponse(it) })
             } else {
-                _getAllListResponse.postValue(
+                _getAllLanguageResponse.postValue(
                     Event(
                         Resource.Error(
                             getApplication<MyApplication>().getString(
@@ -54,7 +56,7 @@ class MainViewModel(
         } catch (t: Throwable) {
             when (t) {
                 is IOException -> {
-                    _getAllListResponse.postValue(
+                    _getAllLanguageResponse.postValue(
                         Event(
                             Resource.Error(
                                 getApplication<MyApplication>().getString(
@@ -65,7 +67,7 @@ class MainViewModel(
                     )
                 }
                 else -> {
-                    _getAllListResponse.postValue(
+                    _getAllLanguageResponse.postValue(
                         Event(
                             Resource.Error(t.localizedMessage)
                         )
@@ -75,14 +77,14 @@ class MainViewModel(
         }
     }
 
-    private suspend fun getAllListNextData() {
-        _getAllListNextResponse.postValue(Event(Resource.Loading()))
+    private suspend fun getLanguageLabelData(body: RequestBodies.LanguageLabelBody) {
+        _getLanguageTextResponse.postValue(Event(Resource.Loading()))
         try {
             if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
-                val response = appRepository.getAllListNextData()
-                _getAllListNextResponse.postValue(response?.let { handleAllListResponse(it) })
+                val response = appRepository.getLanguageLabelData(body)
+                _getLanguageTextResponse.postValue(response?.let { handleLanguageLabelResponse(it) })
             } else {
-                _getAllListNextResponse.postValue(
+                _getLanguageTextResponse.postValue(
                     Event(
                         Resource.Error(
                             getApplication<MyApplication>().getString(
@@ -95,7 +97,7 @@ class MainViewModel(
         } catch (t: Throwable) {
             when (t) {
                 is IOException -> {
-                    _getAllListNextResponse.postValue(
+                    _getLanguageTextResponse.postValue(
                         Event(
                             Resource.Error(
                                 getApplication<MyApplication>().getString(
@@ -106,7 +108,7 @@ class MainViewModel(
                     )
                 }
                 else -> {
-                    _getAllListNextResponse.postValue(
+                    _getLanguageTextResponse.postValue(
                         Event(
                             Resource.Error(t.localizedMessage)
                         )
@@ -116,8 +118,16 @@ class MainViewModel(
         }
     }
 
+    private fun handleCommonResponse(response: retrofit2.Response<GetAllLanguageResponse>): Event<Resource<GetAllLanguageResponse>>? {
+        if (response.isSuccessful) {
+            response.body()?.let { resultResponse ->
+                return Event(Resource.Success(resultResponse))
+            }
+        }
+        return Event(Resource.Error(response.message()))
+    }
 
-    private fun handleAllListResponse(response: retrofit2.Response<GetMovieList>): Event<Resource<GetMovieList>>? {
+    private fun handleLanguageLabelResponse(response: retrofit2.Response<CommonResponse>): Event<Resource<CommonResponse>>? {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
                 return Event(Resource.Success(resultResponse))

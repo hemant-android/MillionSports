@@ -1,4 +1,4 @@
-package com.forthpro.millionsport.ui.main.adaptor
+package com.forthpro.millionsport.ui.home.adapter
 
 import android.content.Context
 import android.view.LayoutInflater

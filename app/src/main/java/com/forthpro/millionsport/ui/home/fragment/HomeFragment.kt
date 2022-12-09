@@ -5,15 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ExpandableListAdapter
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.RecyclerView
 import com.forthpro.millionsport.databinding.FragmentHomeBinding
 import com.forthpro.millionsport.ui.home.adapter.GameAdapter
-import com.forthpro.millionsport.ui.main.adaptor.CustomExpandableListAdapter
-import com.forthpro.millionsport.ui.main.adaptor.PopularCompetitionAdapter
+import com.forthpro.millionsport.ui.home.adapter.CustomExpandableListAdapter
+import com.forthpro.millionsport.ui.home.adapter.PopularCompetitionAdapter
 import com.forthpro.millionsport.util.ExpandableListData.data
 
 class HomeFragment : Fragment() {

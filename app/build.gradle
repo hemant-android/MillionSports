@@ -28,12 +28,12 @@ android {
     productFlavors {
         Develop {
             applicationId "com.forthpro.millionsport"
-            buildConfigField "String", "SERVER_URL", '"http://103.93.17.146/looknow/"'
+            buildConfigField "String", "SERVER_URL", '"https://forthproitsolution.work/milione_sports/"'
             signingConfig signingConfigs.debug
         }
         Prod {
             applicationId "com.forthpro.millionsport"
-            buildConfigField "String", "SERVER_URL", '"https://api.themoviedb.org/3/movie/"'
+            buildConfigField "String", "SERVER_URL", '"https://forthproitsolution.work/milione_sports/"'
         }
     }
     compileOptions {
