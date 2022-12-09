@@ -4,4 +4,9 @@
     <string name="no_internet_connection">No internet connection</string>
     <string name="network_failure">Network fail</string>
     <string name="submit">Submit</string>
+    <string name="WahleIneSprache">Wahle ine sprache</string>
+    <string name="English">English</string>
+    <string name="Zeiteinstellungen">Zeiteinstellungen</string>
+    <string name="POPULAR_COMPETITIONS">POPULAR COMPETITIONS</string>
+    <string name="COMPETITIONS_BY_COUNTRY">COMPETITIONS BY COUNTRY</string>
 </resources>

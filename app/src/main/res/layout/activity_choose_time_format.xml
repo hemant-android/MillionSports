@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@color/primary"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".ui.splash.SplashActivity">
+
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/splash_logo" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imgLogo"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:fontFamily="@font/roboto_bold_700"
+            android:text="@string/Zeiteinstellungen"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12sdp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rl24"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/accent"
+                android:padding="@dimen/_10sdp">
+
+                <TextView
+                    android:id="@+id/tv24"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:fontFamily="@font/roboto_regular_400"
+                    android:text="24 - Stunden Format "
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_10sdp" />
+
+                <ImageView
+                    android:id="@+id/imgCheck24"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_radio_button_checked" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@color/accent"
+                android:padding="@dimen/_10sdp">
+
+                <TextView
+                    android:id="@+id/tv12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:fontFamily="@font/roboto_regular_400"
+                    android:text="12 - Stunden Format"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_10sdp" />
+
+                <ImageView
+                    android:id="@+id/imgCheck12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_radio_button_unchecked" />
+            </RelativeLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+</LinearLayout>
