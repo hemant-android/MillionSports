@@ -1,6 +1,7 @@
 package com.forthpro.millionsport.network
 
 import com.forthpro.millionsport.BuildConfig
+import com.forthpro.millionsport.config.PreferenceHelper
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -13,6 +14,13 @@ class RetrofitInstance {
             logging.setLevel(HttpLoggingInterceptor.Level.BODY)
             val client = OkHttpClient.Builder()
                 .addInterceptor(logging)
+                .addInterceptor { chain ->
+                    val newRequest = chain.request().newBuilder()
+                        .addHeader("language", PreferenceHelper.languageHeader)
+                        .addHeader("timeFormat", PreferenceHelper.timeFormat)
+                        .build()
+                    chain.proceed(newRequest)
+                }
                 .build()
             Retrofit.Builder()
                 .baseUrl(BuildConfig.SERVER_URL)

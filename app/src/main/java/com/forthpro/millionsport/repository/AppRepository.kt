@@ -7,4 +7,6 @@ class AppRepository {
     suspend fun getAllLanguageData() = RetrofitInstance().retrofitApi?.getAllLanguage()
     suspend fun getLanguageLabelData(body: RequestBodies.LanguageLabelBody) =
         RetrofitInstance().retrofitApi?.getLanguageLabel(body)
+
+    suspend fun getAllTimeFormatData() = RetrofitInstance().retrofitApi?.getAllTimeFormat()
 }

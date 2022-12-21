@@ -20,7 +20,7 @@ class LanguageChooseAdapter(private val mContext: Context) :
     private var selectedItemPos = 0
 
     interface onClickListner {
-        fun clickItem(addressId: String)
+        fun clickItem(languageId: String)
     }
 
     fun setClickListner(onclick: onClickListner) {
@@ -54,7 +54,7 @@ class LanguageChooseAdapter(private val mContext: Context) :
                 mContext.startActivity(it)
             }*/
             selectClickedAndUnselectPrevious(holder)
-            onclick.clickItem("" + position)
+            onclick.clickItem(items[position].id)
         }
 
     }

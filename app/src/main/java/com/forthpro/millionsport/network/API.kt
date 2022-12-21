@@ -3,6 +3,7 @@ package com.forthpro.millionsport.network
 import com.forthpro.millionsport.model.RequestBodies
 import com.forthpro.millionsport.model.response.CommonResponse
 import com.forthpro.millionsport.model.response.GetAllLanguageResponse
+import com.forthpro.millionsport.model.response.TimeFormatResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -15,6 +16,9 @@ interface API {
 
     @POST("api/getLanguageText")
     suspend fun getLanguageLabel(@Body body: RequestBodies.LanguageLabelBody): Response<CommonResponse>
+
+    @GET("api/second_screen")
+    suspend fun getAllTimeFormat(): Response<TimeFormatResponse>
 
 
 }

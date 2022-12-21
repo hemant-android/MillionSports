@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.forthpro.millionsport.BaseActivity
+import com.forthpro.millionsport.config.PreferenceHelper
 import com.forthpro.millionsport.databinding.ActivityLanguageChooseBinding
 import com.forthpro.millionsport.model.RequestBodies
 import com.forthpro.millionsport.model.response.GetAllLanguageResponse
@@ -111,7 +112,10 @@ class LanguageChooseActivity : BaseActivity(), LanguageChooseAdapter.onClickList
         adapter.setClickListner(this)
     }
 
-    override fun clickItem(itemPosition: String) {
+    override fun clickItem(languageId: String) {
+
+        PreferenceHelper.languageHeader = languageId
+
         Intent(this, ChooseTimeFormatActivity::class.java).also {
             startActivity(it)
         }
