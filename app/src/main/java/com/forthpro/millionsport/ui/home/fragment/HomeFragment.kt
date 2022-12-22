@@ -1,34 +1,48 @@
 package com.forthpro.millionsport.ui.home.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ExpandableListAdapter
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.RecyclerView
 import com.forthpro.millionsport.databinding.FragmentHomeBinding
-import com.forthpro.millionsport.ui.home.adapter.GameAdapter
-import com.forthpro.millionsport.ui.home.adapter.CustomExpandableListAdapter
-import com.forthpro.millionsport.ui.home.adapter.PopularCompetitionAdapter
-import com.forthpro.millionsport.util.ExpandableListData.data
+import com.forthpro.millionsport.model.RequestBodies
+import com.forthpro.millionsport.model.response.DashboardResponse
+import com.forthpro.millionsport.repository.AppRepository
+import com.forthpro.millionsport.ui.home.adapter.DateWiseAdapter
+import com.forthpro.millionsport.ui.home.adapter.ExpandablePopularCompetitionAdapter
+import com.forthpro.millionsport.ui.home.adapter.ExpandablePopularCompetitionByCountryAdapter
+import com.forthpro.millionsport.ui.home.adapter.SportsAdapter
+import com.forthpro.millionsport.ui.home.viewmodel.DashboardViewModel
+import com.forthpro.millionsport.util.Resource
+import com.forthpro.millionsport.viewmodel.ViewModelProviderFactory
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.onClickListner {
 
+    var sportId: String? = ""
+    var chooseDate: String? = ""
+    private var arrPopularCompetitionsCountry: ArrayList<DashboardResponse.PopularCompetitionsCountry>? =
+        arrayListOf()
+    private var arrPopularCompetitions: ArrayList<DashboardResponse.PopularCompetition>? =
+        arrayListOf()
+    private var arrDate: ArrayList<DashboardResponse.DateArray>? = arrayListOf()
+    private var arrSports: ArrayList<DashboardResponse.Sport>? = arrayListOf()
+
+    private lateinit var viewModel: DashboardViewModel
     private lateinit var binding: FragmentHomeBinding
 
-    private val mGameAdapter: GameAdapter by lazy { GameAdapter(requireActivity()) }
-    private val mPopularCompetitionAdapter: PopularCompetitionAdapter by lazy {
-        PopularCompetitionAdapter(requireActivity())
-    }
+    private val mSportAdapter: SportsAdapter by lazy { SportsAdapter(requireActivity()) }
+    private val mDateWiseAdapter: DateWiseAdapter by lazy { DateWiseAdapter(requireActivity()) }
 
-    private var mExpandableListAdapter: ExpandableListAdapter? = null
-    private var titleList: ArrayList<String>? = arrayListOf()
-
-    private val gameList = mutableListOf("Soccer", "Hockey", "Basketball", "Tennis", "A.Football", "Baseball", "Handball")
-
+    private var popularCompetitionAdapter: ExpandablePopularCompetitionAdapter? = null
+    private var popularCompetitionByCountryAdapter: ExpandablePopularCompetitionByCountryAdapter? =
+        null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,21 +51,15 @@ class HomeFragment : Fragment() {
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater)
 
-        itemTouchHelper.attachToRecyclerView(binding.rvGame)
-        mGameAdapter.differ.submitList(gameList)
-        binding.rvGame.adapter = mGameAdapter
+        setupViewModel()
 
-        binding.rvPopularCompetitions.adapter = mPopularCompetitionAdapter
-        binding.rvCompetitionsByCountry.adapter = mPopularCompetitionAdapter
+//        itemTouchHelper.attachToRecyclerView(binding.rvGame)
+//        mSportAdapter.differ.submitList(gameList)
+//        binding.rvGame.adapter = mSportAdapter
 
-        var listData = data
-        titleList = ArrayList(listData.keys)
+        binding.rvDateWise.adapter = mDateWiseAdapter
+        mDateWiseAdapter.setClickListner(this)
 
-        mExpandableListAdapter =
-            CustomExpandableListAdapter(requireActivity(), titleList as ArrayList<String>, listData)
-
-        binding.expendablePopularCompetitions.setAdapter(mExpandableListAdapter)
-        binding.expendableCompetitionsByCountry.setAdapter(mExpandableListAdapter)
 
         // PopularCompetitions
 
@@ -86,6 +94,101 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val body = RequestBodies.DashboardBody("", "")
+        viewModel.getDashboard(body)
+
+        viewModel.getDashboardResponse.observe(requireActivity()) { event ->
+            event?.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Success -> {
+                        hideProgressBar()
+                        if (response.data?.status == 1) {
+
+                            binding.tvCompetitionsByCountry.text =
+                                response.data?.POPULAR_COMPETITIONS_BY_COUNTRY_LABEL
+                            binding.tvPopularCompetitions.text =
+                                response.data?.POPULAR_COMPETITIONS_LABEL
+
+                            if (response.data?.sports != null && response.data?.sports.isNotEmpty()) {
+
+                                arrSports = response.data?.sports
+
+                                mSportAdapter.setSportIdData(sportId!!)
+
+                                itemTouchHelper.attachToRecyclerView(binding.rvGame)
+                                mSportAdapter.differ.submitList(arrSports!!)
+
+                                binding.rvGame.adapter = mSportAdapter
+                                mSportAdapter.setClickListner(this)
+                            }
+
+                            if (response.data?.dateArray != null && response.data?.dateArray.isNotEmpty()) {
+                                arrDate = response.data?.dateArray
+
+                                mDateWiseAdapter.setData(arrDate!!, chooseDate)
+                            }
+
+                            if (arrPopularCompetitions != null && arrPopularCompetitions!!.size > 0) {
+                                arrPopularCompetitions!!.clear()
+                            }
+
+                            if (arrPopularCompetitionsCountry != null && arrPopularCompetitionsCountry!!.size > 0) {
+                                arrPopularCompetitionsCountry!!.clear()
+                            }
+
+                            if (response.data?.popular_competitions != null && response.data?.popular_competitions.isNotEmpty()) {
+                                arrPopularCompetitions = response.data?.popular_competitions
+
+                                popularCompetitionAdapter = ExpandablePopularCompetitionAdapter(
+                                    requireActivity(),
+                                    arrPopularCompetitions!!)
+                                binding.expendablePopularCompetitions.setAdapter(
+                                    popularCompetitionAdapter)
+                            } else {
+                                if (popularCompetitionAdapter != null) {
+                                    binding.expendablePopularCompetitions.setAdapter(
+                                        popularCompetitionAdapter)
+                                    popularCompetitionAdapter!!.notifyDataSetChanged()
+                                }
+                            }
+
+                            if (response.data?.popular_competitions_country != null && response.data?.popular_competitions_country.isNotEmpty()) {
+                                arrPopularCompetitionsCountry =
+                                    response.data?.popular_competitions_country
+                                popularCompetitionByCountryAdapter =
+                                    ExpandablePopularCompetitionByCountryAdapter(requireActivity(),
+                                        arrPopularCompetitionsCountry!!)
+                                binding.expendableCompetitionsByCountry.setAdapter(
+                                    popularCompetitionByCountryAdapter)
+                            } else {
+                                if (popularCompetitionByCountryAdapter != null) {
+                                    binding.expendableCompetitionsByCountry.setAdapter(
+                                        popularCompetitionByCountryAdapter)
+                                    popularCompetitionByCountryAdapter!!.notifyDataSetChanged()
+                                }
+                            }
+
+                        } else {
+                            Toast.makeText(
+                                requireActivity(),
+                                "Data not found",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                    is Resource.Error -> {
+                        hideProgressBar()
+                        response.message?.let { message ->
+                            Log.e("error", message)
+                        }
+                    }
+                    is Resource.Loading -> {
+                        showProgressBar()
+                    }
+                }
+            }
+        }
+
     }
 
     private val itemTouchHelper by lazy {
@@ -97,7 +200,7 @@ class HomeFragment : Fragment() {
                     viewHolder: RecyclerView.ViewHolder,
                     target: RecyclerView.ViewHolder,
                 ): Boolean {
-                    val adapter = recyclerView.adapter as GameAdapter
+                    val adapter = recyclerView.adapter as SportsAdapter
                     val from = viewHolder.adapterPosition
                     val to = target.adapterPosition
                     adapter.moveItem(from, to)
@@ -131,5 +234,34 @@ class HomeFragment : Fragment() {
             }
 
         ItemTouchHelper(simpleItemTouchCallback)
+    }
+
+
+    private fun hideProgressBar() {
+        binding.progress.visibility = View.GONE
+    }
+
+    private fun showProgressBar() {
+        binding.progress.visibility = View.VISIBLE
+    }
+
+    private fun setupViewModel() {
+        val repository = AppRepository()
+        val factory = ViewModelProviderFactory(requireActivity().application, repository)
+        viewModel = ViewModelProvider(this, factory)[DashboardViewModel::class.java]
+
+    }
+
+    override fun clickSportItem(id: String) {
+        sportId = id
+        val body = RequestBodies.DashboardBody(sportId!!, chooseDate!!)
+        viewModel.getDashboard(body)
+    }
+
+    override fun clickDateItem(date: String) {
+        chooseDate = date
+
+        val body = RequestBodies.DashboardBody(sportId!!, chooseDate!!)
+        viewModel.getDashboard(body)
     }
 }

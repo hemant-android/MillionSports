@@ -6,4 +6,9 @@ object RequestBodies {
         val languagetext: String,
         val languageId: String,
     )
+
+    data class DashboardBody(
+        val sportId: String,
+        val chooseDate: String,
+    )
 }

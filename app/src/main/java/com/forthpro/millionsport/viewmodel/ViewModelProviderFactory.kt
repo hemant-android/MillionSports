@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.forthpro.millionsport.repository.AppRepository
+import com.forthpro.millionsport.ui.home.viewmodel.DashboardViewModel
 import com.forthpro.millionsport.ui.language.viewmodel.LanguageChooseViewModel
 import com.forthpro.millionsport.ui.timing.viewmodel.TimeFormatViewModel
 
@@ -20,6 +21,10 @@ class ViewModelProviderFactory(
 
         if (modelClass.isAssignableFrom(TimeFormatViewModel::class.java)) {
             return TimeFormatViewModel(app, appRepository) as T
+        }
+
+        if (modelClass.isAssignableFrom(DashboardViewModel::class.java)) {
+            return DashboardViewModel(app, appRepository) as T
         }
 
         throw IllegalArgumentException("Unknown class name")

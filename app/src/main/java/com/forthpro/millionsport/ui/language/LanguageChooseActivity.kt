@@ -32,6 +32,8 @@ class LanguageChooseActivity : BaseActivity(), LanguageChooseAdapter.onClickList
         binding = ActivityLanguageChooseBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        PreferenceHelper.languageHeader = ""
+
         setupViewModel()
 
         viewModel.getAllLanguageList()

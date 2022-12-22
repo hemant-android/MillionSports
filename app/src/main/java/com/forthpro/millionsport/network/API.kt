@@ -2,6 +2,7 @@ package com.forthpro.millionsport.network
 
 import com.forthpro.millionsport.model.RequestBodies
 import com.forthpro.millionsport.model.response.CommonResponse
+import com.forthpro.millionsport.model.response.DashboardResponse
 import com.forthpro.millionsport.model.response.GetAllLanguageResponse
 import com.forthpro.millionsport.model.response.TimeFormatResponse
 import retrofit2.Response
@@ -19,6 +20,9 @@ interface API {
 
     @GET("api/second_screen")
     suspend fun getAllTimeFormat(): Response<TimeFormatResponse>
+
+    @POST("api/dashboard")
+    suspend fun getDashboardData(@Body body: RequestBodies.DashboardBody): Response<DashboardResponse>
 
 
 }

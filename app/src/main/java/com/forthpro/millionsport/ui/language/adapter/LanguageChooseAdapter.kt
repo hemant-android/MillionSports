@@ -50,9 +50,6 @@ class LanguageChooseAdapter(private val mContext: Context) :
         holder.tvLanguage!!.text = "" + items[position].name
 
         holder.itemView!!.setOnClickListener {
-            /*Intent(mContext, ChooseTimeFormatActivity::class.java).also {
-                mContext.startActivity(it)
-            }*/
             selectClickedAndUnselectPrevious(holder)
             onclick.clickItem(items[position].id)
         }

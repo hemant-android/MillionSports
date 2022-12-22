@@ -3,10 +3,8 @@ package com.forthpro.millionsport.util
 internal object ExpandableListData {
     val data: HashMap<String, List<String>>
         get() {
-            val expandableListDetail =
-                HashMap<String, List<String>>()
-            val myFavCricketPlayers: MutableList<String> =
-                ArrayList()
+            val expandableListDetail = HashMap<String, List<String>>()
+            val myFavCricketPlayers: MutableList<String> = ArrayList()
             myFavCricketPlayers.add("MS.Dhoni")
             myFavCricketPlayers.add("Sehwag")
             myFavCricketPlayers.add("Shane Watson")

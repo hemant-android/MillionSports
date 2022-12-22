@@ -1,11 +1,14 @@
 package com.forthpro.millionsport.util
 
 import android.content.Context
+import android.icu.text.SimpleDateFormat
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import com.forthpro.millionsport.app.MyApplication
+import java.util.*
 
 object Utils {
     /**
@@ -40,6 +43,22 @@ object Utils {
 
     private fun customToast(context: Context?, string: String?) {
         Toast.makeText(context, string, Toast.LENGTH_LONG).show()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getWeekName(getDate: String?): String? {
+        val sdfWeekName = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+        val dateWeekName = sdfWeekName.parse(getDate)
+        sdfWeekName.applyPattern("EEE")
+        return sdfWeekName.format(dateWeekName)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getDayMonth(getDate: String?): String? {
+        val sdfWeekName = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+        val dateWeekName = sdfWeekName.parse(getDate)
+        sdfWeekName.applyPattern("d MMM")
+        return sdfWeekName.format(dateWeekName)
     }
 
 }
