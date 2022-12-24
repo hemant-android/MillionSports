@@ -81,6 +81,7 @@ class ChooseTimeFormatActivity : AppCompatActivity() {
             PreferenceHelper.timeFormat = selectTimeFormat24
 
             Intent(this, HomeActivity::class.java).also {
+                PreferenceHelper.loggedIn = true
                 it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(it)
             }
@@ -95,6 +96,7 @@ class ChooseTimeFormatActivity : AppCompatActivity() {
             PreferenceHelper.timeFormat = selectTimeFormat12
 
             Intent(this, HomeActivity::class.java).also {
+                PreferenceHelper.loggedIn = true
                 it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(it)
             }

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
+import com.forthpro.millionsport.config.PreferenceHelper
 import com.forthpro.millionsport.databinding.ActivitySplashBinding
 import com.forthpro.millionsport.ui.home.HomeActivity
 import com.forthpro.millionsport.ui.language.LanguageChooseActivity
@@ -34,9 +35,17 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun jumpToNextScreen() {
-        Intent(this, LanguageChooseActivity::class.java).also {
-            startActivity(it)
-            finish()
+        if (PreferenceHelper.loggedIn) {
+            Intent(this, HomeActivity::class.java).also {
+                startActivity(it)
+                finish()
+            }
+        } else {
+            Intent(this, LanguageChooseActivity::class.java).also {
+                startActivity(it)
+                finish()
+            }
         }
+
     }
 }

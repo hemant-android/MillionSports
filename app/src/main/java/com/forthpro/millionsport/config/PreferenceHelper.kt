@@ -7,6 +7,10 @@ import com.forthpro.millionsport.constant.PrefKey
 object PreferenceHelper {
     private val preferences: SharedPreferenceUtils by lazy { MyApplication.getPref() }
 
+    var loggedIn: Boolean
+        get() = preferences.get(PrefKey.IsLoggedIn, false)
+        set(loggedIn) = preferences.set(PrefKey.IsLoggedIn, loggedIn)
+
     var userId: String
         get() = preferences.get(PrefKey.userId, "")
         set(userId) = preferences.set(PrefKey.userId, userId)
