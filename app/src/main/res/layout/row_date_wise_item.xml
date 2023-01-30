@@ -2,28 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="@dimen/_10ssp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="@dimen/_5ssp">
 
     <TextView
         android:id="@+id/tvWeekName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:fontFamily="@font/roboto_regular_400"
+        android:fontFamily="@font/plantagenet_cherokee"
         android:gravity="center"
+        android:lineSpacingExtra="3sp"
+        android:textAllCaps="true"
         android:textColor="@color/white"
-        android:textSize="@dimen/_12ssp" />
+        android:textFontWeight="400"
+        android:textSize="@dimen/_12ssp"
+        android:translationY="1.36sp" />
 
     <TextView
         android:id="@+id/tvDateName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/_2sdp"
         android:fontFamily="@font/roboto_regular_400"
         android:gravity="center"
+        android:lineSpacingExtra="-1sp"
         android:textColor="@color/white"
-        android:textSize="@dimen/_12ssp" />
+        android:textSize="@dimen/_11ssp" />
 
 </LinearLayout>

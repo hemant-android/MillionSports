@@ -1,6 +1,7 @@
 package com.forthpro.millionsport.ui.home.adapter
 
 import android.content.Context
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,6 +48,7 @@ class ExpandablePopularCompetitionByCountryAdapter(
             convertView = infalInflater.inflate(R.layout.row_popular_competition_item_inner, null)
         }
         val tvLeagueName = convertView!!.findViewById<TextView>(R.id.tvLeagueName)
+        val tvLeagueCountry = convertView!!.findViewById<TextView>(R.id.tvLeagueCountry)
         val tvTime = convertView!!.findViewById<TextView>(R.id.tvTime)
         val box1 = convertView!!.findViewById<TextView>(R.id.box1)
         val box2 = convertView!!.findViewById<TextView>(R.id.box2)
@@ -55,7 +57,19 @@ class ExpandablePopularCompetitionByCountryAdapter(
         var mChild = (getChild(groupPosition,
             childPosition) as DashboardResponse.PopularCompetitionsCountry).prediction[childPosition]
 
-        tvLeagueName.text = mChild.Home
+        if (!TextUtils.isEmpty(mChild.Home)) {
+            tvLeagueName.visibility = View.VISIBLE
+            tvLeagueName.text = mChild.Home
+        } else {
+            tvLeagueName.visibility = View.GONE
+        }
+        if (!TextUtils.isEmpty(mChild.Away)) {
+            tvLeagueCountry.visibility = View.VISIBLE
+            tvLeagueCountry.text = mChild.Away
+        } else {
+            tvLeagueCountry.visibility = View.GONE
+        }
+
         tvTime.text = mChild.prediction_time
 
         var mParent = getGroup(groupPosition) as DashboardResponse.PopularCompetitionsCountry
@@ -215,7 +229,12 @@ class ExpandablePopularCompetitionByCountryAdapter(
 
         var mTitle = getGroup(groupPosition) as DashboardResponse.PopularCompetitionsCountry
 
-        tvLeagueName.text = mTitle.name
+        if (!TextUtils.isEmpty(mTitle.name)) {
+            tvLeagueName.visibility = View.VISIBLE
+            tvLeagueName.text = mTitle.name
+        } else {
+            tvLeagueName.visibility = View.GONE
+        }
 
         if (mTitle.country_logo != null) {
             Glide.with(_context)
@@ -228,7 +247,7 @@ class ExpandablePopularCompetitionByCountryAdapter(
         if (isExpanded) {
             imgNext.rotation = 90F
         } else {
-            imgNext.rotation = 360F
+            imgNext.rotation = 90F
         }
 
         return convertView!!

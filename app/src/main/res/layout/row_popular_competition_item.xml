@@ -9,8 +9,8 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imgFlag"
-        android:layout_width="@dimen/_30sdp"
-        android:layout_height="@dimen/_30sdp"
+        android:layout_width="@dimen/_25sdp"
+        android:layout_height="@dimen/_25sdp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:src="@mipmap/english"
@@ -25,9 +25,11 @@
         android:layout_marginLeft="@dimen/_10sdp"
         android:layout_toRightOf="@+id/imgFlag"
         android:fontFamily="@font/roboto_regular_400"
+        android:lineSpacingExtra="1sp"
         android:text="@string/English"
         android:textColor="@color/white"
-        android:textSize="@dimen/_10sdp" />
+        android:textSize="@dimen/_10sdp"
+        android:translationY="0.47sp" />
 
     <ImageView
         android:id="@+id/imgNext"

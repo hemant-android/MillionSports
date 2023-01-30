@@ -1,6 +1,7 @@
 package com.forthpro.millionsport.ui.home.adapter
 
 import android.content.Context
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,6 +47,7 @@ class ExpandablePopularCompetitionAdapter(
             convertView = infalInflater.inflate(R.layout.row_popular_competition_item_inner, null)
         }
         val tvLeagueName = convertView!!.findViewById<TextView>(R.id.tvLeagueName)
+        val tvLeagueCountry = convertView!!.findViewById<TextView>(R.id.tvLeagueCountry)
         val tvTime = convertView!!.findViewById<TextView>(R.id.tvTime)
 
         val box1 = convertView!!.findViewById<TextView>(R.id.box1)
@@ -55,7 +57,19 @@ class ExpandablePopularCompetitionAdapter(
         var mChild = (getChild(groupPosition,
             childPosition) as DashboardResponse.PopularCompetition).prediction[childPosition]
 
-        tvLeagueName.text = mChild.Home
+        if (!TextUtils.isEmpty(mChild.Home)) {
+            tvLeagueName.visibility = View.VISIBLE
+            tvLeagueName.text = mChild.Home
+        } else {
+            tvLeagueName.visibility = View.GONE
+        }
+        if (!TextUtils.isEmpty(mChild.Away)) {
+            tvLeagueCountry.visibility = View.VISIBLE
+            tvLeagueCountry.text = mChild.Away
+        } else {
+            tvLeagueCountry.visibility = View.GONE
+        }
+
         tvTime.text = mChild.prediction_time
 
         var mParent = getGroup(groupPosition) as DashboardResponse.PopularCompetition
@@ -228,7 +242,7 @@ class ExpandablePopularCompetitionAdapter(
         if (isExpanded) {
             imgNext.rotation = 90F
         } else {
-            imgNext.rotation = 360F
+            imgNext.rotation = 90F
         }
 
         return convertView!!

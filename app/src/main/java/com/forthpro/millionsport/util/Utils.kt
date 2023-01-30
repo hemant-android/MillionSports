@@ -8,6 +8,8 @@ import android.os.Build
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.forthpro.millionsport.app.MyApplication
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 object Utils {
@@ -59,6 +61,12 @@ object Utils {
         val dateWeekName = sdfWeekName.parse(getDate)
         sdfWeekName.applyPattern("d MMM")
         return sdfWeekName.format(dateWeekName)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getCurrentDate(): String? {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        return LocalDateTime.now().format(formatter)
     }
 
 }

@@ -6,38 +6,41 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.ItemTouchHelper.*
+import androidx.recyclerview.widget.RecyclerView
 import com.forthpro.millionsport.databinding.FragmentHomeBinding
 import com.forthpro.millionsport.model.RequestBodies
 import com.forthpro.millionsport.model.response.DashboardResponse
 import com.forthpro.millionsport.repository.AppRepository
-import com.forthpro.millionsport.ui.home.adapter.DateWiseAdapter
-import com.forthpro.millionsport.ui.home.adapter.ExpandablePopularCompetitionAdapter
-import com.forthpro.millionsport.ui.home.adapter.ExpandablePopularCompetitionByCountryAdapter
-import com.forthpro.millionsport.ui.home.adapter.SportsAdapter
+import com.forthpro.millionsport.ui.home.adapter.*
 import com.forthpro.millionsport.ui.home.viewmodel.DashboardViewModel
 import com.forthpro.millionsport.util.Resource
 import com.forthpro.millionsport.viewmodel.ViewModelProviderFactory
 
-class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.onClickListner {
+class HomeDragDropFragment : Fragment(), SportsDragDropAdapter.onClickListner, DateWiseAdapter.onClickListner {
 
-    private var arrPopularCompetitionsCountry: ArrayList<DashboardResponse.PopularCompetitionsCountry>? = arrayListOf()
-    private var arrPopularCompetitions: ArrayList<DashboardResponse.PopularCompetition>? = arrayListOf()
+    var sportId: String? = ""
+    var chooseDate: String? = ""
+    private var arrPopularCompetitionsCountry: ArrayList<DashboardResponse.PopularCompetitionsCountry>? =
+        arrayListOf()
+    private var arrPopularCompetitions: ArrayList<DashboardResponse.PopularCompetition>? =
+        arrayListOf()
     private var arrDate: ArrayList<DashboardResponse.DateArray>? = arrayListOf()
     private var arrSports: ArrayList<DashboardResponse.Sport>? = arrayListOf()
 
     private lateinit var viewModel: DashboardViewModel
     private lateinit var binding: FragmentHomeBinding
 
-    private val mSportAdapter: SportsAdapter by lazy { SportsAdapter(requireActivity()) }
+    private val mSportAdapter: SportsDragDropAdapter by lazy { SportsDragDropAdapter(requireActivity()) }
     private val mDateWiseAdapter: DateWiseAdapter by lazy { DateWiseAdapter(requireActivity()) }
 
     private var popularCompetitionAdapter: ExpandablePopularCompetitionAdapter? = null
-    private var popularCompetitionByCountryAdapter: ExpandablePopularCompetitionByCountryAdapter? = null
-
-    var sportId: String? = ""
-    var chooseDate: String? = ""
+    private var popularCompetitionByCountryAdapter: ExpandablePopularCompetitionByCountryAdapter? =
+        null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,8 +51,14 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
 
         setupViewModel()
 
+//        itemTouchHelper.attachToRecyclerView(binding.rvGame)
+//        mSportAdapter.differ.submitList(gameList)
+//        binding.rvGame.adapter = mSportAdapter
+
         binding.rvDateWise.adapter = mDateWiseAdapter
         mDateWiseAdapter.setClickListner(this)
+
+
 
         // PopularCompetitions
 
@@ -103,7 +112,10 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
 
                                 arrSports = response.data?.sports
 
-                                mSportAdapter.setSportIdData(sportId!!,arrSports!!)
+                                mSportAdapter.setSportIdData(sportId!!)
+
+                                itemTouchHelper.attachToRecyclerView(binding.rvGame)
+                                mSportAdapter.differ.submitList(arrSports!!)
 
                                 binding.rvGame.adapter = mSportAdapter
                                 mSportAdapter.setClickListner(this)
@@ -155,6 +167,9 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
                                 }
                             }
 
+//                            binding.expendablePopularCompetitions.isNestedScrollingEnabled = true
+//                            binding.expendableCompetitionsByCountry.isNestedScrollingEnabled = true
+
                         } else {
                             Toast.makeText(
                                 requireActivity(),
@@ -175,7 +190,54 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
                 }
             }
         }
+
     }
+
+    private val itemTouchHelper by lazy {
+        val simpleItemTouchCallback =
+            object : SimpleCallback(UP or DOWN or START or END, 0) {
+
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder,
+                ): Boolean {
+                    val adapter = recyclerView.adapter as SportsDragDropAdapter
+                    val from = viewHolder.adapterPosition
+                    val to = target.adapterPosition
+                    adapter.moveItem(from, to)
+                    adapter.notifyItemMoved(from, to)
+
+                    return true
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                }
+
+                override fun onSelectedChanged(
+                    viewHolder: RecyclerView.ViewHolder?,
+                    actionState: Int,
+                ) {
+                    super.onSelectedChanged(viewHolder, actionState)
+
+                    if (actionState == ACTION_STATE_DRAG) {
+                        viewHolder?.itemView?.alpha = 0.5f
+                    }
+                }
+
+                override fun clearView(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                ) {
+                    super.clearView(recyclerView, viewHolder)
+
+                    viewHolder.itemView.alpha = 1.0f
+                }
+            }
+
+        ItemTouchHelper(simpleItemTouchCallback)
+    }
+
 
     private fun hideProgressBar() {
         binding.progress.visibility = View.GONE
