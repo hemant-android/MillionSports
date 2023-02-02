@@ -51,7 +51,15 @@ class DateWiseAdapter(val mContext: Activity) :
         holder.itemView!!.layoutParams =
             LinearLayout.LayoutParams(mWidth, LinearLayout.LayoutParams.WRAP_CONTENT)
 
-        if (position == 0) {
+        if (items!![position].isSelect) {
+            holder.tvWeekName!!.setTextColor(ContextCompat.getColor(mContext, R.color.red))
+            holder.tvDateName!!.setTextColor(ContextCompat.getColor(mContext, R.color.red))
+        }else{
+            holder.tvWeekName!!.setTextColor(ContextCompat.getColor(mContext, R.color.white))
+            holder.tvDateName!!.setTextColor(ContextCompat.getColor(mContext, R.color.white))
+        }
+
+        /*if (position == 0) {
             if (!TextUtils.isEmpty(chooseDate) && chooseDate == items!![position].date_value) {
                 holder.tvWeekName!!.setTextColor(ContextCompat.getColor(mContext, R.color.red))
                 holder.tvDateName!!.setTextColor(ContextCompat.getColor(mContext, R.color.red))
@@ -70,7 +78,7 @@ class DateWiseAdapter(val mContext: Activity) :
                 holder.tvWeekName!!.setTextColor(ContextCompat.getColor(mContext, R.color.white))
                 holder.tvDateName!!.setTextColor(ContextCompat.getColor(mContext, R.color.white))
             }
-        }
+        }*/
 
 
         if (items!![position].date_value == Utils.getCurrentDate()) {

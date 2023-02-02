@@ -41,8 +41,6 @@
                     android:id="@+id/rvDateWise"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_5sdp"
-                    android:layout_marginRight="@dimen/_5sdp"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/row_date_wise_item" />
@@ -54,13 +52,16 @@
                 android:layout_height="wrap_content"
                 android:background="@color/primary"
                 android:fontFamily="@font/roboto_bold_700"
-                android:padding="@dimen/_10sdp"
-                android:textColor="@color/white"
-                android:textAllCaps="true"
-                android:textColorHint="@color/white"
                 android:lineSpacingExtra="2sp"
-                android:translationY="-0.9sp"
-                android:textSize="@dimen/_12sdp" />
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingRight="@dimen/_10sdp"
+                android:paddingTop="@dimen/_8sdp"
+                android:paddingBottom="@dimen/_8sdp"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="@dimen/_12sdp"
+                android:translationY="-0.9sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -71,7 +72,8 @@
                     android:id="@+id/expendablePopularCompetitions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/primary" />
+                    android:background="@color/primary"
+                    android:groupIndicator="@null" />
             </LinearLayout>
 
             <TextView
@@ -80,13 +82,16 @@
                 android:layout_height="wrap_content"
                 android:background="@color/primary"
                 android:fontFamily="@font/roboto_bold_700"
-                android:padding="@dimen/_10sdp"
-                android:textColor="@color/white"
                 android:lineSpacingExtra="2sp"
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingRight="@dimen/_10sdp"
+                android:paddingTop="@dimen/_8sdp"
+                android:paddingBottom="@dimen/_8sdp"
                 android:textAllCaps="true"
-                android:translationY="-0.9sp"
+                android:textColor="@color/white"
                 android:textColorHint="@color/white"
-                android:textSize="@dimen/_12sdp" />
+                android:textSize="@dimen/_12sdp"
+                android:translationY="-0.9sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -97,7 +102,8 @@
                     android:id="@+id/expendableCompetitionsByCountry"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/primary" />
+                    android:background="@color/primary"
+                    android:groupIndicator="@null" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

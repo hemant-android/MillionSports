@@ -235,12 +235,12 @@ class ExpandablePopularCompetitionAdapter(
             Glide.with(_context)
                 .load(BuildConfig.SERVER_URL + mTitle.country_logo)
                 .centerCrop()
-                .placeholder(R.mipmap.english)
+                .placeholder(R.drawable.progress_animation)
                 .into(imgFlag)
         }
 
         if (isExpanded) {
-            imgNext.rotation = 90F
+            imgNext.rotation = 270F
         } else {
             imgNext.rotation = 90F
         }

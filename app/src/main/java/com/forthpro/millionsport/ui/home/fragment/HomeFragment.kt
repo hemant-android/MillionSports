@@ -22,8 +22,10 @@ import com.forthpro.millionsport.viewmodel.ViewModelProviderFactory
 
 class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.onClickListner {
 
-    private var arrPopularCompetitionsCountry: ArrayList<DashboardResponse.PopularCompetitionsCountry>? = arrayListOf()
-    private var arrPopularCompetitions: ArrayList<DashboardResponse.PopularCompetition>? = arrayListOf()
+    private var arrPopularCompetitionsCountry: ArrayList<DashboardResponse.PopularCompetitionsCountry>? =
+        arrayListOf()
+    private var arrPopularCompetitions: ArrayList<DashboardResponse.PopularCompetition>? =
+        arrayListOf()
     private var arrDate: ArrayList<DashboardResponse.DateArray>? = arrayListOf()
     private var arrSports: ArrayList<DashboardResponse.Sport>? = arrayListOf()
 
@@ -34,7 +36,8 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
     private val mDateWiseAdapter: DateWiseAdapter by lazy { DateWiseAdapter(requireActivity()) }
 
     private var popularCompetitionAdapter: ExpandablePopularCompetitionAdapter? = null
-    private var popularCompetitionByCountryAdapter: ExpandablePopularCompetitionByCountryAdapter? = null
+    private var popularCompetitionByCountryAdapter: ExpandablePopularCompetitionByCountryAdapter? =
+        null
 
     var sportId: String? = ""
     var chooseDate: String? = ""
@@ -94,24 +97,34 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
                         hideProgressBar()
                         if (response.data?.status == 1) {
 
-                            binding.tvCompetitionsByCountry.text =
-                                response.data?.POPULAR_COMPETITIONS_BY_COUNTRY_LABEL
                             binding.tvPopularCompetitions.text =
                                 response.data?.POPULAR_COMPETITIONS_LABEL
+                            binding.tvCompetitionsByCountry.text =
+                                response.data?.POPULAR_COMPETITIONS_BY_COUNTRY_LABEL
 
                             if (response.data?.sports != null && response.data?.sports.isNotEmpty()) {
 
-                                arrSports = response.data?.sports
+                                arrSports = response.data.sports
 
-                                mSportAdapter.setSportIdData(sportId!!,arrSports!!)
+                                if (arrSports != null && arrSports!!.isNotEmpty()) {
+                                    for (i in arrSports!!.indices) {
+                                        arrSports!![i].isSelect = i == 0
+                                    }
+                                }
+                                mSportAdapter.setSportIdData(sportId!!, arrSports!!)
 
                                 binding.rvGame.adapter = mSportAdapter
                                 mSportAdapter.setClickListner(this)
                             }
 
                             if (response.data?.dateArray != null && response.data?.dateArray.isNotEmpty()) {
-                                arrDate = response.data?.dateArray
+                                arrDate = response.data.dateArray
 
+                                if (arrDate != null && arrDate!!.isNotEmpty()) {
+                                    for (i in arrDate!!.indices) {
+                                        arrDate!![i].isSelect = i == 0
+                                    }
+                                }
                                 mDateWiseAdapter.setData(arrDate!!, chooseDate)
                             }
 
@@ -124,6 +137,7 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
                             }
 
                             if (response.data?.popular_competitions != null && response.data?.popular_competitions.isNotEmpty()) {
+                                binding.tvPopularCompetitions.visibility = View.VISIBLE
                                 arrPopularCompetitions = response.data?.popular_competitions
 
                                 popularCompetitionAdapter = ExpandablePopularCompetitionAdapter(
@@ -137,11 +151,15 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
                                         popularCompetitionAdapter)
                                     popularCompetitionAdapter!!.notifyDataSetChanged()
                                 }
+
+                                binding.tvPopularCompetitions.visibility = View.GONE
                             }
 
                             if (response.data?.popular_competitions_country != null && response.data?.popular_competitions_country.isNotEmpty()) {
+                                binding.tvCompetitionsByCountry.visibility = View.VISIBLE
                                 arrPopularCompetitionsCountry =
                                     response.data?.popular_competitions_country
+
                                 popularCompetitionByCountryAdapter =
                                     ExpandablePopularCompetitionByCountryAdapter(requireActivity(),
                                         arrPopularCompetitionsCountry!!)
@@ -153,6 +171,76 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
                                         popularCompetitionByCountryAdapter)
                                     popularCompetitionByCountryAdapter!!.notifyDataSetChanged()
                                 }
+                                binding.tvCompetitionsByCountry.visibility = View.GONE
+                            }
+
+                        } else {
+                            Toast.makeText(
+                                requireActivity(),
+                                "Data not found",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                    is Resource.Error -> {
+                        hideProgressBar()
+                        response.message?.let { message ->
+                            Log.e("error", message)
+                        }
+                    }
+                    is Resource.Loading -> {
+                        showProgressBar()
+                    }
+                }
+            }
+        }
+
+        viewModel.getDashboardResponseFilter.observe(requireActivity()) { event ->
+            event?.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Success -> {
+                        hideProgressBar()
+                        if (response.data?.status == 1) {
+
+                            binding.tvPopularCompetitions.text =response.data?.POPULAR_COMPETITIONS_LABEL
+                            binding.tvCompetitionsByCountry.text =response.data?.POPULAR_COMPETITIONS_BY_COUNTRY_LABEL
+
+
+                            if (arrPopularCompetitions != null && arrPopularCompetitions!!.size > 0) {
+                                arrPopularCompetitions!!.clear()
+                            }
+
+                            if (arrPopularCompetitionsCountry != null && arrPopularCompetitionsCountry!!.size > 0) {
+                                arrPopularCompetitionsCountry!!.clear()
+                            }
+
+                            if (response.data?.popular_competitions != null && response.data?.popular_competitions.isNotEmpty()) {
+                                binding.tvPopularCompetitions.visibility = View.VISIBLE
+                                arrPopularCompetitions = response.data?.popular_competitions
+
+                                popularCompetitionAdapter = ExpandablePopularCompetitionAdapter(requireActivity(),arrPopularCompetitions!!)
+                                binding.expendablePopularCompetitions.setAdapter(popularCompetitionAdapter)
+                            } else {
+                                if (popularCompetitionAdapter != null) {
+                                    binding.expendablePopularCompetitions.setAdapter(popularCompetitionAdapter)
+                                    popularCompetitionAdapter!!.notifyDataSetChanged()
+                                }
+
+                                binding.tvPopularCompetitions.visibility = View.GONE
+                            }
+
+                            if (response.data?.popular_competitions_country != null && response.data?.popular_competitions_country.isNotEmpty()) {
+                                binding.tvCompetitionsByCountry.visibility = View.VISIBLE
+                                arrPopularCompetitionsCountry = response.data?.popular_competitions_country
+
+                                popularCompetitionByCountryAdapter = ExpandablePopularCompetitionByCountryAdapter(requireActivity(),arrPopularCompetitionsCountry!!)
+                                binding.expendableCompetitionsByCountry.setAdapter(popularCompetitionByCountryAdapter)
+                            } else {
+                                if (popularCompetitionByCountryAdapter != null) {
+                                    binding.expendableCompetitionsByCountry.setAdapter(popularCompetitionByCountryAdapter)
+                                    popularCompetitionByCountryAdapter!!.notifyDataSetChanged()
+                                }
+                                binding.tvCompetitionsByCountry.visibility = View.GONE
                             }
 
                         } else {
@@ -194,14 +282,28 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
 
     override fun clickSportItem(id: String) {
         sportId = id
+
+        if (arrSports != null && arrSports!!.isNotEmpty()) {
+            for (i in arrSports!!.indices) {
+                arrSports!![i].isSelect = arrSports!![i].id == sportId
+            }
+            mSportAdapter.setSportIdData(sportId!!, arrSports!!)
+        }
         val body = RequestBodies.DashboardBody(sportId!!, chooseDate!!)
-        viewModel.getDashboard(body)
+        viewModel.getDashboardFilter(body)
     }
 
     override fun clickDateItem(date: String) {
         chooseDate = date
 
+        if (arrDate != null && arrDate!!.isNotEmpty()) {
+            for (i in arrDate!!.indices) {
+                arrDate!![i].isSelect = arrDate!![i].date_value == chooseDate
+            }
+            mDateWiseAdapter.setData(arrDate!!, chooseDate)
+        }
+
         val body = RequestBodies.DashboardBody(sportId!!, chooseDate!!)
-        viewModel.getDashboard(body)
+        viewModel.getDashboardFilter(body)
     }
 }

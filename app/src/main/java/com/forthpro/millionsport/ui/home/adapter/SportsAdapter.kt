@@ -1,12 +1,10 @@
 package com.forthpro.millionsport.ui.home.adapter
 
 import android.content.Context
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -41,7 +39,24 @@ class SportsAdapter(private val mContext: Context) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        if (position == 0){
+        if (items!![position].isSelect) {
+            if (items!![position].light_logo != null) {
+                Glide.with(mContext)
+                    .load(BuildConfig.SERVER_URL + items[position].light_logo)
+                    .centerCrop()
+                    .placeholder(R.drawable.progress_animation)
+                    .into(holder.imgSport!!)
+            }
+        } else {
+            if (items!![position].grey_logo != null) {
+                Glide.with(mContext)
+                    .load(BuildConfig.SERVER_URL + items!![position].grey_logo)
+                    .centerCrop()
+                    .placeholder(R.drawable.progress_animation)
+                    .into(holder.imgSport!!)
+            }
+        }
+        /*if (position == 0){
             if (!TextUtils.isEmpty(sportId) && sportId == items!![position].id) {
                 if (items!![position].light_logo != null) {
                     Glide.with(mContext)
@@ -85,7 +100,7 @@ class SportsAdapter(private val mContext: Context) :
                         .into(holder.imgSport!!)
                 }
             }
-        }
+        }*/
 
 
         holder.tvSportName!!.text = items!![position].title

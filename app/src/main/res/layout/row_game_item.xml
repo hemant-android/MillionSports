@@ -4,7 +4,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="@dimen/_5sdp">
+    android:paddingTop="@dimen/_5sdp"
+    android:paddingBottom="@dimen/_5sdp">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -14,24 +15,28 @@
         <FrameLayout
             android:id="@+id/rlSport"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true">
+
             <ImageView
                 android:id="@+id/imgSport"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_3sdp"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
-                android:src="@mipmap/player" />
+                android:layout_marginLeft="-5dp"
+                android:layout_marginTop="@dimen/_3sdp" />
+
             <TextView
                 android:id="@+id/tvSportCount"
-                android:layout_width="@dimen/_25sdp"
+                android:layout_width="@dimen/_20sdp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:gravity="center"
+                android:layout_marginLeft="@dimen/_35sdp"
                 android:background="@drawable/bg_red_circle"
                 android:fontFamily="@font/roboto_bold_700"
+                android:gravity="center"
                 android:paddingTop="@dimen/_2sdp"
                 android:paddingBottom="@dimen/_2sdp"
                 android:textColor="@color/white"
@@ -43,10 +48,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rlSport"
-            android:layout_gravity="center|left"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="@dimen/_2sdp"
             android:fontFamily="@font/plantagenet_cherokee"
-            android:gravity="center|left"
+            android:gravity="center"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:textFontWeight="400"

@@ -23,8 +23,14 @@ class DashboardViewModel(app: Application, private val appRepository: AppReposit
     private val _getDashboardResponse = MutableLiveData<Event<Resource<DashboardResponse>>>()
     val getDashboardResponse: LiveData<Event<Resource<DashboardResponse>>> = _getDashboardResponse
 
+    private val _getDashboardResponseFilter = MutableLiveData<Event<Resource<DashboardResponse>>>()
+    val getDashboardResponseFilter: LiveData<Event<Resource<DashboardResponse>>> = _getDashboardResponseFilter
+
     fun getDashboard(body: RequestBodies.DashboardBody) = viewModelScope.launch {
         getDashboardData(body)
+    }
+    fun getDashboardFilter(body: RequestBodies.DashboardBody) = viewModelScope.launch {
+        getDashboardDataFilter(body)
     }
 
     private suspend fun getDashboardData(body: RequestBodies.DashboardBody) {
@@ -59,6 +65,46 @@ class DashboardViewModel(app: Application, private val appRepository: AppReposit
                 }
                 else -> {
                     _getDashboardResponse.postValue(
+                        Event(
+                            Resource.Error(t.localizedMessage)
+                        )
+                    )
+                }
+            }
+        }
+    }
+    private suspend fun getDashboardDataFilter(body: RequestBodies.DashboardBody) {
+        _getDashboardResponseFilter.postValue(Event(Resource.Loading()))
+        try {
+            if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
+                val response = appRepository.getDashboardData(body)
+                _getDashboardResponseFilter.postValue(response?.let { handleLanguageLabelResponse(it) })
+            } else {
+                _getDashboardResponseFilter.postValue(
+                    Event(
+                        Resource.Error(
+                            getApplication<MyApplication>().getString(
+                                R.string.no_internet_connection
+                            )
+                        )
+                    )
+                )
+            }
+        } catch (t: Throwable) {
+            when (t) {
+                is IOException -> {
+                    _getDashboardResponseFilter.postValue(
+                        Event(
+                            Resource.Error(
+                                getApplication<MyApplication>().getString(
+                                    R.string.network_failure
+                                )
+                            )
+                        )
+                    )
+                }
+                else -> {
+                    _getDashboardResponseFilter.postValue(
                         Event(
                             Resource.Error(t.localizedMessage)
                         )
