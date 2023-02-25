@@ -23,7 +23,7 @@ class SportsAdapter(private val mContext: Context) :
     lateinit var onclick: onClickListner
 
     interface onClickListner {
-        fun clickSportItem(sportId: String)
+        fun clickSportItem(sportId: String,icon: String)
     }
 
     fun setClickListner(onclick: onClickListner) {
@@ -56,58 +56,13 @@ class SportsAdapter(private val mContext: Context) :
                     .into(holder.imgSport!!)
             }
         }
-        /*if (position == 0){
-            if (!TextUtils.isEmpty(sportId) && sportId == items!![position].id) {
-                if (items!![position].light_logo != null) {
-                    Glide.with(mContext)
-                        .load(BuildConfig.SERVER_URL + items[position].light_logo)
-                        .centerCrop()
-                        .placeholder(R.mipmap.player)
-                        .into(holder.imgSport!!)
-                }
-            } else if(TextUtils.isEmpty(sportId)){
-                if (items!![position].light_logo != null) {
-                    Glide.with(mContext)
-                        .load(BuildConfig.SERVER_URL + items[position].light_logo)
-                        .centerCrop()
-                        .placeholder(R.mipmap.player)
-                        .into(holder.imgSport!!)
-                }
-            } else{
-                if (items!![position].grey_logo != null) {
-                    Glide.with(mContext)
-                        .load(BuildConfig.SERVER_URL + items!![position].grey_logo)
-                        .centerCrop()
-                        .placeholder(R.mipmap.player)
-                        .into(holder.imgSport!!)
-                }
-            }
-        }else{
-            if (!TextUtils.isEmpty(sportId) && sportId == items!![position].id) {
-                if (items!![position].light_logo != null) {
-                    Glide.with(mContext)
-                        .load(BuildConfig.SERVER_URL + items[position].light_logo)
-                        .centerCrop()
-                        .placeholder(R.mipmap.player)
-                        .into(holder.imgSport!!)
-                }
-            } else {
-                if (items!![position].grey_logo != null) {
-                    Glide.with(mContext)
-                        .load(BuildConfig.SERVER_URL + items!![position].grey_logo)
-                        .centerCrop()
-                        .placeholder(R.mipmap.player)
-                        .into(holder.imgSport!!)
-                }
-            }
-        }*/
 
 
         holder.tvSportName!!.text = items!![position].title
         holder.tvSportCount!!.text = items[position].sportsCount
 
         holder.itemView.setOnClickListener {
-            onclick.clickSportItem(items[position].id)
+            onclick.clickSportItem(items[position].id,items[position].light_logo)
         }
     }
 

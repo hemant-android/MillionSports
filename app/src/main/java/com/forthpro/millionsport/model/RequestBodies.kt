@@ -11,4 +11,9 @@ object RequestBodies {
         val sportId: String,
         val chooseDate: String,
     )
+
+    data class PredictionDetailsBody(
+        val sportId: String,
+        val predictionId: String,
+    )
 }

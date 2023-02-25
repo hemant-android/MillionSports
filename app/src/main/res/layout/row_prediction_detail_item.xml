@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/_2sdp"
+    android:background="@color/accent"
+    android:padding="@dimen/_10sdp">
+
+    <TextView
+        android:id="@+id/tvPredictionName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:fontFamily="@font/roboto_regular_400"
+        android:lineSpacingExtra="1sp"
+        android:text="@string/English"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_10sdp"
+        android:translationY="0.47sp" />
+
+    <ImageView
+        android:id="@+id/imgNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_next_24" />
+</RelativeLayout>

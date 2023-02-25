@@ -1,10 +1,7 @@
 package com.forthpro.millionsport.network
 
 import com.forthpro.millionsport.model.RequestBodies
-import com.forthpro.millionsport.model.response.CommonResponse
-import com.forthpro.millionsport.model.response.DashboardResponse
-import com.forthpro.millionsport.model.response.GetAllLanguageResponse
-import com.forthpro.millionsport.model.response.TimeFormatResponse
+import com.forthpro.millionsport.model.response.*
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -24,5 +21,13 @@ interface API {
     @POST("api/dashboard")
     suspend fun getDashboardData(@Body body: RequestBodies.DashboardBody): Response<DashboardResponse>
 
+    @POST("api/soccerPredictionDetails")
+    suspend fun getSoccerPredictionDetailsData(@Body body: RequestBodies.PredictionDetailsBody): Response<PredictionDetailResponse>
+
+    @POST("api/hockeyPredictionDetails")
+    suspend fun getHockeyPredictionDetailsData(@Body body: RequestBodies.PredictionDetailsBody): Response<PredictionDetailResponse>
+
+    @POST("api/basketPredictionDetails")
+    suspend fun getBasketPredictionDetailsData(@Body body: RequestBodies.PredictionDetailsBody): Response<PredictionDetailResponse>
 
 }
