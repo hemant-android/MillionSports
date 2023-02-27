@@ -47,6 +47,46 @@ class PredictionDetailViewModel(app: Application, private val appRepository: App
                         val response = appRepository.getBasketPredictionDetailsData(body)
                         _getDetailResponse.postValue(response?.let { handleCommonResponse(it) })
                     }
+                    "4" -> {
+                        val response = appRepository.getHandballPredictionDetailsData(body)
+                        _getDetailResponse.postValue(response?.let { handleCommonResponse(it) })
+                    }
+                    "5" -> {
+                        val response = appRepository.getFutsalPredictionDetailsData(body)
+                        _getDetailResponse.postValue(response?.let { handleCommonResponse(it) })
+                    }
+                    "6" -> {
+                        val response = appRepository.getVolleyballPredictionDetailsData(body)
+                        _getDetailResponse.postValue(response?.let { handleCommonResponse(it) })
+                    }
+                    "7" -> {
+                        val response = appRepository.getRugbyLeaguePredictionDetailsData(body)
+                        _getDetailResponse.postValue(response?.let { handleCommonResponse(it) })
+                    }
+                    "8" -> {
+                        val response = appRepository.getRugbyUnionPredictionDetailsData(body)
+                        _getDetailResponse.postValue(response?.let { handleCommonResponse(it) })
+                    }
+                    "9" -> {
+                        val response = appRepository.getTennisPredictionDetailsData(body)
+                        _getDetailResponse.postValue(response?.let { handleCommonResponse(it) })
+                    }
+                    "10" -> {
+                        val response = appRepository.getAmericanFootballPredictionDetailsData(body)
+                        _getDetailResponse.postValue(response?.let { handleCommonResponse(it) })
+                    }
+                    "11" -> {
+                        val response = appRepository.getBaseballPredictionDetailsData(body)
+                        _getDetailResponse.postValue(response?.let { handleCommonResponse(it) })
+                    }
+                    "12" -> {
+                        val response = appRepository.getPesapalloPredictionDetailsData(body)
+                        _getDetailResponse.postValue(response?.let { handleCommonResponse(it) })
+                    }
+                    "13" -> {
+                        val response = appRepository.geteSportsDetailsData(body)
+                        _getDetailResponse.postValue(response?.let { handleCommonResponse(it) })
+                    }
                 }
 
             } else {

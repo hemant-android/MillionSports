@@ -30,4 +30,34 @@ interface API {
     @POST("api/basketPredictionDetails")
     suspend fun getBasketPredictionDetailsData(@Body body: RequestBodies.PredictionDetailsBody): Response<PredictionDetailResponse>
 
+    @POST("api/basketPredictionDetails")
+    suspend fun getHandballPredictionDetailsData(@Body body: RequestBodies.PredictionDetailsBody): Response<PredictionDetailResponse>
+
+    @POST("api/basketPredictionDetails")
+    suspend fun getFutsalPredictionDetailsData(@Body body: RequestBodies.PredictionDetailsBody): Response<PredictionDetailResponse>
+
+    @POST("api/basketPredictionDetails")
+    suspend fun getVolleyballPredictionDetailsData(@Body body: RequestBodies.PredictionDetailsBody): Response<PredictionDetailResponse>
+
+    @POST("api/basketPredictionDetails")
+    suspend fun getRugbyLeaguePredictionDetailsData(@Body body: RequestBodies.PredictionDetailsBody): Response<PredictionDetailResponse>
+
+    @POST("api/basketPredictionDetails")
+    suspend fun getRugbyUnionPredictionDetailsData(@Body body: RequestBodies.PredictionDetailsBody): Response<PredictionDetailResponse>
+
+    @POST("api/basketPredictionDetails")
+    suspend fun getTennisPredictionDetailsData(@Body body: RequestBodies.PredictionDetailsBody): Response<PredictionDetailResponse>
+
+    @POST("api/americanFootballPredictionDetails")
+    suspend fun getAmericanFootballPredictionDetailsData(@Body body: RequestBodies.PredictionDetailsBody): Response<PredictionDetailResponse>
+
+    @POST("api/americanFootballPredictionDetails")
+    suspend fun getBaseballPredictionDetailsData(@Body body: RequestBodies.PredictionDetailsBody): Response<PredictionDetailResponse>
+
+    @POST("api/americanFootballPredictionDetails")
+    suspend fun getPesapalloPredictionDetailsData(@Body body: RequestBodies.PredictionDetailsBody): Response<PredictionDetailResponse>
+
+    @POST("api/americanFootballPredictionDetails")
+    suspend fun geteSportsPredictionDetailsData(@Body body: RequestBodies.PredictionDetailsBody): Response<PredictionDetailResponse>
+
 }
