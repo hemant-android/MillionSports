@@ -123,7 +123,7 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
             var countryFlag =
                 (arrPopularCompetitionsCountry as ArrayList<DashboardResponse.PopularCompetitionsCountry>)[groupPosition]!!.country_logo
             var time =
-                (arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetitionsCountry>)[groupPosition]!!.prediction[childPosition].prediction_time
+                (arrPopularCompetitionsCountry as ArrayList<DashboardResponse.PopularCompetitionsCountry>)[groupPosition]!!.prediction[childPosition].prediction_time
 
             Toast.makeText(requireActivity(),
                 "Clicked: " + (arrPopularCompetitionsCountry as ArrayList<DashboardResponse.PopularCompetitionsCountry>)[groupPosition].country_name,
@@ -199,6 +199,13 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
 
                             if (arrPopularCompetitionsCountry != null && arrPopularCompetitionsCountry!!.size > 0) {
                                 arrPopularCompetitionsCountry!!.clear()
+                            }
+
+                            if ((response.data?.popular_competitions != null && response.data?.popular_competitions.isNotEmpty()) && (response.data?.popular_competitions_country != null && response.data?.popular_competitions_country.isNotEmpty())) {
+                                binding.tvNoRecordFound.visibility = View.GONE
+                            } else {
+                                binding.tvNoRecordFound.visibility = View.VISIBLE
+                                binding.tvNoRecordFound.text = response.data?.message
                             }
 
                             if (response.data?.popular_competitions != null && response.data?.popular_competitions.isNotEmpty()) {
@@ -279,6 +286,13 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
 
                             if (arrPopularCompetitionsCountry != null && arrPopularCompetitionsCountry!!.size > 0) {
                                 arrPopularCompetitionsCountry!!.clear()
+                            }
+
+                            if ((response.data?.popular_competitions != null && response.data?.popular_competitions.isNotEmpty()) && (response.data?.popular_competitions_country != null && response.data?.popular_competitions_country.isNotEmpty())) {
+                                binding.tvNoRecordFound.visibility = View.GONE
+                            } else {
+                                binding.tvNoRecordFound.visibility = View.VISIBLE
+                                binding.tvNoRecordFound.text = response.data?.message
                             }
 
                             if (response.data?.popular_competitions != null && response.data?.popular_competitions.isNotEmpty()) {

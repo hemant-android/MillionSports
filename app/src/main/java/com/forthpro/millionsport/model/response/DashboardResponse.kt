@@ -3,6 +3,7 @@ package com.forthpro.millionsport.model.response
 data class DashboardResponse(
     val POPULAR_COMPETITIONS_BY_COUNTRY_LABEL: String,
     val POPULAR_COMPETITIONS_LABEL: String,
+    val message: String,
     val dateArray: ArrayList<DateArray>,
     val popular_competitions: ArrayList<PopularCompetition>,
     val popular_competitions_country: ArrayList<PopularCompetitionsCountry>,
