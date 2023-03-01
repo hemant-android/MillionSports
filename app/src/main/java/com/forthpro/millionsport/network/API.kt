@@ -30,7 +30,7 @@ interface API {
     @POST("api/basketPredictionDetails")
     suspend fun getBasketPredictionDetailsData(@Body body: RequestBodies.PredictionDetailsBody): Response<PredictionDetailResponse>
 
-    @POST("api/basketPredictionDetails")
+    @POST("api/handballPredictionDetails")
     suspend fun getHandballPredictionDetailsData(@Body body: RequestBodies.PredictionDetailsBody): Response<PredictionDetailResponse>
 
     @POST("api/basketPredictionDetails")
@@ -51,7 +51,7 @@ interface API {
     @POST("api/americanFootballPredictionDetails")
     suspend fun getAmericanFootballPredictionDetailsData(@Body body: RequestBodies.PredictionDetailsBody): Response<PredictionDetailResponse>
 
-    @POST("api/americanFootballPredictionDetails")
+    @POST("api/baseballPredictionDetails")
     suspend fun getBaseballPredictionDetailsData(@Body body: RequestBodies.PredictionDetailsBody): Response<PredictionDetailResponse>
 
     @POST("api/americanFootballPredictionDetails")

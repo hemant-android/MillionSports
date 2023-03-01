@@ -201,7 +201,7 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
                                 arrPopularCompetitionsCountry!!.clear()
                             }
 
-                            if ((response.data?.popular_competitions != null && response.data?.popular_competitions.isNotEmpty()) && (response.data?.popular_competitions_country != null && response.data?.popular_competitions_country.isNotEmpty())) {
+                            if ((response.data?.popular_competitions != null && response.data?.popular_competitions.isNotEmpty()) || (response.data?.popular_competitions_country != null && response.data?.popular_competitions_country.isNotEmpty())) {
                                 binding.tvNoRecordFound.visibility = View.GONE
                             } else {
                                 binding.tvNoRecordFound.visibility = View.VISIBLE
@@ -288,7 +288,7 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
                                 arrPopularCompetitionsCountry!!.clear()
                             }
 
-                            if ((response.data?.popular_competitions != null && response.data?.popular_competitions.isNotEmpty()) && (response.data?.popular_competitions_country != null && response.data?.popular_competitions_country.isNotEmpty())) {
+                            if ((response.data?.popular_competitions != null && response.data?.popular_competitions.isNotEmpty()) || (response.data?.popular_competitions_country != null && response.data?.popular_competitions_country.isNotEmpty())) {
                                 binding.tvNoRecordFound.visibility = View.GONE
                             } else {
                                 binding.tvNoRecordFound.visibility = View.VISIBLE
