@@ -1,6 +1,5 @@
 package com.forthpro.millionsport.ui.details
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -10,20 +9,18 @@ import com.bumptech.glide.Glide
 import com.forthpro.millionsport.BaseActivity
 import com.forthpro.millionsport.BuildConfig
 import com.forthpro.millionsport.R
-import com.forthpro.millionsport.config.PreferenceHelper
 import com.forthpro.millionsport.databinding.ActivityDetailBinding
 import com.forthpro.millionsport.model.RequestBodies
 import com.forthpro.millionsport.model.response.PredictionDetailResponse
 import com.forthpro.millionsport.repository.AppRepository
 import com.forthpro.millionsport.ui.details.adapter.ExpandablePredictionDetailAdapter
+import com.forthpro.millionsport.ui.details.adapter.SoccerPredictionAdapter
 import com.forthpro.millionsport.ui.details.viewmodel.PredictionDetailViewModel
-import com.forthpro.millionsport.ui.language.adapter.LanguageChooseAdapter
-import com.forthpro.millionsport.ui.timing.ChooseTimeFormatActivity
 import com.forthpro.millionsport.util.Resource
 import com.forthpro.millionsport.viewmodel.ViewModelProviderFactory
 
 
-class PredictionDetailActivity : BaseActivity(), LanguageChooseAdapter.onClickListner {
+class PredictionDetailActivity : BaseActivity(), SoccerPredictionAdapter.onClickListner {
 
     private lateinit var viewModel: PredictionDetailViewModel
     private lateinit var binding: ActivityDetailBinding
@@ -40,6 +37,8 @@ class PredictionDetailActivity : BaseActivity(), LanguageChooseAdapter.onClickLi
     private var arrPrediction: ArrayList<PredictionDetailResponse.PredictionTab>? = arrayListOf()
 
     private var adapter: ExpandablePredictionDetailAdapter? = null
+
+    private val mAdapter: SoccerPredictionAdapter by lazy { SoccerPredictionAdapter(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +81,9 @@ class PredictionDetailActivity : BaseActivity(), LanguageChooseAdapter.onClickLi
                 .into(binding.imgPlayer)
         }
 
+        binding.rvSoccerPredication.adapter = mAdapter
+        mAdapter.setClickListner(this)
+
         binding.imgBack.setOnClickListener {
             finish()
         }
@@ -101,15 +103,21 @@ class PredictionDetailActivity : BaseActivity(), LanguageChooseAdapter.onClickLi
                             }
                             if (response.data?.predictionTab != null && response.data?.predictionTab.isNotEmpty()) {
                                 arrPrediction = response.data?.predictionTab
-                                adapter = ExpandablePredictionDetailAdapter(this, arrPrediction!!)
-                                binding.expendablePredictionDetail.setAdapter(adapter)
+                                /*adapter = ExpandablePredictionDetailAdapter(
+                                    this, arrPrediction!!,
+                                    sportId!!
+                                )
+                                binding.expendablePredictionDetail.setAdapter(adapter)*/
+                                mAdapter.setData(arrPrediction!!)
                             } else {
                                 if (adapter != null) {
                                     if (arrPrediction != null && arrPrediction!!.size > 0) {
                                         arrPrediction!!.clear()
                                     }
-                                    binding.expendablePredictionDetail.setAdapter(adapter)
-                                    adapter!!.notifyDataSetChanged()
+                                    /*binding.expendablePredictionDetail.setAdapter(adapter)
+                                    adapter!!.notifyDataSetChanged()*/
+                                    mAdapter.setData(arrPrediction!!)
+                                    mAdapter.notifyDataSetChanged()
                                 }
                             }
                         } else {
@@ -131,12 +139,10 @@ class PredictionDetailActivity : BaseActivity(), LanguageChooseAdapter.onClickLi
         }
     }
 
-    override fun clickItem(languageId: String) {
-
-        PreferenceHelper.languageHeader = languageId
-
-        Intent(this, ChooseTimeFormatActivity::class.java).also {
-            startActivity(it)
+    override fun clickHeader(position: Int) {
+        if (arrPrediction != null && arrPrediction!!.size > 0) {
+            arrPrediction!![position].isSelect = !arrPrediction!![position].isSelect
+            mAdapter.notifyDataSetChanged()
         }
     }
 

@@ -83,9 +83,6 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
             var time =
                 (arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.prediction[childPosition].prediction_time
 
-            Toast.makeText(requireActivity(),
-                "Clicked: " + (arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition].country_name,
-                Toast.LENGTH_SHORT).show()
             Intent(requireActivity(), PredictionDetailActivity::class.java).also {
                 it.putExtra("sportId", sportId.toString())
                 it.putExtra("predictionId", predictionId)
@@ -124,10 +121,6 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
                 (arrPopularCompetitionsCountry as ArrayList<DashboardResponse.PopularCompetitionsCountry>)[groupPosition]!!.country_logo
             var time =
                 (arrPopularCompetitionsCountry as ArrayList<DashboardResponse.PopularCompetitionsCountry>)[groupPosition]!!.prediction[childPosition].prediction_time
-
-            Toast.makeText(requireActivity(),
-                "Clicked: " + (arrPopularCompetitionsCountry as ArrayList<DashboardResponse.PopularCompetitionsCountry>)[groupPosition].country_name,
-                Toast.LENGTH_SHORT).show()
 
             Intent(requireActivity(), PredictionDetailActivity::class.java).also {
                 it.putExtra("sportId", sportId.toString())

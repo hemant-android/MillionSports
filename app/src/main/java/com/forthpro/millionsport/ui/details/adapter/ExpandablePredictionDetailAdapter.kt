@@ -13,7 +13,8 @@ import com.forthpro.millionsport.R
 import com.forthpro.millionsport.model.response.PredictionDetailResponse
 
 class ExpandablePredictionDetailAdapter(
-    private val _context: Context, _listDataHeader: ArrayList<PredictionDetailResponse.PredictionTab>,
+    private val _context: Context,
+    _listDataHeader: ArrayList<PredictionDetailResponse.PredictionTab>, val sportId: String,
 ) : BaseExpandableListAdapter() {
 
 
@@ -40,8 +41,8 @@ class ExpandablePredictionDetailAdapter(
         var convertView = convertView
 
         if (convertView == null) {
-            val infalInflater = this._context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val infalInflater =
+                this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             convertView = infalInflater.inflate(R.layout.row_prediction_item_inner, null)
         }
         val tvLeagueName = convertView!!.findViewById<TextView>(R.id.tvLeagueName)

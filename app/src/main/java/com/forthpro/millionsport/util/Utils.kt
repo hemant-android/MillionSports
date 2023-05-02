@@ -5,12 +5,15 @@ import android.icu.text.SimpleDateFormat
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.provider.Settings
+import android.telephony.TelephonyManager
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.forthpro.millionsport.app.MyApplication
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
+
 
 object Utils {
     /**
@@ -67,6 +70,26 @@ object Utils {
     fun getCurrentDate(): String? {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         return LocalDateTime.now().format(formatter)
+    }
+
+    fun getDeviceId(context: Context): String? {
+        val deviceId: String = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            Settings.Secure.getString(
+                context.contentResolver,
+                Settings.Secure.ANDROID_ID
+            )
+        } else {
+            val mTelephony = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+            if (mTelephony.deviceId != null) {
+                mTelephony.deviceId
+            } else {
+                Settings.Secure.getString(
+                    context.contentResolver,
+                    Settings.Secure.ANDROID_ID
+                )
+            }
+        }
+        return deviceId
     }
 
 }

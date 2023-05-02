@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center|top"
+    android:layout_marginBottom="@dimen/_2sdp"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:weightSum="1">
+
+    <TextView
+        android:id="@+id/box1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/_25sdp"
+        android:layout_weight=".250"
+        android:background="@drawable/bg_white_rectangle"
+        android:fontFamily="@font/roboto_regular_400"
+        android:gravity="center"
+        android:lineSpacingExtra="1sp"
+        android:padding="@dimen/_5sdp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_10sdp"
+        android:translationY="0.47sp" />
+
+    <TextView
+        android:id="@+id/box2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_25sdp"
+        android:layout_weight=".250"
+        android:background="@drawable/bg_white_rectangle"
+        android:fontFamily="@font/roboto_regular_400"
+        android:gravity="center"
+        android:lineSpacingExtra="1sp"
+        android:padding="@dimen/_5sdp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_10sdp"
+        android:translationY="0.47sp" />
+
+
+</LinearLayout>

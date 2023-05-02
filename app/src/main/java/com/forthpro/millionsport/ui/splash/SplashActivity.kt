@@ -9,6 +9,7 @@ import com.forthpro.millionsport.databinding.ActivitySplashBinding
 import com.forthpro.millionsport.ui.home.HomeActivity
 import com.forthpro.millionsport.ui.language.LanguageChooseActivity
 
+
 class SplashActivity : AppCompatActivity() {
     lateinit var binding: ActivitySplashBinding
 
@@ -21,6 +22,9 @@ class SplashActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         startTimerThread()
+
+//        val mDeviceId = Utils.getDeviceId(this)
+
     }
 
     private fun startTimerThread() {
@@ -29,7 +33,8 @@ class SplashActivity : AppCompatActivity() {
             jumpToNextScreen()
         }
         /// Schedule the task to repeat after 0 second
-        mHandler!!.postDelayed(mRunnable!!, // Runnable
+        mHandler!!.postDelayed(
+            mRunnable!!, // Runnable
             2000 // Delay in milliseconds
         )
     }
