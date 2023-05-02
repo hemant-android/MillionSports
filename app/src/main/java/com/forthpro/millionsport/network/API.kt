@@ -18,6 +18,9 @@ interface API {
     @GET("api/second_screen")
     suspend fun getAllTimeFormat(): Response<TimeFormatResponse>
 
+    @POST("api/getSideBar")
+    suspend fun getSideMenuData(): Response<SideMenuResponse>
+
     @POST("api/dashboard")
     suspend fun getDashboardData(@Body body: RequestBodies.DashboardBody): Response<DashboardResponse>
 

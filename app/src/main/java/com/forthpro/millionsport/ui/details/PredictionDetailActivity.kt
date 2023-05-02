@@ -64,6 +64,13 @@ class PredictionDetailActivity : BaseActivity(), SoccerPredictionAdapter.onClick
         binding.tvTime.text = time
         binding.tvCountryName.text = countryName
 
+        if (sportId == "1") {
+            binding.imgBackground.visibility = View.VISIBLE
+            binding.imgBackground.setImageResource(R.drawable.soccer)
+        } else {
+            binding.imgBackground.visibility = View.GONE
+        }
+
 
         if (countryFlag != null) {
             Glide.with(this)

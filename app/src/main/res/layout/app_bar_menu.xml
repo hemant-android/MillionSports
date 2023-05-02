@@ -11,8 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:paddingLeft="@dimen/_20sdp"
-        android:paddingRight="@dimen/_20sdp"
         android:paddingTop="@dimen/_30sdp"
+        android:paddingRight="@dimen/_20sdp"
         android:paddingBottom="@dimen/_30sdp"
         android:src="@mipmap/home_logo" />
 
@@ -74,6 +74,7 @@
             android:src="@drawable/ic_fav_menu" />
 
         <TextView
+            android:id="@+id/tvFav"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -110,6 +111,7 @@
             android:src="@drawable/ic_translate_menu" />
 
         <TextView
+            android:id="@+id/tvTranslate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -146,6 +148,7 @@
             android:src="@drawable/ic_time_menu" />
 
         <TextView
+            android:id="@+id/tvTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -182,6 +185,7 @@
             android:src="@drawable/ic_feedback_menu" />
 
         <TextView
+            android:id="@+id/tvFeedback"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -218,6 +222,7 @@
             android:src="@drawable/ic_share_menu" />
 
         <TextView
+            android:id="@+id/tvShare"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -254,6 +259,7 @@
             android:src="@drawable/ic_app_rating" />
 
         <TextView
+            android:id="@+id/tvRateApp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -290,6 +296,7 @@
             android:src="@drawable/ic_terms_use_menu" />
 
         <TextView
+            android:id="@+id/tvTermUse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -326,6 +333,7 @@
             android:src="@drawable/ic_privacy_menu" />
 
         <TextView
+            android:id="@+id/tvPrivacy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
