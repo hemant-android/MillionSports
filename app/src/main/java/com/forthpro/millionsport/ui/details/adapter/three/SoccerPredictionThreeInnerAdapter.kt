@@ -1,4 +1,4 @@
-package com.forthpro.millionsport.ui.details.adapter
+package com.forthpro.millionsport.ui.details.adapter.three
 
 import android.content.Context
 import android.text.TextUtils
@@ -12,7 +12,7 @@ import com.forthpro.millionsport.R
 import com.forthpro.millionsport.model.response.PredictionDetailResponse
 
 
-class SoccerPredictionOneInnerAdapter(private val mContext: Context, private val position: Int) :
+class SoccerPredictionThreeInnerAdapter(private val mContext: Context, private val position: Int) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val items: ArrayList<PredictionDetailResponse.PredictionTab.LabelArray.Label1Array> =
         arrayListOf()

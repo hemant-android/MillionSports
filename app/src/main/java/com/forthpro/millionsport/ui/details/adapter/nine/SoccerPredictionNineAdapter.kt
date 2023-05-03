@@ -1,4 +1,4 @@
-package com.forthpro.millionsport.ui.details.adapter
+package com.forthpro.millionsport.ui.details.adapter.nine
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.forthpro.millionsport.R
 import com.forthpro.millionsport.model.response.PredictionDetailResponse
 
-class SoccerPredictionOneAdapter(private val mContext: Context, private val position: Int) :
+class SoccerPredictionNineAdapter(private val mContext: Context, private val position: Int) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val items: ArrayList<PredictionDetailResponse.PredictionTab.LabelArray> = arrayListOf()
     private var onclick: onClickListner?= null
@@ -36,7 +36,7 @@ class SoccerPredictionOneAdapter(private val mContext: Context, private val posi
                 var holder = holder as ViewHolder0
                 holder.tvLeagueName!!.text = items[position].label_name
 
-                var adapter = SoccerPredictionOneInnerAdapter(mContext, this.position)
+                var adapter = SoccerPredictionNineInnerAdapter(mContext, this.position)
                 holder.rvInner!!.adapter = adapter
                 adapter.setData(items[position].label1_array)
             }
@@ -44,7 +44,7 @@ class SoccerPredictionOneAdapter(private val mContext: Context, private val posi
                 var holder = holder as ViewHolder2
                 holder.tvLeagueName!!.text = items[position].label_name
 
-                var adapter = SoccerPredictionOneInnerAdapter(mContext, this.position)
+                var adapter = SoccerPredictionNineInnerAdapter(mContext, this.position)
                 holder.rvInner!!.adapter = adapter
                 adapter.setData(items[position].label1_array)
             }
@@ -52,7 +52,7 @@ class SoccerPredictionOneAdapter(private val mContext: Context, private val posi
                 var holder = holder as ViewHolder3
                 holder.tvLeagueName!!.text = items[position].label_name
 
-                var adapter = SoccerPredictionOneInnerAdapter(mContext, this.position)
+                var adapter = SoccerPredictionNineInnerAdapter(mContext, this.position)
                 holder.rvInner!!.adapter = adapter
                 adapter.setData(items[position].label1_array)
             }
@@ -60,7 +60,7 @@ class SoccerPredictionOneAdapter(private val mContext: Context, private val posi
                 var holder = holder as ViewHolder4
                 holder.tvLeagueName!!.text = items[position].label_name
 
-                var adapter = SoccerPredictionOneInnerAdapter(mContext, this.position)
+                var adapter = SoccerPredictionNineInnerAdapter(mContext, this.position)
                 holder.rvInner!!.adapter = adapter
                 adapter.setData(items[position].label1_array)
             }
@@ -68,7 +68,7 @@ class SoccerPredictionOneAdapter(private val mContext: Context, private val posi
                 var holder = holder as ViewHolder9
                 holder.tvLeagueName!!.text = items[position].label_name
 
-                var adapter = SoccerPredictionOneInnerAdapter(mContext, this.position)
+                var adapter = SoccerPredictionNineInnerAdapter(mContext, this.position)
                 holder.rvInner!!.adapter = adapter
                 adapter.setData(items[position].label1_array)
             }
@@ -76,7 +76,7 @@ class SoccerPredictionOneAdapter(private val mContext: Context, private val posi
                 var holder = holder as ViewHolder13
                 holder.tvLeagueName!!.text = items[position].label_name
 
-                var adapter = SoccerPredictionOneInnerAdapter(mContext, this.position)
+                var adapter = SoccerPredictionNineInnerAdapter(mContext, this.position)
                 holder.rvInner!!.adapter = adapter
                 adapter.setData(items[position].label1_array)
             }
@@ -84,7 +84,7 @@ class SoccerPredictionOneAdapter(private val mContext: Context, private val posi
                 var holder = holder as ViewHolder0
                 holder.tvLeagueName!!.text = items[position].label_name
 
-                var adapter = SoccerPredictionOneInnerAdapter(mContext, this.position)
+                var adapter = SoccerPredictionNineInnerAdapter(mContext, this.position)
                 holder.rvInner!!.adapter = adapter
                 adapter.setData(items[position].label1_array)
             }

@@ -36,19 +36,19 @@ interface API {
     @POST("api/handballPredictionDetails")
     suspend fun getHandballPredictionDetailsData(@Body body: RequestBodies.PredictionDetailsBody): Response<PredictionDetailResponse>
 
-    @POST("api/basketPredictionDetails")
+    @POST("api/futsalPredictionDetails")
     suspend fun getFutsalPredictionDetailsData(@Body body: RequestBodies.PredictionDetailsBody): Response<PredictionDetailResponse>
 
-    @POST("api/basketPredictionDetails")
+    @POST("api/volleyBallPredictionDetails")
     suspend fun getVolleyballPredictionDetailsData(@Body body: RequestBodies.PredictionDetailsBody): Response<PredictionDetailResponse>
 
-    @POST("api/basketPredictionDetails")
+    @POST("api/rugbyPredictionDetails")
     suspend fun getRugbyLeaguePredictionDetailsData(@Body body: RequestBodies.PredictionDetailsBody): Response<PredictionDetailResponse>
 
-    @POST("api/basketPredictionDetails")
+    @POST("api/rugbyUnionPredictionDetails")
     suspend fun getRugbyUnionPredictionDetailsData(@Body body: RequestBodies.PredictionDetailsBody): Response<PredictionDetailResponse>
 
-    @POST("api/basketPredictionDetails")
+    @POST("api/tennisPredictionDetails")
     suspend fun getTennisPredictionDetailsData(@Body body: RequestBodies.PredictionDetailsBody): Response<PredictionDetailResponse>
 
     @POST("api/americanFootballPredictionDetails")
@@ -57,7 +57,7 @@ interface API {
     @POST("api/baseballPredictionDetails")
     suspend fun getBaseballPredictionDetailsData(@Body body: RequestBodies.PredictionDetailsBody): Response<PredictionDetailResponse>
 
-    @POST("api/americanFootballPredictionDetails")
+    @POST("api/paspalloPredictionDetails")
     suspend fun getPesapalloPredictionDetailsData(@Body body: RequestBodies.PredictionDetailsBody): Response<PredictionDetailResponse>
 
     @POST("api/americanFootballPredictionDetails")

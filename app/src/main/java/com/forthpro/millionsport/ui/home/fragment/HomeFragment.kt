@@ -83,17 +83,22 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
             var time =
                 (arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.prediction[childPosition].prediction_time
 
-            Intent(requireActivity(), PredictionDetailActivity::class.java).also {
-                it.putExtra("sportId", sportId.toString())
-                it.putExtra("predictionId", predictionId)
-                it.putExtra("home", home)
-                it.putExtra("away", away)
-                it.putExtra("playerImage", playerImage)
-                it.putExtra("countryName", countryName)
-                it.putExtra("countryFlag", countryFlag)
-                it.putExtra("time", time)
-                startActivity(it)
+            if (sportId.toString() == "13") {
+
+            } else {
+                Intent(requireActivity(), PredictionDetailActivity::class.java).also {
+                    it.putExtra("sportId", sportId.toString())
+                    it.putExtra("predictionId", predictionId)
+                    it.putExtra("home", home)
+                    it.putExtra("away", away)
+                    it.putExtra("playerImage", playerImage)
+                    it.putExtra("countryName", countryName)
+                    it.putExtra("countryFlag", countryFlag)
+                    it.putExtra("time", time)
+                    startActivity(it)
+                }
             }
+
             false
         }
 
@@ -122,16 +127,20 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
             var time =
                 (arrPopularCompetitionsCountry as ArrayList<DashboardResponse.PopularCompetitionsCountry>)[groupPosition]!!.prediction[childPosition].prediction_time
 
-            Intent(requireActivity(), PredictionDetailActivity::class.java).also {
-                it.putExtra("sportId", sportId.toString())
-                it.putExtra("predictionId", predictionId)
-                it.putExtra("home", home)
-                it.putExtra("away", away)
-                it.putExtra("playerImage", playerImage)
-                it.putExtra("countryName", countryName)
-                it.putExtra("countryFlag", countryFlag)
-                it.putExtra("time", time)
-                startActivity(it)
+            if (sportId.toString() == "13") {
+
+            } else {
+                Intent(requireActivity(), PredictionDetailActivity::class.java).also {
+                    it.putExtra("sportId", sportId.toString())
+                    it.putExtra("predictionId", predictionId)
+                    it.putExtra("home", home)
+                    it.putExtra("away", away)
+                    it.putExtra("playerImage", playerImage)
+                    it.putExtra("countryName", countryName)
+                    it.putExtra("countryFlag", countryFlag)
+                    it.putExtra("time", time)
+                    startActivity(it)
+                }
             }
             false
         }
@@ -207,13 +216,16 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
 
                                 popularCompetitionAdapter = ExpandablePopularCompetitionAdapter(
                                     requireActivity(),
-                                    arrPopularCompetitions!!)
+                                    arrPopularCompetitions!!
+                                )
                                 binding.expendablePopularCompetitions.setAdapter(
-                                    popularCompetitionAdapter)
+                                    popularCompetitionAdapter
+                                )
                             } else {
                                 if (popularCompetitionAdapter != null) {
                                     binding.expendablePopularCompetitions.setAdapter(
-                                        popularCompetitionAdapter)
+                                        popularCompetitionAdapter
+                                    )
                                     popularCompetitionAdapter!!.notifyDataSetChanged()
                                 }
 
@@ -226,14 +238,18 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
                                     response.data?.popular_competitions_country
 
                                 popularCompetitionByCountryAdapter =
-                                    ExpandablePopularCompetitionByCountryAdapter(requireActivity(),
-                                        arrPopularCompetitionsCountry!!)
+                                    ExpandablePopularCompetitionByCountryAdapter(
+                                        requireActivity(),
+                                        arrPopularCompetitionsCountry!!
+                                    )
                                 binding.expendableCompetitionsByCountry.setAdapter(
-                                    popularCompetitionByCountryAdapter)
+                                    popularCompetitionByCountryAdapter
+                                )
                             } else {
                                 if (popularCompetitionByCountryAdapter != null) {
                                     binding.expendableCompetitionsByCountry.setAdapter(
-                                        popularCompetitionByCountryAdapter)
+                                        popularCompetitionByCountryAdapter
+                                    )
                                     popularCompetitionByCountryAdapter!!.notifyDataSetChanged()
                                 }
                                 binding.tvCompetitionsByCountry.visibility = View.GONE
@@ -294,13 +310,16 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
 
                                 popularCompetitionAdapter = ExpandablePopularCompetitionAdapter(
                                     requireActivity(),
-                                    arrPopularCompetitions!!)
+                                    arrPopularCompetitions!!
+                                )
                                 binding.expendablePopularCompetitions.setAdapter(
-                                    popularCompetitionAdapter)
+                                    popularCompetitionAdapter
+                                )
                             } else {
                                 if (popularCompetitionAdapter != null) {
                                     binding.expendablePopularCompetitions.setAdapter(
-                                        popularCompetitionAdapter)
+                                        popularCompetitionAdapter
+                                    )
                                     popularCompetitionAdapter!!.notifyDataSetChanged()
                                 }
 
@@ -313,14 +332,18 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
                                     response.data?.popular_competitions_country
 
                                 popularCompetitionByCountryAdapter =
-                                    ExpandablePopularCompetitionByCountryAdapter(requireActivity(),
-                                        arrPopularCompetitionsCountry!!)
+                                    ExpandablePopularCompetitionByCountryAdapter(
+                                        requireActivity(),
+                                        arrPopularCompetitionsCountry!!
+                                    )
                                 binding.expendableCompetitionsByCountry.setAdapter(
-                                    popularCompetitionByCountryAdapter)
+                                    popularCompetitionByCountryAdapter
+                                )
                             } else {
                                 if (popularCompetitionByCountryAdapter != null) {
                                     binding.expendableCompetitionsByCountry.setAdapter(
-                                        popularCompetitionByCountryAdapter)
+                                        popularCompetitionByCountryAdapter
+                                    )
                                     popularCompetitionByCountryAdapter!!.notifyDataSetChanged()
                                 }
                                 binding.tvCompetitionsByCountry.visibility = View.GONE

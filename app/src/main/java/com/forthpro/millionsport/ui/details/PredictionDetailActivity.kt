@@ -13,8 +13,7 @@ import com.forthpro.millionsport.databinding.ActivityDetailBinding
 import com.forthpro.millionsport.model.RequestBodies
 import com.forthpro.millionsport.model.response.PredictionDetailResponse
 import com.forthpro.millionsport.repository.AppRepository
-import com.forthpro.millionsport.ui.details.adapter.ExpandablePredictionDetailAdapter
-import com.forthpro.millionsport.ui.details.adapter.SoccerPredictionAdapter
+import com.forthpro.millionsport.ui.details.adapter.detail.SoccerPredictionAdapter
 import com.forthpro.millionsport.ui.details.viewmodel.PredictionDetailViewModel
 import com.forthpro.millionsport.util.Resource
 import com.forthpro.millionsport.viewmodel.ViewModelProviderFactory
@@ -35,8 +34,6 @@ class PredictionDetailActivity : BaseActivity(), SoccerPredictionAdapter.onClick
     var time: String? = ""
 
     private var arrPrediction: ArrayList<PredictionDetailResponse.PredictionTab>? = arrayListOf()
-
-    private var adapter: ExpandablePredictionDetailAdapter? = null
 
     private val mAdapter: SoccerPredictionAdapter by lazy { SoccerPredictionAdapter(this) }
 
@@ -64,11 +61,26 @@ class PredictionDetailActivity : BaseActivity(), SoccerPredictionAdapter.onClick
         binding.tvTime.text = time
         binding.tvCountryName.text = countryName
 
-        if (sportId == "1") {
-            binding.imgBackground.visibility = View.VISIBLE
-            binding.imgBackground.setImageResource(R.drawable.soccer)
-        } else {
-            binding.imgBackground.visibility = View.GONE
+        when (sportId) {
+            "1" -> {
+                binding.imgBackground.visibility = View.VISIBLE
+                binding.imgBackground.setImageResource(R.drawable.soccer)
+            }
+            "4" -> {
+                binding.imgBackground.visibility = View.VISIBLE
+                binding.imgBackground.setImageResource(R.drawable.handball)
+            }
+            "10" -> {
+                binding.imgBackground.visibility = View.VISIBLE
+                binding.imgBackground.setImageResource(R.drawable.american_football)
+            }
+            "11" -> {
+                binding.imgBackground.visibility = View.VISIBLE
+                binding.imgBackground.setImageResource(R.drawable.baseball)
+            }
+            else -> {
+                binding.imgBackground.visibility = View.GONE
+            }
         }
 
 
@@ -110,20 +122,13 @@ class PredictionDetailActivity : BaseActivity(), SoccerPredictionAdapter.onClick
                             }
                             if (response.data?.predictionTab != null && response.data?.predictionTab.isNotEmpty()) {
                                 arrPrediction = response.data?.predictionTab
-                                /*adapter = ExpandablePredictionDetailAdapter(
-                                    this, arrPrediction!!,
-                                    sportId!!
-                                )
-                                binding.expendablePredictionDetail.setAdapter(adapter)*/
-                                mAdapter.setData(arrPrediction!!)
+                                mAdapter.setData(arrPrediction!!, sportId!!)
                             } else {
-                                if (adapter != null) {
+                                if (mAdapter != null) {
                                     if (arrPrediction != null && arrPrediction!!.size > 0) {
                                         arrPrediction!!.clear()
                                     }
-                                    /*binding.expendablePredictionDetail.setAdapter(adapter)
-                                    adapter!!.notifyDataSetChanged()*/
-                                    mAdapter.setData(arrPrediction!!)
+                                    mAdapter.setData(arrPrediction!!, sportId!!)
                                     mAdapter.notifyDataSetChanged()
                                 }
                             }
@@ -141,6 +146,7 @@ class PredictionDetailActivity : BaseActivity(), SoccerPredictionAdapter.onClick
                     is Resource.Loading -> {
                         showProgressBar()
                     }
+                    else -> {}
                 }
             }
         }
