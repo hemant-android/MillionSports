@@ -12,7 +12,7 @@ import com.forthpro.millionsport.model.response.PredictionDetailResponse
 class SoccerPredictionSevenAdapter(private val mContext: Context, private val position: Int) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val items: ArrayList<PredictionDetailResponse.PredictionTab.LabelArray> = arrayListOf()
-    private var onclick: onClickListner?= null
+    private var onclick: onClickListner? = null
     private var selectedItemPos = 0
 
     interface onClickListner {
@@ -40,6 +40,14 @@ class SoccerPredictionSevenAdapter(private val mContext: Context, private val po
                 holder.rvInner!!.adapter = adapter
                 adapter.setData(items[position].label1_array)
             }
+            is ViewHolder1 -> {
+                var holder = holder as ViewHolder1
+                holder.tvLeagueName!!.text = items[position].label_name
+
+                var adapter = SoccerPredictionSevenInnerAdapter(mContext, this.position)
+                holder.rvInner!!.adapter = adapter
+                adapter.setData(items[position].label1_array)
+            }
             is ViewHolder2 -> {
                 var holder = holder as ViewHolder2
                 holder.tvLeagueName!!.text = items[position].label_name
@@ -48,8 +56,8 @@ class SoccerPredictionSevenAdapter(private val mContext: Context, private val po
                 holder.rvInner!!.adapter = adapter
                 adapter.setData(items[position].label1_array)
             }
-            is ViewHolder3 -> {
-                var holder = holder as ViewHolder3
+            is ViewHolder5 -> {
+                var holder = holder as ViewHolder5
                 holder.tvLeagueName!!.text = items[position].label_name
 
                 var adapter = SoccerPredictionSevenInnerAdapter(mContext, this.position)
@@ -108,30 +116,30 @@ class SoccerPredictionSevenAdapter(private val mContext: Context, private val po
                     .inflate(R.layout.row_prediction_tab_zero, parent, false);
                 viewHolder = ViewHolder0(view)
             }
+            1, 8 -> {
+                view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.row_prediction_tab_nine, parent, false);
+                viewHolder = ViewHolder2(view)
+            }
             2 -> {
+                view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.row_prediction_tab_zero, parent, false);
+                viewHolder = ViewHolder2(view)
+            }
+            3, 4 -> {
                 view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.row_prediction_tab_two, parent, false);
                 viewHolder = ViewHolder2(view)
             }
-            4 -> {
+            5, 6 -> {
                 view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.row_prediction_tab_four, parent, false);
-                viewHolder = ViewHolder4(view)
+                    .inflate(R.layout.row_prediction_tab_four_sport_10, parent, false);
+                viewHolder = ViewHolder2(view)
             }
-            3, 5, 6, 7, 8,21 -> {
+            7 -> {
                 view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.row_prediction_tab_three, parent, false);
-                viewHolder = ViewHolder3(view)
-            }
-            9, 10, 11, 12,15,16,17,18,19,20 -> {
-                view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.row_prediction_tab_nine, parent, false);
-                viewHolder = ViewHolder9(view)
-            }
-            13,14 -> {
-                view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.row_prediction_tab_thirteen, parent, false);
-                viewHolder = ViewHolder13(view)
+                viewHolder = ViewHolder2(view)
             }
             else -> {
                 view = LayoutInflater.from(parent.context)
@@ -155,12 +163,17 @@ class SoccerPredictionSevenAdapter(private val mContext: Context, private val po
         val rvInner: RecyclerView? = view.findViewById(R.id.rvInner)
     }
 
+    class ViewHolder1(view: View) : RecyclerView.ViewHolder(view) {
+        val tvLeagueName: TextView? = view.findViewById(R.id.tvLeagueName)
+        val rvInner: RecyclerView? = view.findViewById(R.id.rvInner)
+    }
+
     class ViewHolder2(view: View) : RecyclerView.ViewHolder(view) {
         val tvLeagueName: TextView? = view.findViewById(R.id.tvLeagueName)
         val rvInner: RecyclerView? = view.findViewById(R.id.rvInner)
     }
 
-    class ViewHolder3(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder5(view: View) : RecyclerView.ViewHolder(view) {
         val tvLeagueName: TextView? = view.findViewById(R.id.tvLeagueName)
         val rvInner: RecyclerView? = view.findViewById(R.id.rvInner)
     }

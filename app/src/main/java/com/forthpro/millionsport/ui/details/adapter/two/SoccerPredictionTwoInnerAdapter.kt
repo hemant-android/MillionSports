@@ -47,25 +47,52 @@ class SoccerPredictionTwoInnerAdapter(private val mContext: Context, private val
             }
         } else if (holder is ViewHolder1) {
             var holder = holder as ViewHolder1
-            if (items[position].label_value != null && !TextUtils.isEmpty(items[position].label_value)) {
-                holder.box1Key!!.text = "" + items[position].label_key
-                holder.box1!!.text = "" + items[position].label_value
-            }
+            holder.box1!!.text = "" + items[position].label_value1
+            holder.box2!!.text = "" + items[position].label_value2
         } else if (holder is ViewHolder2) {
             var holder = holder as ViewHolder2
-            if (items[position].label_value != null && !TextUtils.isEmpty(items[position].label_value)) {
-                holder.box1!!.text = "" + items[position].label_key
-                holder.box2!!.text = "" + items[position].label_key_up
-                holder.box3!!.text = "" + items[position].label_key_down
-            }
+            holder.box1Key!!.text = "" + items[position].label_key
+            holder.box1!!.text = "" + items[position].label_value
         } else if (holder is ViewHolder3) {
             var holder = holder as ViewHolder3
+            holder.box1!!.text = "" + items[position].label_key
+            holder.box2!!.text = "" + items[position].label_key_up
+            holder.box3!!.text = "" + items[position].label_key_down
+        } else if (holder is ViewHolder5) {
+            var holder = holder as ViewHolder5
             if (items[position].label_value != null && !TextUtils.isEmpty(items[position].label_value)) {
                 holder.box1Key!!.text = "" + items[position].label_key
                 holder.box1!!.text = "" + items[position].label_value
             }
         } else if (holder is ViewHolder4) {
             var holder = holder as ViewHolder4
+            if (items[position].label_value != null && !TextUtils.isEmpty(items[position].label_value)) {
+                holder.box1Value!!.visibility = View.VISIBLE
+                holder.box1Value!!.text = "" + items[position].label_value
+            } else {
+                holder.box1Value!!.visibility = View.GONE
+            }
+            if (items[position].label_value2 != null && !TextUtils.isEmpty(items[position].label_value2)) {
+                holder.box2Value!!.visibility = View.VISIBLE
+                holder.box2Value!!.text = "" + items[position].label_value2
+            } else {
+                holder.box2Value!!.visibility = View.GONE
+            }
+
+            if (items[position].label_key1 != null && !TextUtils.isEmpty(items[position].label_key1)) {
+                holder.box1Key!!.visibility = View.VISIBLE
+                holder.box1Key!!.text = "" + items[position].label_key1
+            } else {
+                holder.box1Key!!.visibility = View.GONE
+            }
+            if (items[position].label_key2 != null && !TextUtils.isEmpty(items[position].label_key2)) {
+                holder.box2Key!!.visibility = View.VISIBLE
+                holder.box2Key!!.text = "" + items[position].label_key2
+            } else {
+                holder.box2Key!!.visibility = View.GONE
+            }
+        } else if (holder is ViewHolder4Any) {
+            var holder = holder as ViewHolder4Any
             if (items[position].label_value1 != null && !TextUtils.isEmpty(items[position].label_value1)) {
                 holder.box1Value!!.visibility = View.VISIBLE
                 holder.box1Value!!.text = "" + items[position].label_value1
@@ -113,14 +140,17 @@ class SoccerPredictionTwoInnerAdapter(private val mContext: Context, private val
                 holder.llAny!!.visibility = View.GONE
                 holder.llMain!!.visibility = View.VISIBLE
             }
+        } else if (holder is ViewHolder8) {
+            var holder = holder as ViewHolder8
+            holder.box1!!.text = "" + items[position].label_key
+            holder.box2!!.text = "" + items[position].label_value
         } else if (holder is ViewHolder9) {
             var holder = holder as ViewHolder9
             if (items[position].label_value != null && !TextUtils.isEmpty(items[position].label_value)) {
                 holder.box1!!.text = "" + items[position].label_key
                 holder.box2!!.text = "" + items[position].label_value
             }
-        }
-        else if (holder is ViewHolder10) {
+        } else if (holder is ViewHolder10) {
             var holder = holder as ViewHolder10
             if (items[position].label_value != null && !TextUtils.isEmpty(items[position].label_value)) {
                 holder.box1!!.text = "" + items[position].label_key
@@ -129,8 +159,7 @@ class SoccerPredictionTwoInnerAdapter(private val mContext: Context, private val
                 holder.box4!!.text = "" + items[position].label_value1
 
             }
-        }
-        else if (holder is ViewHolder11) {
+        } else if (holder is ViewHolder11) {
             var holder = holder as ViewHolder11
             if (items[position].label_value != null && !TextUtils.isEmpty(items[position].label_value)) {
                 holder.box1!!.text = "" + items[position].label_key
@@ -139,8 +168,7 @@ class SoccerPredictionTwoInnerAdapter(private val mContext: Context, private val
                 holder.box4!!.text = "" + items[position].label_value1
 
             }
-        }
-        else if (holder is ViewHolder14) {
+        } else if (holder is ViewHolder14) {
             var holder = holder as ViewHolder14
             if (items[position].label_value != null && !TextUtils.isEmpty(items[position].label_value)) {
                 holder.box1!!.text = "" + items[position].label_key
@@ -174,43 +202,48 @@ class SoccerPredictionTwoInnerAdapter(private val mContext: Context, private val
             }
             1 -> {
                 view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.row_prediction_tab_one_inner, parent, false);
+                    .inflate(R.layout.row_prediction_tab_nine_inner, parent, false);
                 viewHolder = ViewHolder1(view)
             }
             2 -> {
                 view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.row_prediction_tab_two_inner, parent, false);
+                    .inflate(R.layout.row_prediction_tab_one_inner, parent, false);
                 viewHolder = ViewHolder2(view)
             }
-            3,5,6,7,8,21 -> {
+            3, 11, 12 -> {
                 view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.row_prediction_tab_three_inner, parent, false);
+                    .inflate(R.layout.row_prediction_tab_two_inner, parent, false);
                 viewHolder = ViewHolder3(view)
             }
             4 -> {
                 view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.row_prediction_tab_four_inner, parent, false);
+                    .inflate(R.layout.row_prediction_tab_four_inner_sport_10, parent, false);
                 viewHolder = ViewHolder4(view)
             }
-            9, 15, 16 -> {
+            5, 6 -> {
+                view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.row_prediction_tab_four_inner, parent, false);
+                viewHolder = ViewHolder4Any(view)
+            }
+            7, 13, 14 -> {
+                view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.row_prediction_tab_three_inner, parent, false);
+                viewHolder = ViewHolder5(view)
+            }
+            8 -> {
                 view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.row_prediction_tab_nine_inner, parent, false);
-                viewHolder = ViewHolder9(view)
+                viewHolder = ViewHolder8(view)
             }
-            10,19,20 -> {
+            9 -> {
                 view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.row_prediction_tab_ten_inner, parent, false);
                 viewHolder = ViewHolder10(view)
             }
-            11, 12,17,18 -> {
+            10-> {
                 view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.row_prediction_tab_11_inner, parent, false);
                 viewHolder = ViewHolder11(view)
-            }
-            13,14 -> {
-                view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.row_prediction_tab_thirteen_inner, parent, false);
-                viewHolder = ViewHolder14(view)
             }
             else -> {
                 view = LayoutInflater.from(parent.context)
@@ -235,24 +268,41 @@ class SoccerPredictionTwoInnerAdapter(private val mContext: Context, private val
     }
 
     class ViewHolder1(view: View) : RecyclerView.ViewHolder(view) {
+        val box1: TextView? = view.findViewById(R.id.box1)
+        val box2: TextView? = view.findViewById(R.id.box2)
+    }
+
+    class ViewHolder8(view: View) : RecyclerView.ViewHolder(view) {
+        val box1: TextView? = view.findViewById(R.id.box1)
+        val box2: TextView? = view.findViewById(R.id.box2)
+    }
+
+    class ViewHolder2(view: View) : RecyclerView.ViewHolder(view) {
         val box1Key: TextView? = view.findViewById(R.id.box1Key)
         val box1: TextView? = view.findViewById(R.id.box1)
         val view: View? = view.findViewById(R.id.view)
     }
 
-    class ViewHolder2(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder3(view: View) : RecyclerView.ViewHolder(view) {
         val box1: TextView? = view.findViewById(R.id.box1)
         val box2: TextView? = view.findViewById(R.id.box2)
         val box3: TextView? = view.findViewById(R.id.box3)
     }
 
-    class ViewHolder3(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder5(view: View) : RecyclerView.ViewHolder(view) {
         val box1Key: TextView? = view.findViewById(R.id.box1Key)
         val box1: TextView? = view.findViewById(R.id.box1)
         val view: View? = view.findViewById(R.id.view)
     }
 
     class ViewHolder4(view: View) : RecyclerView.ViewHolder(view) {
+        val box1Key: TextView? = view.findViewById(R.id.box1Key)
+        val box2Key: TextView? = view.findViewById(R.id.box2Key)
+        val box1Value: TextView? = view.findViewById(R.id.box1Value)
+        val box2Value: TextView? = view.findViewById(R.id.box2Value)
+    }
+
+    class ViewHolder4Any(view: View) : RecyclerView.ViewHolder(view) {
         val box1Key: TextView? = view.findViewById(R.id.box1Key)
         val box2Key: TextView? = view.findViewById(R.id.box2Key)
         val box3Key: TextView? = view.findViewById(R.id.box3Key)

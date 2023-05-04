@@ -12,8 +12,7 @@ import com.forthpro.millionsport.model.response.PredictionDetailResponse
 class SoccerPredictionTwelveAdapter(private val mContext: Context, private val position: Int) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val items: ArrayList<PredictionDetailResponse.PredictionTab.LabelArray> = arrayListOf()
-    private var onclick: onClickListner?= null
-    private var selectedItemPos = 0
+    private var onclick: onClickListner? = null
 
     interface onClickListner {
         fun clickHeader(position: Int)
@@ -40,40 +39,16 @@ class SoccerPredictionTwelveAdapter(private val mContext: Context, private val p
                 holder.rvInner!!.adapter = adapter
                 adapter.setData(items[position].label1_array)
             }
+            is ViewHolder1 -> {
+                var holder = holder as ViewHolder1
+                holder.tvLeagueName!!.text = items[position].label_name
+
+                var adapter = SoccerPredictionTwelveInnerAdapter(mContext, this.position)
+                holder.rvInner!!.adapter = adapter
+                adapter.setData(items[position].label1_array)
+            }
             is ViewHolder2 -> {
                 var holder = holder as ViewHolder2
-                holder.tvLeagueName!!.text = items[position].label_name
-
-                var adapter = SoccerPredictionTwelveInnerAdapter(mContext, this.position)
-                holder.rvInner!!.adapter = adapter
-                adapter.setData(items[position].label1_array)
-            }
-            is ViewHolder3 -> {
-                var holder = holder as ViewHolder3
-                holder.tvLeagueName!!.text = items[position].label_name
-
-                var adapter = SoccerPredictionTwelveInnerAdapter(mContext, this.position)
-                holder.rvInner!!.adapter = adapter
-                adapter.setData(items[position].label1_array)
-            }
-            is ViewHolder4 -> {
-                var holder = holder as ViewHolder4
-                holder.tvLeagueName!!.text = items[position].label_name
-
-                var adapter = SoccerPredictionTwelveInnerAdapter(mContext, this.position)
-                holder.rvInner!!.adapter = adapter
-                adapter.setData(items[position].label1_array)
-            }
-            is ViewHolder9 -> {
-                var holder = holder as ViewHolder9
-                holder.tvLeagueName!!.text = items[position].label_name
-
-                var adapter = SoccerPredictionTwelveInnerAdapter(mContext, this.position)
-                holder.rvInner!!.adapter = adapter
-                adapter.setData(items[position].label1_array)
-            }
-            is ViewHolder13 -> {
-                var holder = holder as ViewHolder13
                 holder.tvLeagueName!!.text = items[position].label_name
 
                 var adapter = SoccerPredictionTwelveInnerAdapter(mContext, this.position)
@@ -89,11 +64,6 @@ class SoccerPredictionTwelveAdapter(private val mContext: Context, private val p
                 adapter.setData(items[position].label1_array)
             }
         }
-
-
-        holder.itemView!!.setOnClickListener {
-//            onclick!!.clickHeader(position)
-        }
     }
 
     // Inflates the item views
@@ -108,30 +78,15 @@ class SoccerPredictionTwelveAdapter(private val mContext: Context, private val p
                     .inflate(R.layout.row_prediction_tab_zero, parent, false);
                 viewHolder = ViewHolder0(view)
             }
-            2 -> {
-                view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.row_prediction_tab_two, parent, false);
-                viewHolder = ViewHolder2(view)
-            }
-            4 -> {
-                view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.row_prediction_tab_four, parent, false);
-                viewHolder = ViewHolder4(view)
-            }
-            3, 5, 6, 7, 8,21 -> {
-                view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.row_prediction_tab_three, parent, false);
-                viewHolder = ViewHolder3(view)
-            }
-            9, 10, 11, 12,15,16,17,18,19,20 -> {
+            1 -> {
                 view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.row_prediction_tab_nine, parent, false);
-                viewHolder = ViewHolder9(view)
+                viewHolder = ViewHolder1(view)
             }
-            13,14 -> {
+            2 -> {
                 view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.row_prediction_tab_thirteen, parent, false);
-                viewHolder = ViewHolder13(view)
+                    .inflate(R.layout.row_prediction_tab_zero, parent, false);
+                viewHolder = ViewHolder2(view)
             }
             else -> {
                 view = LayoutInflater.from(parent.context)
@@ -155,27 +110,12 @@ class SoccerPredictionTwelveAdapter(private val mContext: Context, private val p
         val rvInner: RecyclerView? = view.findViewById(R.id.rvInner)
     }
 
+    class ViewHolder1(view: View) : RecyclerView.ViewHolder(view) {
+        val tvLeagueName: TextView? = view.findViewById(R.id.tvLeagueName)
+        val rvInner: RecyclerView? = view.findViewById(R.id.rvInner)
+    }
+
     class ViewHolder2(view: View) : RecyclerView.ViewHolder(view) {
-        val tvLeagueName: TextView? = view.findViewById(R.id.tvLeagueName)
-        val rvInner: RecyclerView? = view.findViewById(R.id.rvInner)
-    }
-
-    class ViewHolder3(view: View) : RecyclerView.ViewHolder(view) {
-        val tvLeagueName: TextView? = view.findViewById(R.id.tvLeagueName)
-        val rvInner: RecyclerView? = view.findViewById(R.id.rvInner)
-    }
-
-    class ViewHolder4(view: View) : RecyclerView.ViewHolder(view) {
-        val tvLeagueName: TextView? = view.findViewById(R.id.tvLeagueName)
-        val rvInner: RecyclerView? = view.findViewById(R.id.rvInner)
-    }
-
-    class ViewHolder9(view: View) : RecyclerView.ViewHolder(view) {
-        val tvLeagueName: TextView? = view.findViewById(R.id.tvLeagueName)
-        val rvInner: RecyclerView? = view.findViewById(R.id.rvInner)
-    }
-
-    class ViewHolder13(view: View) : RecyclerView.ViewHolder(view) {
         val tvLeagueName: TextView? = view.findViewById(R.id.tvLeagueName)
         val rvInner: RecyclerView? = view.findViewById(R.id.rvInner)
     }

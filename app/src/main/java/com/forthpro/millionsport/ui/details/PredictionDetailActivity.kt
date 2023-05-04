@@ -66,9 +66,37 @@ class PredictionDetailActivity : BaseActivity(), SoccerPredictionAdapter.onClick
                 binding.imgBackground.visibility = View.VISIBLE
                 binding.imgBackground.setImageResource(R.drawable.soccer)
             }
+            "2" -> {
+                binding.imgBackground.visibility = View.VISIBLE
+                binding.imgBackground.setImageResource(R.drawable.hockey)
+            }
+            "3" -> {
+                binding.imgBackground.visibility = View.VISIBLE
+                binding.imgBackground.setImageResource(R.drawable.basketball)
+            }
             "4" -> {
                 binding.imgBackground.visibility = View.VISIBLE
                 binding.imgBackground.setImageResource(R.drawable.handball)
+            }
+            "5" -> {
+                binding.imgBackground.visibility = View.VISIBLE
+                binding.imgBackground.setImageResource(R.drawable.futsal)
+            }
+            "6" -> {
+                binding.imgBackground.visibility = View.VISIBLE
+                binding.imgBackground.setImageResource(R.drawable.volleyball)
+            }
+            "7" -> {
+                binding.imgBackground.visibility = View.VISIBLE
+                binding.imgBackground.setImageResource(R.drawable.rugby_league)
+            }
+            "8" -> {
+                binding.imgBackground.visibility = View.VISIBLE
+                binding.imgBackground.setImageResource(R.drawable.rugby_union)
+            }
+            "9" -> {
+                binding.imgBackground.visibility = View.VISIBLE
+                binding.imgBackground.setImageResource(R.drawable.tennis)
             }
             "10" -> {
                 binding.imgBackground.visibility = View.VISIBLE
@@ -77,6 +105,10 @@ class PredictionDetailActivity : BaseActivity(), SoccerPredictionAdapter.onClick
             "11" -> {
                 binding.imgBackground.visibility = View.VISIBLE
                 binding.imgBackground.setImageResource(R.drawable.baseball)
+            }
+            "12" -> {
+                binding.imgBackground.visibility = View.VISIBLE
+                binding.imgBackground.setImageResource(R.drawable.pes_pallo)
             }
             else -> {
                 binding.imgBackground.visibility = View.GONE
@@ -120,15 +152,18 @@ class PredictionDetailActivity : BaseActivity(), SoccerPredictionAdapter.onClick
                             if (arrPrediction != null && arrPrediction!!.size > 0) {
                                 arrPrediction!!.clear()
                             }
+
+                           var sets = response.data?.sets
+
                             if (response.data?.predictionTab != null && response.data?.predictionTab.isNotEmpty()) {
                                 arrPrediction = response.data?.predictionTab
-                                mAdapter.setData(arrPrediction!!, sportId!!)
+                                mAdapter.setData(arrPrediction!!, sportId!!,sets)
                             } else {
                                 if (mAdapter != null) {
                                     if (arrPrediction != null && arrPrediction!!.size > 0) {
                                         arrPrediction!!.clear()
                                     }
-                                    mAdapter.setData(arrPrediction!!, sportId!!)
+                                    mAdapter.setData(arrPrediction!!, sportId!!,sets)
                                     mAdapter.notifyDataSetChanged()
                                 }
                             }

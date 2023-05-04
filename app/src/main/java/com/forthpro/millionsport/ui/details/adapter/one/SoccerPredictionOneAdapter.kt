@@ -105,27 +105,27 @@ class SoccerPredictionOneAdapter(private val mContext: Context, private val posi
         when (viewType) {
             0 -> {
                 view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.row_prediction_tab_zero, parent, false);
+                    .inflate(R.layout.row_prediction_tab_zero, parent, false)
                 viewHolder = ViewHolder0(view)
             }
             2 -> {
                 view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.row_prediction_tab_two, parent, false);
+                    .inflate(R.layout.row_prediction_tab_two, parent, false)
                 viewHolder = ViewHolder2(view)
             }
             4 -> {
                 view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.row_prediction_tab_four, parent, false);
+                    .inflate(R.layout.row_prediction_tab_four, parent, false)
                 viewHolder = ViewHolder4(view)
             }
             3, 5, 6, 7, 8,21 -> {
                 view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.row_prediction_tab_three, parent, false);
+                    .inflate(R.layout.row_prediction_tab_three, parent, false)
                 viewHolder = ViewHolder3(view)
             }
             9, 10, 11, 12,15,16,17,18,19,20 -> {
                 view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.row_prediction_tab_nine, parent, false);
+                    .inflate(R.layout.row_prediction_tab_nine, parent, false)
                 viewHolder = ViewHolder9(view)
             }
             13,14 -> {

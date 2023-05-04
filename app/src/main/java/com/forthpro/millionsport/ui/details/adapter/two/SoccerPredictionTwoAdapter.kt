@@ -12,7 +12,7 @@ import com.forthpro.millionsport.model.response.PredictionDetailResponse
 class SoccerPredictionTwoAdapter(private val mContext: Context, private val position: Int) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val items: ArrayList<PredictionDetailResponse.PredictionTab.LabelArray> = arrayListOf()
-    private var onclick: onClickListner?= null
+    private var onclick: onClickListner? = null
     private var selectedItemPos = 0
 
     interface onClickListner {
@@ -90,10 +90,6 @@ class SoccerPredictionTwoAdapter(private val mContext: Context, private val posi
             }
         }
 
-
-        holder.itemView!!.setOnClickListener {
-//            onclick!!.clickHeader(position)
-        }
     }
 
     // Inflates the item views
@@ -108,30 +104,30 @@ class SoccerPredictionTwoAdapter(private val mContext: Context, private val posi
                     .inflate(R.layout.row_prediction_tab_zero, parent, false);
                 viewHolder = ViewHolder0(view)
             }
-            2 -> {
+            3, 11, 12 -> {
                 view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.row_prediction_tab_two, parent, false);
                 viewHolder = ViewHolder2(view)
             }
             4 -> {
                 view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.row_prediction_tab_four_sport_10, parent, false);
+                viewHolder = ViewHolder4(view)
+            }
+            5, 6 -> {
+                view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.row_prediction_tab_four, parent, false);
                 viewHolder = ViewHolder4(view)
             }
-            3, 5, 6, 7, 8,21 -> {
+            7, 13, 14 -> {
                 view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.row_prediction_tab_three, parent, false);
                 viewHolder = ViewHolder3(view)
             }
-            9, 10, 11, 12,15,16,17,18,19,20 -> {
+            1, 8, 9, 10 -> {
                 view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.row_prediction_tab_nine, parent, false);
                 viewHolder = ViewHolder9(view)
-            }
-            13,14 -> {
-                view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.row_prediction_tab_thirteen, parent, false);
-                viewHolder = ViewHolder13(view)
             }
             else -> {
                 view = LayoutInflater.from(parent.context)

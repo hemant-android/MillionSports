@@ -30,6 +30,7 @@ class SoccerPredictionAdapter(private val mContext: Context) :
     private val items: ArrayList<PredictionDetailResponse.PredictionTab> = arrayListOf()
     lateinit var onclick: onClickListner
     private var sportId: String? = ""
+    private var sets: String? = ""
 
     interface onClickListner {
         fun clickHeader(position: Int)
@@ -39,10 +40,15 @@ class SoccerPredictionAdapter(private val mContext: Context) :
         this.onclick = onclick;
     }
 
-    fun setData(item: ArrayList<PredictionDetailResponse.PredictionTab>, mSportId: String) {
+    fun setData(
+        item: ArrayList<PredictionDetailResponse.PredictionTab>,
+        mSportId: String,
+        mSets: String?,
+    ) {
         items!!.clear()
         items.addAll(item)
         sportId = mSportId
+        sets = mSets
         notifyDataSetChanged()
     }
 
@@ -102,7 +108,7 @@ class SoccerPredictionAdapter(private val mContext: Context) :
                 adapter.setData(labelArray)
             }
             "9" -> {
-                var adapter = SoccerPredictionNineAdapter(mContext, position)
+                var adapter = SoccerPredictionNineAdapter(mContext, position,sets)
                 holder.rvBox!!.adapter = adapter
                 adapter.setData(labelArray)
             }

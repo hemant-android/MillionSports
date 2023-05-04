@@ -12,7 +12,7 @@ import com.forthpro.millionsport.model.response.PredictionDetailResponse
 class SoccerPredictionThreeAdapter(private val mContext: Context, private val position: Int) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val items: ArrayList<PredictionDetailResponse.PredictionTab.LabelArray> = arrayListOf()
-    private var onclick: onClickListner?= null
+    private var onclick: onClickListner? = null
     private var selectedItemPos = 0
 
     interface onClickListner {
@@ -72,14 +72,6 @@ class SoccerPredictionThreeAdapter(private val mContext: Context, private val po
                 holder.rvInner!!.adapter = adapter
                 adapter.setData(items[position].label1_array)
             }
-            is ViewHolder13 -> {
-                var holder = holder as ViewHolder13
-                holder.tvLeagueName!!.text = items[position].label_name
-
-                var adapter = SoccerPredictionThreeInnerAdapter(mContext, this.position)
-                holder.rvInner!!.adapter = adapter
-                adapter.setData(items[position].label1_array)
-            }
             else -> {
                 var holder = holder as ViewHolder0
                 holder.tvLeagueName!!.text = items[position].label_name
@@ -88,11 +80,6 @@ class SoccerPredictionThreeAdapter(private val mContext: Context, private val po
                 holder.rvInner!!.adapter = adapter
                 adapter.setData(items[position].label1_array)
             }
-        }
-
-
-        holder.itemView!!.setOnClickListener {
-//            onclick!!.clickHeader(position)
         }
     }
 
@@ -103,35 +90,35 @@ class SoccerPredictionThreeAdapter(private val mContext: Context, private val po
         var viewHolder: RecyclerView.ViewHolder?
 
         when (viewType) {
-            0 -> {
+            1 -> {
                 view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.row_prediction_tab_zero, parent, false);
                 viewHolder = ViewHolder0(view)
             }
             2 -> {
                 view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.row_prediction_tab_zero, parent, false);
+                viewHolder = ViewHolder0(view)
+            }
+            3, 4, 5 -> {
+                view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.row_prediction_tab_two, parent, false);
                 viewHolder = ViewHolder2(view)
             }
-            4 -> {
+            6,7,8 -> {
                 view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.row_prediction_tab_four, parent, false);
+                    .inflate(R.layout.row_prediction_tab_four_sport_10, parent, false);
                 viewHolder = ViewHolder4(view)
             }
-            3, 5, 6, 7, 8,21 -> {
+            9 -> {
                 view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.row_prediction_tab_three, parent, false);
                 viewHolder = ViewHolder3(view)
             }
-            9, 10, 11, 12,15,16,17,18,19,20 -> {
+            0, 10-> {
                 view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.row_prediction_tab_nine, parent, false);
                 viewHolder = ViewHolder9(view)
-            }
-            13,14 -> {
-                view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.row_prediction_tab_thirteen, parent, false);
-                viewHolder = ViewHolder13(view)
             }
             else -> {
                 view = LayoutInflater.from(parent.context)
@@ -171,11 +158,6 @@ class SoccerPredictionThreeAdapter(private val mContext: Context, private val po
     }
 
     class ViewHolder9(view: View) : RecyclerView.ViewHolder(view) {
-        val tvLeagueName: TextView? = view.findViewById(R.id.tvLeagueName)
-        val rvInner: RecyclerView? = view.findViewById(R.id.rvInner)
-    }
-
-    class ViewHolder13(view: View) : RecyclerView.ViewHolder(view) {
         val tvLeagueName: TextView? = view.findViewById(R.id.tvLeagueName)
         val rvInner: RecyclerView? = view.findViewById(R.id.rvInner)
     }
