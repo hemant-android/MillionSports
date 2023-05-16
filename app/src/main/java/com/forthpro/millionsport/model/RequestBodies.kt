@@ -16,4 +16,10 @@ object RequestBodies {
         val sportId: String,
         val predictionId: String,
     )
+
+    data class FavBody(
+        val device_id: String,
+        val sportId: String,
+        val chooseDate: String,
+    )
 }

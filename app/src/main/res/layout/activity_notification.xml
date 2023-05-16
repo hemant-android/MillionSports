@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    android:orientation="vertical"
+    tools:context=".ui.notification.NotificationActivity">
+
+    <RelativeLayout
+        android:id="@+id/rlHeader"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+
+        <ImageView
+            android:id="@+id/imgBack"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:padding="@dimen/_2sdp"
+            android:src="@drawable/ic_back_white" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/roboto_bold_700"
+            android:text="Benachrichtigungseinstellungen"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12sdp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlPushNotification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:background="@color/accent"
+        android:padding="@dimen/_10sdp">
+
+        <ImageView
+            android:id="@+id/imgPushNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_push_notification" />
+
+        <TextView
+            android:id="@+id/tvPushNotifications"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_toRightOf="@+id/imgPushNotification"
+            android:fontFamily="@font/roboto_bold_700"
+            android:lineSpacingExtra="1sp"
+            android:text="Push notifications"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_10sdp"
+            android:translationY="0.47sp" />
+
+        <ImageView
+            android:id="@+id/togglePushNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_on" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlNotificationSound"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_1sdp"
+        android:background="@color/accent"
+        android:padding="@dimen/_12sdp">
+
+        <ImageView
+            android:id="@+id/imgNotificationSound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_sound_notification" />
+
+        <TextView
+            android:id="@+id/tvNotificationSound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_toRightOf="@+id/imgNotificationSound"
+            android:fontFamily="@font/roboto_bold_700"
+            android:lineSpacingExtra="1sp"
+            android:text="Notification sound"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_10sdp"
+            android:translationY="0.47sp" />
+
+        <ImageView
+            android:id="@+id/toggleNotificationSound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_on" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlSelectSound"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_1sdp"
+        android:background="@color/accent"
+        android:padding="@dimen/_12sdp">
+
+        <ImageView
+            android:id="@+id/imgSelectSound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_sound" />
+
+        <TextView
+            android:id="@+id/tvSelectSound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_toRightOf="@+id/imgSelectSound"
+            android:fontFamily="@font/roboto_bold_700"
+            android:lineSpacingExtra="1sp"
+            android:text="Select sound"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_10sdp"
+            android:translationY="0.47sp" />
+
+        <ImageView
+            android:id="@+id/toggleSelectSound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_on"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlNotificationVibration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_1sdp"
+        android:background="@color/accent"
+        android:padding="@dimen/_12sdp">
+
+        <ImageView
+            android:id="@+id/imgNotificationVibration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_vibration" />
+
+        <TextView
+            android:id="@+id/tvNotificationVibration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_toRightOf="@+id/imgNotificationVibration"
+            android:fontFamily="@font/roboto_bold_700"
+            android:lineSpacingExtra="1sp"
+            android:text="Notification vibration"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_10sdp"
+            android:translationY="0.47sp" />
+
+        <ImageView
+            android:id="@+id/toggleNotificationVibration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_on"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlNotificationMute"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_1sdp"
+        android:background="@color/accent"
+        android:padding="@dimen/_12sdp">
+
+        <ImageView
+            android:id="@+id/imgNotificationMute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_mute" />
+
+        <TextView
+            android:id="@+id/tvNotificationMute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_toRightOf="@+id/imgNotificationMute"
+            android:fontFamily="@font/roboto_bold_700"
+            android:lineSpacingExtra="1sp"
+            android:text="Notification Mute"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_10sdp"
+            android:translationY="0.47sp" />
+
+        <ImageView
+            android:id="@+id/toggleNotificationMute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_off"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+</LinearLayout>

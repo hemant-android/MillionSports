@@ -1,5 +1,6 @@
 package com.forthpro.millionsport.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -15,13 +16,18 @@ import androidx.navigation.fragment.findNavController
 import com.forthpro.millionsport.BaseActivity
 import com.forthpro.millionsport.R
 import com.forthpro.millionsport.databinding.ActivityHomeBinding
+import com.forthpro.millionsport.model.response.SideMenuResponse
 import com.forthpro.millionsport.repository.AppRepository
+import com.forthpro.millionsport.ui.favourite.FavouriteActivity
 import com.forthpro.millionsport.ui.home.viewmodel.HomeViewModel
+import com.forthpro.millionsport.ui.notification.NotificationActivity
 import com.forthpro.millionsport.util.Resource
 import com.forthpro.millionsport.viewmodel.ViewModelProviderFactory
 import com.google.android.material.navigation.NavigationView
 
 class HomeActivity : BaseActivity() {
+    private var arrNotification: ArrayList<SideMenuResponse.SideBar.LabelArray>? = arrayListOf()
+
     lateinit var binding: ActivityHomeBinding
     private lateinit var navControllerMain: NavController
     private lateinit var viewModel: HomeViewModel
@@ -44,6 +50,9 @@ class HomeActivity : BaseActivity() {
             drawerLayout.openDrawer(GravityCompat.START)
         }
         binding.imgFav.setOnClickListener {
+            Intent(this, FavouriteActivity::class.java).also {
+                startActivity(it)
+            }
         }
 
         val headerLayout: View = navView.inflateHeaderView(R.layout.app_bar_menu)
@@ -73,10 +82,18 @@ class HomeActivity : BaseActivity() {
 
         rlNotification.setOnClickListener {
             drawerLayout.closeDrawers()
+
+            Intent(this, NotificationActivity::class.java).also {
+                it.putExtra("data", arrNotification)
+                startActivity(it)
+            }
         }
 
         rlFav.setOnClickListener {
             drawerLayout.closeDrawers()
+            Intent(this, FavouriteActivity::class.java).also {
+                startActivity(it)
+            }
         }
 
         rlTranslate.setOnClickListener {
@@ -116,6 +133,10 @@ class HomeActivity : BaseActivity() {
                         if (response.data?.status == 1 && response.data?.sideBar?.size!! > 0) {
 
 
+                            if (response.data?.sideBar[0].label_array?.size!! > 0) {
+                                arrNotification = response.data?.sideBar[0].label_array
+                            }
+
                             var tvLeagueName: TextView =
                                 rlNotification[1].findViewById(R.id.tvLeagueName)
                             var tvFav: TextView = rlFav[1].findViewById(R.id.tvFav)
@@ -147,11 +168,13 @@ class HomeActivity : BaseActivity() {
                         } else {
                         }
                     }
+
                     is Resource.Error -> {
                         response.message?.let { message ->
                             Log.e("error", message)
                         }
                     }
+
                     is Resource.Loading -> {
                     }
                 }

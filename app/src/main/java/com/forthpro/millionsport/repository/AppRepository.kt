@@ -9,6 +9,7 @@ class AppRepository {
     suspend fun getAllTimeFormatData() = RetrofitInstance().retrofitApi?.getAllTimeFormat()
     suspend fun getSideMenuData() = RetrofitInstance().retrofitApi?.getSideMenuData()
     suspend fun getDashboardData(body: RequestBodies.DashboardBody) =RetrofitInstance().retrofitApi?.getDashboardData(body)
+    suspend fun getFavData(body: RequestBodies.FavBody) =RetrofitInstance().retrofitApi?.getFavData(body)
     suspend fun getSoccerPredictionDetailsData(body: RequestBodies.PredictionDetailsBody) =RetrofitInstance().retrofitApi?.getSoccerPredictionDetailsData(body)
     suspend fun getHockeyPredictionDetailsData(body: RequestBodies.PredictionDetailsBody) =RetrofitInstance().retrofitApi?.getHockeyPredictionDetailsData(body)
     suspend fun getBasketPredictionDetailsData(body: RequestBodies.PredictionDetailsBody) =RetrofitInstance().retrofitApi?.getBasketPredictionDetailsData(body)

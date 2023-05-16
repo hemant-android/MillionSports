@@ -41,8 +41,8 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
     private var popularCompetitionByCountryAdapter: ExpandablePopularCompetitionByCountryAdapter? =
         null
 
-    var sportId: String? = ""
     var playerImage: String? = ""
+    var sportId: String? = ""
     var chooseDate: String? = ""
 
     override fun onCreateView(

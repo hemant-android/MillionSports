@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/accent"
+    tools:context=".ui.favourite.FavouriteActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rlHeader"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+
+            <ImageView
+                android:id="@+id/imgBack"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:padding="@dimen/_2sdp"
+                android:src="@drawable/ic_back_white" />
+
+            <ImageView
+                android:id="@+id/imgLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_17sdp"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/home_logo" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvGame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/row_game_item" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvDateWise"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/row_date_wise_item" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/primary"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#1D1F24"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/tvMatch"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_bold_700"
+                    android:gravity="center"
+                    android:lineSpacingExtra="1sp"
+                    android:padding="@dimen/_8sdp"
+                    android:text="Matches"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_11ssp"
+                    android:translationY="0.55sp" />
+
+                <TextView
+                    android:id="@+id/tvCompetition"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_regular_400"
+                    android:gravity="center"
+                    android:lineSpacingExtra="1sp"
+                    android:padding="@dimen/_8sdp"
+                    android:text="Competition"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_11ssp"
+                    android:translationY="0.55sp" />
+
+                <TextView
+                    android:id="@+id/tvTeams"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_regular_400"
+                    android:gravity="center"
+                    android:lineSpacingExtra="1sp"
+                    android:padding="@dimen/_8sdp"
+                    android:text="Teams"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_11ssp"
+                    android:translationY="0.55sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llNoRecord"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imgFav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_fav_large" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imgFav"
+            android:fontFamily="@font/roboto_regular_400"
+            android:gravity="center"
+            android:lineSpacingExtra="1sp"
+            android:padding="@dimen/_10sdp"
+            android:text="There are currently no match for your teams"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_11ssp"
+            android:translationY="0.55sp" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+</RelativeLayout>
