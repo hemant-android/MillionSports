@@ -25,7 +25,16 @@ interface API {
     suspend fun getDashboardData(@Body body: RequestBodies.DashboardBody): Response<DashboardResponse>
 
     @POST("api/favouriteMatch")
-    suspend fun getFavData(@Body body: RequestBodies.FavBody): Response<FavMatchesResponse>
+    suspend fun getMatchData(@Body body: RequestBodies.FavBody): Response<MatchResponse>
+
+    @POST("api/favouriteTeam")
+    suspend fun getTeamData(@Body body: RequestBodies.FavBody): Response<TeamResponse>
+
+    @POST("api/favouriteTeam")
+    suspend fun getCompetitionData(@Body body: RequestBodies.FavBody): Response<CompetitionResponse>
+
+    @POST("api/favouriteCommon")
+    suspend fun getFavData(): Response<FavouriteCommonResponse>
 
     @POST("api/soccerPredictionDetails")
     suspend fun getSoccerPredictionDetailsData(@Body body: RequestBodies.PredictionDetailsBody): Response<PredictionDetailResponse>

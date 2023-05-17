@@ -2,7 +2,6 @@ package com.forthpro.millionsport.ui.favourite.adapter
 
 import android.app.Activity
 import android.os.Build
-import android.text.TextUtils
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
@@ -13,13 +12,12 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.forthpro.millionsport.R
-import com.forthpro.millionsport.model.response.DashboardResponse
-import com.forthpro.millionsport.model.response.FavMatchesResponse
+import com.forthpro.millionsport.model.response.FavouriteCommonResponse
 import com.forthpro.millionsport.util.Utils
 
 class DateWiseFavAdapter(val mContext: Activity) :
     RecyclerView.Adapter<DateWiseFavAdapter.ViewHolder>() {
-    private val items: ArrayList<FavMatchesResponse.DateArray>? = arrayListOf()
+    private val items: ArrayList<FavouriteCommonResponse.DateArray>? = arrayListOf()
     private var chooseDate = ""
 
     private var selectedItemPos = 0
@@ -34,7 +32,7 @@ class DateWiseFavAdapter(val mContext: Activity) :
         this.onclick = onclick;
     }
 
-    fun setData(item: ArrayList<FavMatchesResponse.DateArray>, chooseDate: String?) {
+    fun setData(item: ArrayList<FavouriteCommonResponse.DateArray>, chooseDate: String?) {
         this.chooseDate = chooseDate.toString()
         items!!.clear()
         items.addAll(item)

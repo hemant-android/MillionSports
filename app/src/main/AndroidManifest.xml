@@ -20,6 +20,20 @@
         android:theme="@style/Theme.DemoAppNoTitle"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.change_time.ChangeTimeFormatActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ui.change_language.LanguageChangeActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".ui.notification.NotificationActivity"
             android:exported="false">
             <meta-data

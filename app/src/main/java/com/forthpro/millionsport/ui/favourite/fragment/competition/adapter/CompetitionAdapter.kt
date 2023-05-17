@@ -1,0 +1,67 @@
+package com.forthpro.millionsport.ui.favourite.fragment.competition.adapter
+
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.forthpro.millionsport.BuildConfig
+import com.forthpro.millionsport.R
+import com.forthpro.millionsport.model.response.CompetitionResponse
+import com.forthpro.millionsport.model.response.TeamResponse
+import com.google.android.material.imageview.ShapeableImageView
+
+
+class CompetitionAdapter(private val mContext: Context) :
+    androidx.recyclerview.widget.RecyclerView.Adapter<CompetitionAdapter.ViewHolder>() {
+    private val items: ArrayList<CompetitionResponse.FavTeam> = arrayListOf()
+    lateinit var onclick: onClickListner
+
+    interface onClickListner {
+        fun clickItem(languageId: String)
+    }
+
+    fun setClickListner(onclick: onClickListner) {
+        this.onclick = onclick;
+    }
+
+    fun setData(item: ArrayList<CompetitionResponse.FavTeam>) {
+        items!!.clear()
+        items.addAll(item)
+        notifyDataSetChanged()
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
+        if (items!![position].country.country_logo != null && items!![position].country.country_logo.isNotEmpty()) {
+            Glide.with(mContext)
+                .load(BuildConfig.SERVER_URL + items!![position].country.country_logo)
+                .centerCrop()
+                .into(holder.imgFlag!!)
+        }
+
+        holder.tvCountryName!!.text = "(" + items[position].country.name + ")"
+        holder.tvTeamName!!.text = "" + items[position].team_name
+    }
+
+    // Inflates the item views
+    override fun onCreateViewHolder(parent: ViewGroup, position: Int): ViewHolder {
+        return ViewHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.row_competition_item, parent, false)
+        )
+    }
+
+    override fun getItemCount(): Int {
+        return items.size
+    }
+
+    class ViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
+        val imgFlag: ShapeableImageView? = view.findViewById(R.id.imgFlag)
+        val tvCountryName: TextView? = view.findViewById(R.id.tvCountryName)
+        val tvTeamName: TextView? = view.findViewById(R.id.tvTeamName)
+    }
+
+}
+

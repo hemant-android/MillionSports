@@ -18,6 +18,8 @@ import com.forthpro.millionsport.R
 import com.forthpro.millionsport.databinding.ActivityHomeBinding
 import com.forthpro.millionsport.model.response.SideMenuResponse
 import com.forthpro.millionsport.repository.AppRepository
+import com.forthpro.millionsport.ui.change_language.LanguageChangeActivity
+import com.forthpro.millionsport.ui.change_time.ChangeTimeFormatActivity
 import com.forthpro.millionsport.ui.favourite.FavouriteActivity
 import com.forthpro.millionsport.ui.home.viewmodel.HomeViewModel
 import com.forthpro.millionsport.ui.notification.NotificationActivity
@@ -98,10 +100,16 @@ class HomeActivity : BaseActivity() {
 
         rlTranslate.setOnClickListener {
             drawerLayout.closeDrawers()
+            Intent(this, LanguageChangeActivity::class.java).also {
+                startActivity(it)
+            }
         }
 
         rlTime.setOnClickListener {
             drawerLayout.closeDrawers()
+            Intent(this, ChangeTimeFormatActivity::class.java).also {
+                startActivity(it)
+            }
         }
 
         rlFeedback.setOnClickListener {

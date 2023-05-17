@@ -1,4 +1,4 @@
-package com.forthpro.millionsport.ui.favourite.viewmodel
+package com.forthpro.millionsport.ui.change_time.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.forthpro.millionsport.R
 import com.forthpro.millionsport.app.MyApplication
-import com.forthpro.millionsport.model.response.FavouriteCommonResponse
+import com.forthpro.millionsport.model.response.TimeFormatResponse
 import com.forthpro.millionsport.repository.AppRepository
 import com.forthpro.millionsport.util.Event
 import com.forthpro.millionsport.util.Resource
@@ -15,24 +15,26 @@ import com.forthpro.millionsport.util.Utils
 import kotlinx.coroutines.launch
 import java.io.IOException
 
-class FavouriteViewModel(app: Application, private val appRepository: AppRepository) :
+class ChangeTimeFormatViewModel(app: Application, private val appRepository: AppRepository) :
     AndroidViewModel(app) {
 
-    private val _getFavResponse = MutableLiveData<Event<Resource<FavouriteCommonResponse>>>()
-    val getFavResponse: LiveData<Event<Resource<FavouriteCommonResponse>>> = _getFavResponse
+    private val _getAllTimeFormatResponse = MutableLiveData<Event<Resource<TimeFormatResponse>>>()
+    val getAllTimeFormatResponse : LiveData<Event<Resource<TimeFormatResponse>>> =
+        _getAllTimeFormatResponse
 
-    fun getFav() = viewModelScope.launch {
-        getFavData()
+
+    fun getAllTimeFormatList() = viewModelScope.launch {
+        getAllTimeFormatData()
     }
 
-    private suspend fun getFavData() {
-        _getFavResponse.postValue(Event(Resource.Loading()))
+    private suspend fun getAllTimeFormatData() {
+        _getAllTimeFormatResponse.postValue(Event(Resource.Loading()))
         try {
             if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
-                val response = appRepository.getFavData()
-                _getFavResponse.postValue(response?.let { handleResponse(it) })
+                val response = appRepository.getAllTimeFormatData()
+                _getAllTimeFormatResponse.postValue(response?.let { handleCommonResponse(it) })
             } else {
-                _getFavResponse.postValue(
+                _getAllTimeFormatResponse.postValue(
                     Event(
                         Resource.Error(
                             getApplication<MyApplication>().getString(
@@ -45,7 +47,7 @@ class FavouriteViewModel(app: Application, private val appRepository: AppReposit
         } catch (t: Throwable) {
             when (t) {
                 is IOException -> {
-                    _getFavResponse.postValue(
+                    _getAllTimeFormatResponse.postValue(
                         Event(
                             Resource.Error(
                                 getApplication<MyApplication>().getString(
@@ -55,9 +57,8 @@ class FavouriteViewModel(app: Application, private val appRepository: AppReposit
                         )
                     )
                 }
-
                 else -> {
-                    _getFavResponse.postValue(
+                    _getAllTimeFormatResponse.postValue(
                         Event(
                             Resource.Error(t.localizedMessage)
                         )
@@ -67,7 +68,7 @@ class FavouriteViewModel(app: Application, private val appRepository: AppReposit
         }
     }
 
-    private fun handleResponse(response: retrofit2.Response<FavouriteCommonResponse>): Event<Resource<FavouriteCommonResponse>>? {
+    private fun handleCommonResponse(response: retrofit2.Response<TimeFormatResponse>): Event<Resource<TimeFormatResponse>>? {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
                 return Event(Resource.Success(resultResponse))

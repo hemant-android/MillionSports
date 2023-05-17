@@ -10,13 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.forthpro.millionsport.BuildConfig
 import com.forthpro.millionsport.R
-import com.forthpro.millionsport.model.response.DashboardResponse
-import com.forthpro.millionsport.model.response.FavMatchesResponse
+import com.forthpro.millionsport.model.response.FavouriteCommonResponse
 
 
 class SportsFavAdapter(private val mContext: Context) :
     RecyclerView.Adapter<SportsFavAdapter.ViewHolder>() {
-    private val items: ArrayList<FavMatchesResponse.Sport>? = arrayListOf()
+    private val items: ArrayList<FavouriteCommonResponse.Sport>? = arrayListOf()
 
     private var sportId = ""
 
@@ -31,7 +30,7 @@ class SportsFavAdapter(private val mContext: Context) :
         this.onclick = onclick;
     }
 
-    fun setSportIdData(SportId: String, arrSports: ArrayList<FavMatchesResponse.Sport>) {
+    fun setSportIdData(SportId: String, arrSports: ArrayList<FavouriteCommonResponse.Sport>) {
         sportId = SportId
         items!!.clear()
         items.addAll(arrSports)
