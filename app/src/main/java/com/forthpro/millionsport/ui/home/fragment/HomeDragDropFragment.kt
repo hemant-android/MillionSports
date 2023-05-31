@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.RecyclerView
+import com.forthpro.millionsport.config.PreferenceHelper
 import com.forthpro.millionsport.databinding.FragmentHomeBinding
 import com.forthpro.millionsport.model.RequestBodies
 import com.forthpro.millionsport.model.response.DashboardResponse
@@ -93,7 +94,7 @@ class HomeDragDropFragment : Fragment(), SportsDragDropAdapter.onClickListner, D
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val body = RequestBodies.DashboardBody("", "")
+        val body = RequestBodies.DashboardBody(PreferenceHelper.deviceId,"", "")
         viewModel.getDashboard(body)
 
         viewModel.getDashboardResponse.observe(requireActivity()) { event ->
@@ -256,14 +257,14 @@ class HomeDragDropFragment : Fragment(), SportsDragDropAdapter.onClickListner, D
 
     override fun clickSportItem(id: String) {
         sportId = id
-        val body = RequestBodies.DashboardBody(sportId!!, chooseDate!!)
+        val body = RequestBodies.DashboardBody(PreferenceHelper.deviceId,sportId!!, chooseDate!!)
         viewModel.getDashboard(body)
     }
 
     override fun clickDateItem(date: String) {
         chooseDate = date
 
-        val body = RequestBodies.DashboardBody(sportId!!, chooseDate!!)
+        val body = RequestBodies.DashboardBody(PreferenceHelper.deviceId,sportId!!, chooseDate!!)
         viewModel.getDashboard(body)
     }
 }

@@ -37,6 +37,7 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:background="@color/primary"
+        android:layout_below="@+id/rvTeam"
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone">

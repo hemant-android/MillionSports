@@ -2,6 +2,8 @@ package com.forthpro.millionsport.app
 
 import android.app.Activity
 import android.app.Application
+import android.provider.Settings
+import com.forthpro.millionsport.config.PreferenceHelper
 import com.forthpro.millionsport.config.SharedPreferenceUtils
 
 class MyApplication : Application() {
@@ -11,6 +13,11 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         application = this
+
+        val deviceId: String = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
+
+        PreferenceHelper.deviceId = deviceId
+
     }
 
     companion object {

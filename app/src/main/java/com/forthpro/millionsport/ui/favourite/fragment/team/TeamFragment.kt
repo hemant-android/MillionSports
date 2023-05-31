@@ -1,5 +1,6 @@
 package com.forthpro.millionsport.ui.favourite.fragment.team
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,10 +9,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.forthpro.millionsport.config.PreferenceHelper
 import com.forthpro.millionsport.databinding.FragmentTeamBinding
 import com.forthpro.millionsport.model.RequestBodies
 import com.forthpro.millionsport.model.response.TeamResponse
 import com.forthpro.millionsport.repository.AppRepository
+import com.forthpro.millionsport.ui.favourite.GetTeamListActivity
 import com.forthpro.millionsport.ui.favourite.fragment.team.adapter.TeamAdapter
 import com.forthpro.millionsport.ui.favourite.fragment.team.viewmodel.TeamViewModel
 import com.forthpro.millionsport.util.Resource
@@ -40,11 +43,13 @@ class TeamFragment(val sportId: String?, val chooseDate: String?) : Fragment() {
 
         setupViewModel()
 
+        binding.tvAddTeam.setOnClickListener {
+            Intent(requireActivity(), GetTeamListActivity::class.java).also {
+                startActivity(it)
+            }
+        }
+
         binding.rvTeam.adapter = adapter
-
-        val body = RequestBodies.FavBody("123456", sportId!!, chooseDate!!)
-
-        viewModel.getFav(body)
 
         viewModel.getFavResponse.observe(requireActivity()) { event ->
             event?.getContentIfNotHandled()?.let { response ->
@@ -58,12 +63,14 @@ class TeamFragment(val sportId: String?, val chooseDate: String?) : Fragment() {
                             }
 
                             if (response.data?.favTeams != null && response.data?.favTeams.isNotEmpty()) {
+                                binding.rvTeam.visibility = View.VISIBLE
                                 binding.llNoRecord.visibility = View.GONE
 
                                 arrMatches = response.data.favTeams
 
                                 adapter.setData(arrMatches!!)
                             } else {
+                                binding.rvTeam.visibility = View.GONE
                                 binding.llNoRecord.visibility = View.VISIBLE
                             }
 
@@ -88,8 +95,14 @@ class TeamFragment(val sportId: String?, val chooseDate: String?) : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        val body = RequestBodies.FavBody(PreferenceHelper.deviceId, sportId!!, chooseDate!!)
+        viewModel.getFav(body)
+    }
+
     internal fun callMatchDetail(sportId: String, chooseDate: String) {
-        val body = RequestBodies.FavBody("123456", sportId, chooseDate)
+        val body = RequestBodies.FavBody(PreferenceHelper.deviceId, sportId, chooseDate)
         viewModel.getFav(body)
     }
 

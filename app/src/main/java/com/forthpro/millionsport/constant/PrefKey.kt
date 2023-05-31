@@ -7,4 +7,5 @@ object PrefKey {
     const val IsLoggedIn = "isLoggedIn"
     const val userId = "userId"
     const val token = "token"
+    const val deviceId = "deviceId"
 }

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    android:orientation="vertical"
+    tools:context=".ui.favourite.GetTeamListActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rlHeader"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/accent">
+
+            <ImageView
+                android:id="@+id/imgBack"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:padding="@dimen/_2sdp"
+                android:src="@drawable/ic_back_white" />
+
+            <ImageView
+                android:id="@+id/imgLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_17sdp"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/home_logo" />
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/edtSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:background="@drawable/bg_white_rectangle"
+            android:drawableLeft="@drawable/ic_search"
+            android:drawablePadding="@dimen/_10sdp"
+            android:hint="Search"
+            android:padding="@dimen/_7sdp"
+            android:textColor="@color/white"
+            android:maxLines="1"
+            android:inputType="textNoSuggestions"
+            android:textColorHint="@color/white"
+            android:textSize="@dimen/_10sdp" />
+
+        <TextView
+            android:id="@+id/tvMatchName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:fontFamily="@font/roboto_bold_700"
+            android:lineSpacingExtra="1sp"
+            android:padding="@dimen/_5sdp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_10ssp"
+            android:translationY="0.55sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvTeamList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+</RelativeLayout>

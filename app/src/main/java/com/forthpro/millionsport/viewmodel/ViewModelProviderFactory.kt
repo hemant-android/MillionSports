@@ -11,9 +11,13 @@ import com.forthpro.millionsport.ui.favourite.fragment.competition.viewmodel.Com
 import com.forthpro.millionsport.ui.favourite.fragment.match.viewmodel.MatchViewModel
 import com.forthpro.millionsport.ui.favourite.fragment.team.viewmodel.TeamViewModel
 import com.forthpro.millionsport.ui.favourite.viewmodel.FavouriteViewModel
+import com.forthpro.millionsport.ui.favourite.viewmodel.GetCompetitionListViewModel
+import com.forthpro.millionsport.ui.favourite.viewmodel.GetTeamListViewModel
+import com.forthpro.millionsport.ui.favourite_sport.viewmodel.FavouriteSportViewModel
 import com.forthpro.millionsport.ui.home.viewmodel.DashboardViewModel
 import com.forthpro.millionsport.ui.home.viewmodel.HomeViewModel
 import com.forthpro.millionsport.ui.language.viewmodel.LanguageChooseViewModel
+import com.forthpro.millionsport.ui.notification.viewmodel.NotificationViewModel
 import com.forthpro.millionsport.ui.timing.viewmodel.TimeFormatViewModel
 
 class ViewModelProviderFactory(
@@ -65,6 +69,22 @@ class ViewModelProviderFactory(
 
         if (modelClass.isAssignableFrom(CompetitionViewModel::class.java)) {
             return CompetitionViewModel(app, appRepository) as T
+        }
+
+        if (modelClass.isAssignableFrom(GetTeamListViewModel::class.java)) {
+            return GetTeamListViewModel(app, appRepository) as T
+        }
+
+        if (modelClass.isAssignableFrom(GetCompetitionListViewModel::class.java)) {
+            return GetCompetitionListViewModel(app, appRepository) as T
+        }
+
+        if (modelClass.isAssignableFrom(NotificationViewModel::class.java)) {
+            return NotificationViewModel(app, appRepository) as T
+        }
+
+        if (modelClass.isAssignableFrom(FavouriteSportViewModel::class.java)) {
+            return FavouriteSportViewModel(app, appRepository) as T
         }
 
         throw IllegalArgumentException("Unknown class name")

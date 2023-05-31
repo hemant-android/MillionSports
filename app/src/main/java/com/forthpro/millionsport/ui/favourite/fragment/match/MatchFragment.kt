@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.forthpro.millionsport.config.PreferenceHelper
 import com.forthpro.millionsport.databinding.FragmentMatchBinding
 import com.forthpro.millionsport.model.RequestBodies
 import com.forthpro.millionsport.model.response.MatchResponse
@@ -40,10 +41,6 @@ class MatchFragment(val sportId: String?, val chooseDate: String?) : Fragment() 
         setupViewModel()
 
         binding.rvMatch.adapter = adapter
-
-        val body = RequestBodies.FavBody("123456", sportId!!, chooseDate!!)
-
-        viewModel.getFav(body)
 
         viewModel.getFavResponse.observe(requireActivity()) { event ->
             event?.getContentIfNotHandled()?.let { response ->
@@ -87,8 +84,14 @@ class MatchFragment(val sportId: String?, val chooseDate: String?) : Fragment() 
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        val body = RequestBodies.FavBody(PreferenceHelper.deviceId, sportId!!, chooseDate!!)
+        viewModel.getFav(body)
+    }
+
     internal fun callMatchDetail(sportId: String, chooseDate: String) {
-        val body = RequestBodies.FavBody("123456", sportId, chooseDate)
+        val body = RequestBodies.FavBody(PreferenceHelper.deviceId, sportId, chooseDate)
         viewModel.getFav(body)
     }
 

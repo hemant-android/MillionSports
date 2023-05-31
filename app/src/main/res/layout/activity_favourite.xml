@@ -81,7 +81,6 @@
                     android:gravity="center"
                     android:lineSpacingExtra="1sp"
                     android:padding="@dimen/_8sdp"
-                    android:text="Matches"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_11ssp"
                     android:translationY="0.55sp" />
@@ -95,7 +94,6 @@
                     android:gravity="center"
                     android:lineSpacingExtra="1sp"
                     android:padding="@dimen/_8sdp"
-                    android:text="Competition"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_11ssp"
                     android:translationY="0.55sp" />
@@ -109,7 +107,6 @@
                     android:gravity="center"
                     android:lineSpacingExtra="1sp"
                     android:padding="@dimen/_8sdp"
-                    android:text="Teams"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_11ssp"
                     android:translationY="0.55sp" />

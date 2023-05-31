@@ -1,5 +1,6 @@
 package com.forthpro.millionsport.ui.favourite.fragment.competition
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,10 +9,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.forthpro.millionsport.config.PreferenceHelper
 import com.forthpro.millionsport.databinding.FragmentCompetitionBinding
 import com.forthpro.millionsport.model.RequestBodies
 import com.forthpro.millionsport.model.response.CompetitionResponse
 import com.forthpro.millionsport.repository.AppRepository
+import com.forthpro.millionsport.ui.favourite.GetCompetitionListActivity
+import com.forthpro.millionsport.ui.favourite.GetTeamListActivity
 import com.forthpro.millionsport.ui.favourite.fragment.competition.adapter.CompetitionAdapter
 import com.forthpro.millionsport.ui.favourite.fragment.competition.viewmodel.CompetitionViewModel
 import com.forthpro.millionsport.util.Resource
@@ -24,7 +28,7 @@ class CompetitionFragment(val sportId: String?, val chooseDate: String?) : Fragm
 
     private val adapter: CompetitionAdapter by lazy { CompetitionAdapter(requireActivity()) }
 
-    private var arrMatches: ArrayList<CompetitionResponse.FavTeam>? = arrayListOf()
+    private var arrMatches: ArrayList<CompetitionResponse.Competition>? = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,11 +44,13 @@ class CompetitionFragment(val sportId: String?, val chooseDate: String?) : Fragm
 
         setupViewModel()
 
+        binding.tvAddTeam.setOnClickListener {
+            Intent(requireActivity(), GetCompetitionListActivity::class.java).also {
+                startActivity(it)
+            }
+        }
+
         binding.rvCompetition.adapter = adapter
-
-        val body = RequestBodies.FavBody("123456", sportId!!, chooseDate!!)
-
-        viewModel.getFav(body)
 
         viewModel.getFavResponse.observe(requireActivity()) { event ->
             event?.getContentIfNotHandled()?.let { response ->
@@ -57,13 +63,15 @@ class CompetitionFragment(val sportId: String?, val chooseDate: String?) : Fragm
                                 arrMatches!!.clear()
                             }
 
-                            if (response.data?.favTeams != null && response.data?.favTeams.isNotEmpty()) {
+                            if (response.data?.competitions != null && response.data?.competitions.isNotEmpty()) {
                                 binding.llNoRecord.visibility = View.GONE
+                                binding.rvCompetition.visibility = View.VISIBLE
 
-                                arrMatches = response.data.favTeams
+                                arrMatches = response.data.competitions
 
                                 adapter.setData(arrMatches!!)
                             } else {
+                                binding.rvCompetition.visibility = View.GONE
                                 binding.llNoRecord.visibility = View.VISIBLE
                             }
 
@@ -88,8 +96,14 @@ class CompetitionFragment(val sportId: String?, val chooseDate: String?) : Fragm
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        val body = RequestBodies.FavBody(PreferenceHelper.deviceId, sportId!!, chooseDate!!)
+        viewModel.getFav(body)
+    }
+
     internal fun callMatchDetail(sportId: String, chooseDate: String) {
-        val body = RequestBodies.FavBody("123456", sportId, chooseDate)
+        val body = RequestBodies.FavBody(PreferenceHelper.deviceId, sportId, chooseDate)
         viewModel.getFav(body)
     }
 

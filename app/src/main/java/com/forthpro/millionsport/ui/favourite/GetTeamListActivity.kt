@@ -1,0 +1,203 @@
+package com.forthpro.millionsport.ui.favourite
+
+import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
+import android.view.View
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import com.forthpro.millionsport.BaseActivity
+import com.forthpro.millionsport.config.PreferenceHelper
+import com.forthpro.millionsport.databinding.ActivityGetTeamListBinding
+import com.forthpro.millionsport.model.RequestBodies
+import com.forthpro.millionsport.model.response.GetCompetitionListResponse
+import com.forthpro.millionsport.model.response.GetTeamListResponse
+import com.forthpro.millionsport.repository.AppRepository
+import com.forthpro.millionsport.ui.favourite.adapter.GetTeamListAdapter
+import com.forthpro.millionsport.ui.favourite.viewmodel.GetTeamListViewModel
+import com.forthpro.millionsport.util.Resource
+import com.forthpro.millionsport.viewmodel.ViewModelProviderFactory
+
+class GetTeamListActivity : BaseActivity(), GetTeamListAdapter.onClickListner {
+
+    private lateinit var binding: ActivityGetTeamListBinding
+    private lateinit var viewModel: GetTeamListViewModel
+    private val adapter: GetTeamListAdapter by lazy { GetTeamListAdapter(this) }
+
+    private var allTeams: ArrayList<GetTeamListResponse.AllTeam>? = arrayListOf()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityGetTeamListBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        setupViewModel()
+
+        binding.imgBack.setOnClickListener {
+            finish()
+        }
+
+        binding.rvTeamList.adapter = adapter
+        adapter.setClickListner(this)
+
+        binding.edtSearch.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                localSearching(s.toString())
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+        })
+
+        viewModel.getTeamListData(RequestBodies.GetTeamListBody(PreferenceHelper.deviceId, "1"))
+
+        viewModel.getTeamListResponse.observe(this) { event ->
+            event?.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Success -> {
+                        hideProgressBar()
+                        if (response.data?.status == 1) {
+
+                            if (allTeams != null && allTeams!!.isNotEmpty()) {
+                                allTeams!!.clear()
+                            }
+
+                            binding.tvMatchName.text = response.data?.POPULAR_TEAMS_LABEL
+                            binding.edtSearch.hint = response.data?.SEARCH_LABEL
+
+                            if (response.data?.allTeams != null && response.data?.allTeams.isNotEmpty()) {
+
+                                allTeams = response.data.allTeams
+
+                                adapter.setData(allTeams!!)
+                            }
+
+                        } else {
+                            Toast.makeText(this, "Data not found", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
+
+                    is Resource.Error -> {
+                        hideProgressBar()
+                        response.message?.let { message ->
+                            Log.e("error", message)
+                        }
+                    }
+
+                    is Resource.Loading -> {
+                        showProgressBar()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun hideProgressBar() {
+        binding.progress.visibility = View.GONE
+    }
+
+    private fun showProgressBar() {
+        binding.progress.visibility = View.VISIBLE
+    }
+
+    private fun setupViewModel() {
+        val repository = AppRepository()
+        val factory = ViewModelProviderFactory(this.application, repository)
+        viewModel = ViewModelProvider(this, factory)[GetTeamListViewModel::class.java]
+    }
+
+    override fun clickFavUnFav(
+        position: Int,
+        sportId: Int,
+        country_id: Int,
+        team_name: String,
+        fav: Int,
+    ) {
+        var favourite: Int = if (fav == 0) {
+            1
+        } else {
+            2
+        }
+
+        if (allTeams!![position].favourite == 0) {
+            allTeams!![position].favourite = 1
+        } else {
+            allTeams!![position].favourite = 0
+        }
+        adapter.notifyDataSetChanged()
+
+        viewModel.favAddRemoveData(
+            RequestBodies.FavAddRemoveBody(
+                PreferenceHelper.deviceId,
+                sportId.toString(),
+                country_id.toString(),
+                team_name,
+                favourite.toString()
+            )
+        )
+
+        viewModel.favAddRemoveResponse.observe(this) { event ->
+            event?.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Success -> {
+                        hideProgressBar()
+                        if (response.data?.status == 1) {
+                            /*if (allTeams!![position].favourite == 0) {
+                                allTeams!![position].favourite = 1
+                            } else {
+                                allTeams!![position].favourite = 0
+                            }
+                            adapter.notifyDataSetChanged()*/
+//                            viewModel.getTeamListData(RequestBodies.GetTeamListBody(PreferenceHelper.deviceId, "1"))
+                        } else {
+                            Toast.makeText(this, "Data not found", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
+
+                    is Resource.Error -> {
+                        hideProgressBar()
+                        response.message?.let { message ->
+                            Log.e("error", message)
+                        }
+                    }
+
+                    is Resource.Loading -> {
+                        showProgressBar()
+                    }
+                }
+            }
+        }
+    }
+
+    fun localSearching(text: String) {
+        if (text!!.isNotEmpty()) {
+            filter(text)
+        } else {
+            if (allTeams!!.isNotEmpty()) {
+                adapter.setData(allTeams!!)
+                adapter.notifyDataSetChanged()
+            }
+        }
+    }
+    private fun filter(text: String) {
+        val temp: MutableList<GetTeamListResponse.AllTeam> =
+            ArrayList()
+        if (allTeams!!.isNotEmpty()) {
+            for (d in allTeams!!) {
+                if (d.team_name!!.lowercase().contains(text.lowercase())) {
+                    temp!!.add(d)
+                }
+            }
+            adapter.setData(temp as ArrayList<GetTeamListResponse.AllTeam>)
+            adapter.notifyDataSetChanged()
+        }
+    }
+}

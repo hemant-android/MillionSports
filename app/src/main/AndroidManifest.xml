@@ -10,7 +10,7 @@
 
     <application
         android:name=".app.MyApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/app_logo"
@@ -19,6 +19,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DemoAppNoTitle"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".ui.favourite_sport.FavouriteSportActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ui.favourite.GetCompetitionListActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ui.favourite.GetTeamListActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".ui.change_time.ChangeTimeFormatActivity"
             android:exported="false">

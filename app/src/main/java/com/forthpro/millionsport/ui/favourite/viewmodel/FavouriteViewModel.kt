@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.forthpro.millionsport.R
 import com.forthpro.millionsport.app.MyApplication
+import com.forthpro.millionsport.model.RequestBodies
 import com.forthpro.millionsport.model.response.FavouriteCommonResponse
 import com.forthpro.millionsport.repository.AppRepository
 import com.forthpro.millionsport.util.Event
@@ -21,15 +22,15 @@ class FavouriteViewModel(app: Application, private val appRepository: AppReposit
     private val _getFavResponse = MutableLiveData<Event<Resource<FavouriteCommonResponse>>>()
     val getFavResponse: LiveData<Event<Resource<FavouriteCommonResponse>>> = _getFavResponse
 
-    fun getFav() = viewModelScope.launch {
-        getFavData()
+    fun getFav(body: RequestBodies.GetNotificationBody) = viewModelScope.launch {
+        getFavData(body)
     }
 
-    private suspend fun getFavData() {
+    private suspend fun getFavData(body: RequestBodies.GetNotificationBody) {
         _getFavResponse.postValue(Event(Resource.Loading()))
         try {
             if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
-                val response = appRepository.getFavData()
+                val response = appRepository.getFavData(body)
                 _getFavResponse.postValue(response?.let { handleResponse(it) })
             } else {
                 _getFavResponse.postValue(

@@ -29,13 +29,12 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:fontFamily="@font/roboto_bold_700"
-            android:text="Benachrichtigungseinstellungen"
             android:textColor="@color/white"
             android:textSize="@dimen/_12sdp" />
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvNotification"
+        android:id="@+id/rvFavSport"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/rlHeader"

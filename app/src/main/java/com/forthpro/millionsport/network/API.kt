@@ -24,17 +24,38 @@ interface API {
     @POST("api/dashboard")
     suspend fun getDashboardData(@Body body: RequestBodies.DashboardBody): Response<DashboardResponse>
 
+    @POST("api/getNotificationSetting")
+    suspend fun getNotificationData(@Body body: RequestBodies.GetNotificationBody): Response<NotificationResponse>
+
+    @POST("api/getFavouriteSports")
+    suspend fun getFavouriteSPortData(@Body body: RequestBodies.GetNotificationBody): Response<FavouriteSportResponse>
+
+    @POST("api/notificationUpdateSetting")
+    suspend fun updateNotificationData(@Body body: RequestBodies.UpdatedNotificationBody): Response<CommonResponse>
+
     @POST("api/favouriteMatch")
     suspend fun getMatchData(@Body body: RequestBodies.FavBody): Response<MatchResponse>
 
     @POST("api/favouriteTeam")
     suspend fun getTeamData(@Body body: RequestBodies.FavBody): Response<TeamResponse>
 
-    @POST("api/favouriteTeam")
+    @POST("api/favouriteCompetitions")
     suspend fun getCompetitionData(@Body body: RequestBodies.FavBody): Response<CompetitionResponse>
 
+    @POST("api/getTeamList")
+    suspend fun getTeamListData(@Body body: RequestBodies.GetTeamListBody): Response<GetTeamListResponse>
+
+    @POST("api/getCompetitionsList")
+    suspend fun getCompetitionListData(@Body body: RequestBodies.GetTeamListBody): Response<GetCompetitionListResponse>
+
+    @POST("api/addRemoveteamList")
+    suspend fun favAddRemoveData(@Body body: RequestBodies.FavAddRemoveBody): Response<CommonResponse>
+
+    @POST("api/addRemoveCompetitionList")
+    suspend fun favAddRemoveCompetitionData(@Body body: RequestBodies.FavAddRemoveCompetitionBody): Response<CommonResponse>
+
     @POST("api/favouriteCommon")
-    suspend fun getFavData(): Response<FavouriteCommonResponse>
+    suspend fun getFavData(@Body body: RequestBodies.GetNotificationBody): Response<FavouriteCommonResponse>
 
     @POST("api/soccerPredictionDetails")
     suspend fun getSoccerPredictionDetailsData(@Body body: RequestBodies.PredictionDetailsBody): Response<PredictionDetailResponse>

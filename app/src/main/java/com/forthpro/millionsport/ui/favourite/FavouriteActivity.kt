@@ -12,7 +12,9 @@ import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.forthpro.millionsport.BaseActivity
 import com.forthpro.millionsport.R
+import com.forthpro.millionsport.config.PreferenceHelper
 import com.forthpro.millionsport.databinding.ActivityFavouriteBinding
+import com.forthpro.millionsport.model.RequestBodies
 import com.forthpro.millionsport.model.response.FavouriteCommonResponse
 import com.forthpro.millionsport.repository.AppRepository
 import com.forthpro.millionsport.ui.favourite.adapter.DateWiseFavAdapter
@@ -42,6 +44,7 @@ class FavouriteActivity : BaseActivity(), SportsFavAdapter.onClickListner,
     var playerImage: String? = ""
     var sportId: String? = ""
     var chooseDate: String? = ""
+    var selectedTab: Int = 0
 
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,21 +63,13 @@ class FavouriteActivity : BaseActivity(), SportsFavAdapter.onClickListner,
 
         binding.tvMatch.setOnClickListener {
             binding.tvMatch.typeface = ResourcesCompat.getFont(this, R.font.roboto_bold_700)
-            binding.tvCompetition.typeface =ResourcesCompat.getFont(this, R.font.roboto_regular_400)
+            binding.tvCompetition.typeface =
+                ResourcesCompat.getFont(this, R.font.roboto_regular_400)
             binding.tvTeams.typeface = ResourcesCompat.getFont(this, R.font.roboto_regular_400)
 
-            /*if (binding.viewPager.currentItem == 0) {
-                val frag = (binding.viewPager.adapter as ViewPagerAdapter).instantiateItem(
-                    binding.viewPager,
-                    binding.viewPager.currentItem
-                ) as MatchFragment
-                frag.callMatchDetail(sportId!!, chooseDate!!)
-            }*/
-
-//            val frag = MatchFragment(sportId!!, chooseDate!!)
-//            frag.callMatchDetail(sportId!!, chooseDate!!)
-
             binding.viewPager.currentItem = 0
+
+            selectedTab = 0
         }
 
         binding.tvCompetition.setOnClickListener {
@@ -82,14 +77,9 @@ class FavouriteActivity : BaseActivity(), SportsFavAdapter.onClickListner,
             binding.tvCompetition.typeface = ResourcesCompat.getFont(this, R.font.roboto_bold_700)
             binding.tvTeams.typeface = ResourcesCompat.getFont(this, R.font.roboto_regular_400)
 
-           /* if (binding.viewPager.currentItem == 1) {
-                val frag = (binding.viewPager.adapter as ViewPagerAdapter).instantiateItem(
-                    binding.viewPager,
-                    binding.viewPager.currentItem
-                ) as CompetitionFragment
-            }*/
-
             binding.viewPager.currentItem = 1
+
+            selectedTab = 1
         }
 
         binding.tvTeams.setOnClickListener {
@@ -98,25 +88,15 @@ class FavouriteActivity : BaseActivity(), SportsFavAdapter.onClickListner,
                 ResourcesCompat.getFont(this, R.font.roboto_regular_400)
             binding.tvTeams.typeface = ResourcesCompat.getFont(this, R.font.roboto_bold_700)
 
-//            val frag = TeamFragment(sportId!!, chooseDate!!)
-//            frag.callMatchDetail(sportId!!, chooseDate!!)
-
             binding.viewPager.currentItem = 2
 
-            /*if (binding.viewPager.currentItem == 2) {
-                val frag = (binding.viewPager.adapter as ViewPagerAdapter).instantiateItem(
-                    binding.viewPager,
-                    binding.viewPager.currentItem
-                ) as TeamFragment
-
-                frag.callMatchDetail(sportId!!, chooseDate!!)
-            }*/
+            selectedTab = 2
         }
 
         binding.rvDateWise.adapter = mDateWiseAdapter
         mDateWiseAdapter.setClickListner(this)
 
-        binding.viewPager.addOnAdapterChangeListener(object : OnPageChangeListener,
+        binding.viewPager.addOnPageChangeListener(object : OnPageChangeListener,
             ViewPager.OnAdapterChangeListener {
             override fun onPageScrolled(
                 position: Int,
@@ -134,9 +114,19 @@ class FavouriteActivity : BaseActivity(), SportsFavAdapter.onClickListner,
                         ) as MatchFragment
                         frag.callMatchDetail(sportId!!, chooseDate!!)
 
-                        binding.tvMatch.typeface = ResourcesCompat.getFont(this@FavouriteActivity, R.font.roboto_bold_700)
-                        binding.tvCompetition.typeface =ResourcesCompat.getFont(this@FavouriteActivity, R.font.roboto_regular_400)
-                        binding.tvTeams.typeface = ResourcesCompat.getFont(this@FavouriteActivity, R.font.roboto_regular_400)
+                        binding.tvMatch.typeface =
+                            ResourcesCompat.getFont(this@FavouriteActivity, R.font.roboto_bold_700)
+                        binding.tvCompetition.typeface = ResourcesCompat.getFont(
+                            this@FavouriteActivity,
+                            R.font.roboto_regular_400
+                        )
+                        binding.tvTeams.typeface = ResourcesCompat.getFont(
+                            this@FavouriteActivity,
+                            R.font.roboto_regular_400
+                        )
+
+                        selectedTab = 0
+
                     }
 
                     1 -> {
@@ -147,9 +137,18 @@ class FavouriteActivity : BaseActivity(), SportsFavAdapter.onClickListner,
 
                         frag.callMatchDetail(sportId!!, chooseDate!!)
 
-                        binding.tvMatch.typeface = ResourcesCompat.getFont(this@FavouriteActivity, R.font.roboto_regular_400)
-                        binding.tvCompetition.typeface = ResourcesCompat.getFont(this@FavouriteActivity, R.font.roboto_bold_700)
-                        binding.tvTeams.typeface = ResourcesCompat.getFont(this@FavouriteActivity, R.font.roboto_regular_400)
+                        binding.tvMatch.typeface = ResourcesCompat.getFont(
+                            this@FavouriteActivity,
+                            R.font.roboto_regular_400
+                        )
+                        binding.tvCompetition.typeface =
+                            ResourcesCompat.getFont(this@FavouriteActivity, R.font.roboto_bold_700)
+                        binding.tvTeams.typeface = ResourcesCompat.getFont(
+                            this@FavouriteActivity,
+                            R.font.roboto_regular_400
+                        )
+
+                        selectedTab = 1
                     }
 
                     2 -> {
@@ -160,10 +159,19 @@ class FavouriteActivity : BaseActivity(), SportsFavAdapter.onClickListner,
 
                         frag.callMatchDetail(sportId!!, chooseDate!!)
 
-                        binding.tvMatch.typeface = ResourcesCompat.getFont(this@FavouriteActivity, R.font.roboto_regular_400)
+                        binding.tvMatch.typeface = ResourcesCompat.getFont(
+                            this@FavouriteActivity,
+                            R.font.roboto_regular_400
+                        )
                         binding.tvCompetition.typeface =
-                            ResourcesCompat.getFont(this@FavouriteActivity, R.font.roboto_regular_400)
-                        binding.tvTeams.typeface = ResourcesCompat.getFont(this@FavouriteActivity, R.font.roboto_bold_700)
+                            ResourcesCompat.getFont(
+                                this@FavouriteActivity,
+                                R.font.roboto_regular_400
+                            )
+                        binding.tvTeams.typeface =
+                            ResourcesCompat.getFont(this@FavouriteActivity, R.font.roboto_bold_700)
+
+                        selectedTab = 2
                     }
                 }
             }
@@ -179,7 +187,7 @@ class FavouriteActivity : BaseActivity(), SportsFavAdapter.onClickListner,
             }
         })
 
-        viewModel.getFav()
+        viewModel.getFav(RequestBodies.GetNotificationBody(PreferenceHelper.deviceId))
 
         viewModel.getFavResponse.observe(this) { event ->
             event?.getContentIfNotHandled()?.let { response ->
@@ -216,6 +224,10 @@ class FavouriteActivity : BaseActivity(), SportsFavAdapter.onClickListner,
                                 mDateWiseAdapter.setData(arrDate!!, chooseDate)
                             }
 
+                            binding.tvMatch.text = response.data?.MATCH_LABEL
+                            binding.tvCompetition.text = response.data?.COMPETITIONS_LABEL
+                            binding.tvTeams.text = response.data?.TEAMS_LABEL
+
                         } else {
                             Toast.makeText(this, "Data not found", Toast.LENGTH_SHORT).show()
                         }
@@ -246,6 +258,34 @@ class FavouriteActivity : BaseActivity(), SportsFavAdapter.onClickListner,
             mDateWiseAdapter.setData(arrDate!!, chooseDate)
         }
 
+        when (selectedTab) {
+            0 -> {
+                val frag = (binding.viewPager.adapter as ViewPagerAdapter).instantiateItem(
+                    binding.viewPager,
+                    binding.viewPager.currentItem
+                ) as MatchFragment
+                frag.callMatchDetail(sportId!!, chooseDate!!)
+            }
+
+            1 -> {
+                val frag = (binding.viewPager.adapter as ViewPagerAdapter).instantiateItem(
+                    binding.viewPager,
+                    binding.viewPager.currentItem
+                ) as CompetitionFragment
+
+                frag.callMatchDetail(sportId!!, chooseDate!!)
+            }
+
+            2 -> {
+                val frag = (binding.viewPager.adapter as ViewPagerAdapter).instantiateItem(
+                    binding.viewPager,
+                    binding.viewPager.currentItem
+                ) as TeamFragment
+
+                frag.callMatchDetail(sportId!!, chooseDate!!)
+            }
+        }
+
     }
 
     override fun clickSportItem(id: String, icon: String) {
@@ -257,6 +297,34 @@ class FavouriteActivity : BaseActivity(), SportsFavAdapter.onClickListner,
                 arrSports!![i].isSelect = arrSports!![i].id == sportId
             }
             mSportAdapter.setSportIdData(sportId!!, arrSports!!)
+        }
+
+        when (selectedTab) {
+            0 -> {
+                val frag = (binding.viewPager.adapter as ViewPagerAdapter).instantiateItem(
+                    binding.viewPager,
+                    binding.viewPager.currentItem
+                ) as MatchFragment
+                frag.callMatchDetail(sportId!!, chooseDate!!)
+            }
+
+            1 -> {
+                val frag = (binding.viewPager.adapter as ViewPagerAdapter).instantiateItem(
+                    binding.viewPager,
+                    binding.viewPager.currentItem
+                ) as CompetitionFragment
+
+                frag.callMatchDetail(sportId!!, chooseDate!!)
+            }
+
+            2 -> {
+                val frag = (binding.viewPager.adapter as ViewPagerAdapter).instantiateItem(
+                    binding.viewPager,
+                    binding.viewPager.currentItem
+                ) as TeamFragment
+
+                frag.callMatchDetail(sportId!!, chooseDate!!)
+            }
         }
     }
 

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.forthpro.millionsport.config.PreferenceHelper
 import com.forthpro.millionsport.databinding.FragmentHomeBinding
 import com.forthpro.millionsport.model.RequestBodies
 import com.forthpro.millionsport.model.response.DashboardResponse
@@ -149,11 +150,17 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        val body = RequestBodies.DashboardBody(PreferenceHelper.deviceId, "", "")
+        viewModel.getDashboard(body)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val body = RequestBodies.DashboardBody("", "")
-        viewModel.getDashboard(body)
+//        val body = RequestBodies.DashboardBody(PreferenceHelper.deviceId,"", "")
+//        viewModel.getDashboard(body)
 
         viewModel.getDashboardResponse.observe(requireActivity()) { event ->
             event?.getContentIfNotHandled()?.let { response ->
@@ -263,12 +270,14 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
                             ).show()
                         }
                     }
+
                     is Resource.Error -> {
                         hideProgressBar()
                         response.message?.let { message ->
                             Log.e("error", message)
                         }
                     }
+
                     is Resource.Loading -> {
                         showProgressBar()
                     }
@@ -357,12 +366,14 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
                             ).show()
                         }
                     }
+
                     is Resource.Error -> {
                         hideProgressBar()
                         response.message?.let { message ->
                             Log.e("error", message)
                         }
                     }
+
                     is Resource.Loading -> {
                         showProgressBar()
                     }
@@ -396,7 +407,7 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
             }
             mSportAdapter.setSportIdData(sportId!!, arrSports!!)
         }
-        val body = RequestBodies.DashboardBody(sportId!!, chooseDate!!)
+        val body = RequestBodies.DashboardBody(PreferenceHelper.deviceId, sportId!!, chooseDate!!)
         viewModel.getDashboardFilter(body)
     }
 
@@ -410,7 +421,7 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
             mDateWiseAdapter.setData(arrDate!!, chooseDate)
         }
 
-        val body = RequestBodies.DashboardBody(sportId!!, chooseDate!!)
+        val body = RequestBodies.DashboardBody(PreferenceHelper.deviceId, sportId!!, chooseDate!!)
         viewModel.getDashboardFilter(body)
     }
 }

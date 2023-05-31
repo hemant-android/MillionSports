@@ -58,7 +58,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/_5sdp"
-            android:src="@drawable/ic_fav_select" />
+            android:layout_marginRight="@dimen/_5sdp" />
     </RelativeLayout>
 </LinearLayout>

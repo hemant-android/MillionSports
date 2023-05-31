@@ -21,6 +21,7 @@ import com.forthpro.millionsport.repository.AppRepository
 import com.forthpro.millionsport.ui.change_language.LanguageChangeActivity
 import com.forthpro.millionsport.ui.change_time.ChangeTimeFormatActivity
 import com.forthpro.millionsport.ui.favourite.FavouriteActivity
+import com.forthpro.millionsport.ui.favourite_sport.FavouriteSportActivity
 import com.forthpro.millionsport.ui.home.viewmodel.HomeViewModel
 import com.forthpro.millionsport.ui.notification.NotificationActivity
 import com.forthpro.millionsport.util.Resource
@@ -86,14 +87,13 @@ class HomeActivity : BaseActivity() {
             drawerLayout.closeDrawers()
 
             Intent(this, NotificationActivity::class.java).also {
-                it.putExtra("data", arrNotification)
                 startActivity(it)
             }
         }
 
         rlFav.setOnClickListener {
             drawerLayout.closeDrawers()
-            Intent(this, FavouriteActivity::class.java).also {
+            Intent(this, FavouriteSportActivity::class.java).also {
                 startActivity(it)
             }
         }

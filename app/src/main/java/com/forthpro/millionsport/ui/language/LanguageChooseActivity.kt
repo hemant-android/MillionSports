@@ -135,6 +135,5 @@ class LanguageChooseActivity : BaseActivity(), LanguageChooseAdapter.onClickList
         val repository = AppRepository()
         val factory = ViewModelProviderFactory(this.application, repository)
         viewModel = ViewModelProvider(this, factory)[LanguageChooseViewModel::class.java]
-
     }
 }

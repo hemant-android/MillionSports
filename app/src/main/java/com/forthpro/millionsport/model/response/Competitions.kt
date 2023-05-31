@@ -1,6 +1,6 @@
 package com.forthpro.millionsport.model.response
 
-data class CompetitionResponse(
+data class Competitions(
     val ADD_COMPETITIONS_LABEL: String,
     val COMPETITIONS_LABEL: String,
     val MATCH_LABEL: String,
@@ -8,7 +8,7 @@ data class CompetitionResponse(
     val competitions: ArrayList<Competition>,
     val message: String,
     val status: Int,
-    val token: Any,
+    val token: Any
 ) {
     data class Competition(
         val country_id: Int,
@@ -18,6 +18,6 @@ data class CompetitionResponse(
         val favourite: Int,
         val language_id: Int,
         val name: String,
-        val sport_id: Int,
+        val sport_id: Int
     )
 }

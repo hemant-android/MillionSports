@@ -1,62 +1,146 @@
 package com.forthpro.millionsport.ui.notification
 
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import com.forthpro.millionsport.BaseActivity
-import com.forthpro.millionsport.R
+import com.forthpro.millionsport.config.PreferenceHelper
 import com.forthpro.millionsport.databinding.ActivityNotificationBinding
+import com.forthpro.millionsport.model.RequestBodies
+import com.forthpro.millionsport.model.response.NotificationResponse
+import com.forthpro.millionsport.repository.AppRepository
+import com.forthpro.millionsport.ui.notification.adapter.NotificationAdapter
+import com.forthpro.millionsport.ui.notification.viewmodel.NotificationViewModel
+import com.forthpro.millionsport.util.Resource
+import com.forthpro.millionsport.viewmodel.ViewModelProviderFactory
 
-class NotificationActivity : BaseActivity() {
+class NotificationActivity : BaseActivity(), NotificationAdapter.onClickListner {
 
     private lateinit var binding: ActivityNotificationBinding
+    private lateinit var viewModel: NotificationViewModel
+    private val adapter: NotificationAdapter by lazy { NotificationAdapter(this) }
 
-    private var isPush: Boolean = true
-    private var isSound: Boolean = true
-    private var isVibration: Boolean = true
-    private var isMute: Boolean = false
-
+    private var arrNotification: ArrayList<NotificationResponse.NotificationArray>? = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityNotificationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupViewModel()
+
+        binding.rvNotification.adapter = adapter
+        adapter.setClickListner(this)
+
         binding.imgBack.setOnClickListener {
             finish()
         }
 
-        binding.togglePushNotification.setOnClickListener {
-            if (isPush) {
-                isPush = false
-                binding.togglePushNotification.setImageResource(R.drawable.ic_off)
-            } else {
-                isPush = true
-                binding.togglePushNotification.setImageResource(R.drawable.ic_on)
+        val body = RequestBodies.GetNotificationBody(PreferenceHelper.deviceId)
+        viewModel.getNotificationItem(body)
+
+
+        viewModel.getNotificationResponse.observe(this) { event ->
+            event?.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Success -> {
+                        hideProgressBar()
+
+                        if (response.data?.status == 1 && response.data?.notification_array?.size!! > 0) {
+
+                            if (arrNotification != null && arrNotification!!.size > 0) {
+                                arrNotification!!.clear()
+                            }
+
+                            binding.tvTitle.text = response.data?.label_name
+
+                            arrNotification = response.data?.notification_array
+
+                            adapter.setData(response.data?.notification_array)
+
+                        } else {
+                            Toast.makeText(
+                                this,
+                                "Data not found",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+
+                    is Resource.Error -> {
+                        hideProgressBar()
+                        response.message?.let { message ->
+                            Log.e("error", message)
+                        }
+                    }
+
+                    is Resource.Loading -> {
+                        showProgressBar()
+                    }
+                }
             }
         }
-        binding.toggleNotificationSound.setOnClickListener {
-            if (isSound) {
-                isSound = false
-                binding.toggleNotificationSound.setImageResource(R.drawable.ic_off)
-            } else {
-                isSound = true
-                binding.toggleNotificationSound.setImageResource(R.drawable.ic_on)
-            }
+    }
+
+    private fun hideProgressBar() {
+        binding.progress.visibility = View.GONE
+    }
+
+    private fun showProgressBar() {
+        binding.progress.visibility = View.VISIBLE
+    }
+
+    private fun setupViewModel() {
+        val repository = AppRepository()
+        val factory = ViewModelProviderFactory(this.application, repository)
+        viewModel = ViewModelProvider(this, factory)[NotificationViewModel::class.java]
+    }
+
+    override fun clickItem(position: Int, notificationId: Int, isToggle: Int) {
+        var notification: Int = if (isToggle == 1) {
+            2
+        } else {
+            1
         }
-        binding.toggleNotificationVibration.setOnClickListener {
-            if (isVibration) {
-                isVibration = false
-                binding.toggleNotificationVibration.setImageResource(R.drawable.ic_off)
-            } else {
-                isVibration = true
-                binding.toggleNotificationVibration.setImageResource(R.drawable.ic_on)
-            }
-        }
-        binding.toggleNotificationMute.setOnClickListener {
-            if (isMute) {
-                isMute = false
-                binding.toggleNotificationMute.setImageResource(R.drawable.ic_off)
-            } else {
-                isMute = true
-                binding.toggleNotificationMute.setImageResource(R.drawable.ic_on)
+
+        val body = RequestBodies.UpdatedNotificationBody(
+            PreferenceHelper.deviceId,
+            notificationId.toString(), notification!!.toString()
+        )
+        viewModel.updateNotificationItem(body)
+
+
+        viewModel.updateNotificationResponse.observe(this) { event ->
+            event?.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Success -> {
+                        hideProgressBar()
+
+                        if (response.data?.status == 1) {
+                            val body = RequestBodies.GetNotificationBody(PreferenceHelper.deviceId)
+                            viewModel.getNotificationItem(body)
+
+                        } else {
+                            Toast.makeText(
+                                this,
+                                "Data not found",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+
+                    is Resource.Error -> {
+                        hideProgressBar()
+                        response.message?.let { message ->
+                            Log.e("error", message)
+                        }
+                    }
+
+                    is Resource.Loading -> {
+                        showProgressBar()
+                    }
+                }
             }
         }
     }

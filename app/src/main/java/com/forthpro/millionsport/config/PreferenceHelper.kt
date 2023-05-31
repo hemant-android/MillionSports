@@ -26,4 +26,8 @@ object PreferenceHelper {
     var token: String
         get() = preferences.get(PrefKey.token, "")
         set(token) = preferences.set(PrefKey.token, token)
+
+    var deviceId: String
+        get() = preferences.get(PrefKey.deviceId, "123456")
+        set(deviceId) = preferences.set(PrefKey.deviceId, deviceId)
 }
