@@ -32,6 +32,10 @@ class ChangeTimeFormatActivity : BaseActivity() {
 
         setupViewModel()
 
+        binding.imgBack.setOnClickListener {
+            finish()
+        }
+
         viewModel.getAllTimeFormatList()
 
         viewModel.getAllTimeFormatResponse.observe(this) { event ->

@@ -43,7 +43,6 @@ class SportsAdapter(private val mContext: Context) :
             if (items!![position].light_logo != null) {
                 Glide.with(mContext)
                     .load(BuildConfig.SERVER_URL + items[position].light_logo)
-                    .centerCrop()
                     .placeholder(R.drawable.progress_animation)
                     .into(holder.imgSport!!)
             }
@@ -51,7 +50,6 @@ class SportsAdapter(private val mContext: Context) :
             if (items!![position].grey_logo != null) {
                 Glide.with(mContext)
                     .load(BuildConfig.SERVER_URL + items!![position].grey_logo)
-                    .centerCrop()
                     .placeholder(R.drawable.progress_animation)
                     .into(holder.imgSport!!)
             }

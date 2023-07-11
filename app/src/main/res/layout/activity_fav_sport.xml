@@ -31,6 +31,24 @@
             android:fontFamily="@font/roboto_bold_700"
             android:textColor="@color/white"
             android:textSize="@dimen/_12sdp" />
+
+        <TextView
+            android:id="@+id/tvUpdate"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:background="@drawable/bg_white_rectangle"
+            android:fontFamily="@font/roboto_bold_700"
+            android:gravity="center"
+            android:lineSpacingExtra="1sp"
+            android:padding="@dimen/_6sdp"
+            android:visibility="gone"
+            android:text="update"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_10ssp"
+            android:translationY="0.55sp" />
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView

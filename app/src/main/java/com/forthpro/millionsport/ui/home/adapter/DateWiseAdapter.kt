@@ -82,9 +82,9 @@ class DateWiseAdapter(val mContext: Activity) :
 
 
         if (items!![position].date_value == Utils.getCurrentDate()) {
-            holder.tvWeekName!!.text = "TODAY"
+            holder.tvWeekName!!.text = /*"TODAY"*/items!![position].day_name
         } else {
-            holder.tvWeekName!!.text = Utils.getWeekName(items!![position].date_value)
+            holder.tvWeekName!!.text = /*Utils.getWeekName(items!![position].date_value)*/items!![position].day_name
         }
 
         holder.tvDateName!!.text = /*Utils.getDayMonth(items!![position].date_value)*/

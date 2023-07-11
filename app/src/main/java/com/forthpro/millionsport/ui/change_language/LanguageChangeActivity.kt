@@ -32,7 +32,7 @@ class LanguageChangeActivity : BaseActivity(), LanguageChangeAdapter.onClickList
         binding = ActivityLanguageChangeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        PreferenceHelper.languageHeader = ""
+//        PreferenceHelper.languageHeader = ""
 
         setupViewModel()
 

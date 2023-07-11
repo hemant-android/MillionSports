@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -69,7 +70,12 @@ class FavSportsDragDropAdapter(
         holder.tvSportName!!.text = items!![position].title
 
         holder.itemView.setOnClickListener {
-            onclick.clickSportItem(items!![position].id)
+//            onclick.clickSportItem(items!![position].id)
+        }
+
+        holder.itemView.setOnLongClickListener {
+            this.startDragListener.onStartDrag(holder)
+            true
         }
 
         holder.itemView.setOnTouchListener { _, event ->
@@ -111,6 +117,8 @@ class FavSportsDragDropAdapter(
             }
         }
         notifyItemMoved(fromPosition, toPosition)
+
+//        Toast.makeText(mContext, "from pos:----$fromPosition ---toPosition--- $toPosition",Toast.LENGTH_SHORT).show()
     }
 
     override fun onRowSelected(itemViewHolder: ViewHolder) {

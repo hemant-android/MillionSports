@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_DRAG
 import androidx.recyclerview.widget.RecyclerView
 import com.forthpro.millionsport.BaseActivity
 import com.forthpro.millionsport.config.PreferenceHelper
@@ -20,14 +19,16 @@ import com.forthpro.millionsport.ui.favourite_sport.dragdrop.OnStartDragListener
 import com.forthpro.millionsport.ui.favourite_sport.viewmodel.FavouriteSportViewModel
 import com.forthpro.millionsport.util.Resource
 import com.forthpro.millionsport.viewmodel.ViewModelProviderFactory
+import java.util.ArrayList
 
 class FavouriteSportActivity : BaseActivity(),
     OnStartDragListener {
 
+    private lateinit var arrFavSport: ArrayList<FavouriteSportResponse.SportsArray>
     private lateinit var binding: ActivityFavSportBinding
     private lateinit var viewModel: FavouriteSportViewModel
 
-    private var arrFavSport: ArrayList<FavouriteSportResponse.SportsArray>? = arrayListOf()
+//    private var arrFavSport: ArrayList<FavouriteSportResponse.SportsArray>? = arrayListOf()
 
 //    private val mSportAdapter: FavSportsDragDropAdapter by lazy { FavSportsDragDropAdapter(this) }
 
@@ -41,7 +42,7 @@ class FavouriteSportActivity : BaseActivity(),
 
         setupViewModel()
 
-        mSportAdapter = FavSportsDragDropAdapter(this,this)
+        mSportAdapter = FavSportsDragDropAdapter(this, this)
 
         val callback: ItemTouchHelper.Callback = ItemMoveCallbackListener(mSportAdapter)
         touchHelper = ItemTouchHelper(callback)
@@ -51,6 +52,20 @@ class FavouriteSportActivity : BaseActivity(),
         binding.imgBack.setOnClickListener {
             finish()
         }
+
+        binding.tvUpdate.setOnClickListener {
+            if (arrFavSport != null && arrFavSport!!.size > 0) {
+
+                for (item in arrFavSport!!.indices) {
+                    Toast.makeText(
+                        this@FavouriteSportActivity,
+                        "id:----${arrFavSport!![item].id}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+
 
         val body = RequestBodies.GetNotificationBody(PreferenceHelper.deviceId)
         viewModel.getFavouriteSportItem(body)
@@ -64,9 +79,13 @@ class FavouriteSportActivity : BaseActivity(),
 
                         if (response.data?.status == 1 && response.data?.sports_array?.size!! > 0) {
 
-                            if (arrFavSport != null && arrFavSport!!.size > 0) {
-                                arrFavSport!!.clear()
+                            if (::arrFavSport.isInitialized)
+                            {
+                                if (arrFavSport != null && arrFavSport!!.size > 0) {
+                                    arrFavSport!!.clear()
+                                }
                             }
+
 
                             binding.tvTitle.text = response.data?.label_name
 

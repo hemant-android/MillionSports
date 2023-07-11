@@ -26,6 +26,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
                 android:layout_marginLeft="-5dp"
+                android:padding="1dp"
                 android:layout_marginTop="@dimen/_3sdp" />
 
             <TextView
