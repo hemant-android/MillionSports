@@ -1,6 +1,7 @@
 package com.forthpro.millionsport.ui.home.adapter
 
 import android.content.Context
+import android.os.Build
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -8,10 +9,13 @@ import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import com.bumptech.glide.Glide
 import com.forthpro.millionsport.BuildConfig
 import com.forthpro.millionsport.R
+import com.forthpro.millionsport.config.PreferenceHelper
 import com.forthpro.millionsport.model.response.DashboardResponse
+import com.forthpro.millionsport.util.Utils
 import com.google.android.material.imageview.ShapeableImageView
 
 class ExpandablePopularCompetitionByCountryAdapter(
@@ -36,6 +40,7 @@ class ExpandablePopularCompetitionByCountryAdapter(
         return childPosition.toLong()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun getChildView(
         groupPosition: Int, childPosition: Int,
         isLastChild: Boolean, convertView: View?, parent: ViewGroup,
@@ -70,7 +75,8 @@ class ExpandablePopularCompetitionByCountryAdapter(
             tvLeagueCountry.visibility = View.GONE
         }
 
-        tvTime.text = mChild.prediction_time
+        tvTime.text = /*mChild.prediction_time*/
+            Utils.convertPredictionTimeCurrentTimeZone(mChild.prediction_time, PreferenceHelper.timeFormat)
 
         var mParent = getGroup(groupPosition) as DashboardResponse.PopularCompetitionsCountry
 

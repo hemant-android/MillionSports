@@ -33,7 +33,7 @@ class FavSportsDragDropAdapter(
     lateinit var onclick: onClickListner
 
     interface onClickListner {
-        fun clickSportItem(sportId: String)
+        fun dragAndDropSportItem(fromPosition: Int, toPosition: Int)
     }
 
     fun setClickListner(onclick: onClickListner) {
@@ -69,21 +69,17 @@ class FavSportsDragDropAdapter(
 
         holder.tvSportName!!.text = items!![position].title
 
-        holder.itemView.setOnClickListener {
-//            onclick.clickSportItem(items!![position].id)
-        }
-
         holder.itemView.setOnLongClickListener {
             this.startDragListener.onStartDrag(holder)
             true
         }
 
-        holder.itemView.setOnTouchListener { _, event ->
+        /*holder.itemView.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 this.startDragListener.onStartDrag(holder)
             }
             return@setOnTouchListener true
-        }
+        }*/
     }
 
     // Inflates the item views
@@ -117,6 +113,9 @@ class FavSportsDragDropAdapter(
             }
         }
         notifyItemMoved(fromPosition, toPosition)
+
+
+        onclick.dragAndDropSportItem(fromPosition,toPosition)
 
 //        Toast.makeText(mContext, "from pos:----$fromPosition ---toPosition--- $toPosition",Toast.LENGTH_SHORT).show()
     }

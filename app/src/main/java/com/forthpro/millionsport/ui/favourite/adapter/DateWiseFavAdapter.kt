@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.forthpro.millionsport.R
+import com.forthpro.millionsport.config.PreferenceHelper
 import com.forthpro.millionsport.model.response.FavouriteCommonResponse
 import com.forthpro.millionsport.util.Utils
 
@@ -59,12 +60,12 @@ class DateWiseFavAdapter(val mContext: Activity) :
         }
 
         if (items!![position].date_value == Utils.getCurrentDate()) {
-            holder.tvWeekName!!.text = "TODAY"
+            holder.tvWeekName!!.text = items!![position].day_name
         } else {
-            holder.tvWeekName!!.text = Utils.getWeekName(items!![position].date_value)
+            holder.tvWeekName!!.text = /*Utils.getWeekName(items!![position].date_value)*/items!![position].day_name
         }
 
-        holder.tvDateName!!.text = items!![position].date_value1
+        holder.tvDateName!!.text = /*items!![position].date_value1*/Utils.convertTimeCurrentTimeZone(items!![position].date_value1,PreferenceHelper.timeFormat)
 
         holder.itemView.setOnClickListener {
             onclick.clickDateItem(items!![position].date_value)

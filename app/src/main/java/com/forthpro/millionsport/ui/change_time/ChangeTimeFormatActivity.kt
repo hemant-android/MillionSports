@@ -52,6 +52,23 @@ class ChangeTimeFormatActivity : BaseActivity() {
                             selectTimeFormat24 = response.data?.label21.toString()
                             selectTimeFormat12 = response.data?.label31.toString()
 
+                            if (PreferenceHelper.timeFormat == "2") {
+                                binding.imgCheck24.setImageResource(R.drawable.ic_radio_button_checked)
+                                binding.imgCheck12.setImageResource(R.drawable.ic_radio_button_unchecked)
+
+                                selectTimeFormat = selectTimeFormat24
+
+                                PreferenceHelper.timeFormat = selectTimeFormat24
+
+                            } else {
+                                binding.imgCheck12.setImageResource(R.drawable.ic_radio_button_checked)
+                                binding.imgCheck24.setImageResource(R.drawable.ic_radio_button_unchecked)
+
+                                selectTimeFormat = selectTimeFormat12
+
+                                PreferenceHelper.timeFormat = selectTimeFormat12
+                            }
+
                         } else {
                             Toast.makeText(
                                 this,

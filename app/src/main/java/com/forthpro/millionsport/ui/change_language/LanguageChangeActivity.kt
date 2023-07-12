@@ -51,7 +51,7 @@ class LanguageChangeActivity : BaseActivity(), LanguageChangeAdapter.onClickList
 
                             val body = RequestBodies.LanguageLabelBody(
                                 "Select Language",
-                                response.data?.defaultLanguage!!
+                                PreferenceHelper.languageHeader
                             )
                             viewModel.getLanguageLabel(body)
 
@@ -59,12 +59,17 @@ class LanguageChangeActivity : BaseActivity(), LanguageChangeAdapter.onClickList
                                 allLanguageList!!.clear()
                             }
                             if (response.data?.language != null && response.data?.language.isNotEmpty()) {
-                                var allLanguageList = response.data?.language
+                                allLanguageList = response.data?.language
 
                                 for (items in allLanguageList!!) {
-                                    items.isSelect = items.id == response.data?.defaultLanguage
+//                                    items.isSelect = items.id == response.data?.defaultLanguage
+                                    if (items.id == PreferenceHelper.languageHeader) {
+                                        items.isSelect = true
+                                    }
                                 }
                                 adapter.setData(allLanguageList!!)
+
+
                             }
 
                         } else {

@@ -13,6 +13,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.forthpro.millionsport.R
+import com.forthpro.millionsport.config.PreferenceHelper
 import com.forthpro.millionsport.model.response.DashboardResponse
 import com.forthpro.millionsport.util.Utils
 
@@ -59,36 +60,14 @@ class DateWiseAdapter(val mContext: Activity) :
             holder.tvDateName!!.setTextColor(ContextCompat.getColor(mContext, R.color.white))
         }
 
-        /*if (position == 0) {
-            if (!TextUtils.isEmpty(chooseDate) && chooseDate == items!![position].date_value) {
-                holder.tvWeekName!!.setTextColor(ContextCompat.getColor(mContext, R.color.red))
-                holder.tvDateName!!.setTextColor(ContextCompat.getColor(mContext, R.color.red))
-            } else if (TextUtils.isEmpty(chooseDate)) {
-                holder.tvWeekName!!.setTextColor(ContextCompat.getColor(mContext, R.color.red))
-                holder.tvDateName!!.setTextColor(ContextCompat.getColor(mContext, R.color.red))
-            } else {
-                holder.tvWeekName!!.setTextColor(ContextCompat.getColor(mContext, R.color.white))
-                holder.tvDateName!!.setTextColor(ContextCompat.getColor(mContext, R.color.white))
-            }
-        } else {
-            if (!TextUtils.isEmpty(chooseDate) && chooseDate == items!![position].date_value) {
-                holder.tvWeekName!!.setTextColor(ContextCompat.getColor(mContext, R.color.red))
-                holder.tvDateName!!.setTextColor(ContextCompat.getColor(mContext, R.color.red))
-            } else {
-                holder.tvWeekName!!.setTextColor(ContextCompat.getColor(mContext, R.color.white))
-                holder.tvDateName!!.setTextColor(ContextCompat.getColor(mContext, R.color.white))
-            }
-        }*/
-
-
         if (items!![position].date_value == Utils.getCurrentDate()) {
-            holder.tvWeekName!!.text = /*"TODAY"*/items!![position].day_name
+            holder.tvWeekName!!.text = items!![position].day_name
         } else {
-            holder.tvWeekName!!.text = /*Utils.getWeekName(items!![position].date_value)*/items!![position].day_name
+            holder.tvWeekName!!.text = items!![position].day_name
         }
 
         holder.tvDateName!!.text = /*Utils.getDayMonth(items!![position].date_value)*/
-            items!![position].date_value1
+            /*items!![position].date_value1*/Utils.convertTimeCurrentTimeZone(items!![position].date_value1,PreferenceHelper.timeFormat)
 
         holder.itemView.setOnClickListener {
             onclick.clickDateItem(items!![position].date_value)

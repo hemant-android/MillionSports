@@ -27,8 +27,15 @@ class FavouriteSportViewModel(app: Application, private val appRepository: AppRe
     private val _updateNotificationResponse = MutableLiveData<Event<Resource<CommonResponse>>>()
     val updateNotificationResponse: LiveData<Event<Resource<CommonResponse>>> = _updateNotificationResponse
 
+    private val _updateSportItemResponse = MutableLiveData<Event<Resource<CommonResponse>>>()
+    val updateSportItemResponse: LiveData<Event<Resource<CommonResponse>>> = _updateSportItemResponse
+
     fun getFavouriteSportItem(body: RequestBodies.GetNotificationBody) = viewModelScope.launch {
         getFavouriteData(body)
+    }
+
+    fun updateSportItem(body: RequestBodies.UpdatedSportItemBody) = viewModelScope.launch {
+        updateSportData(body)
     }
 
     fun updateNotificationItem(body: RequestBodies.UpdatedNotificationBody) =
@@ -69,6 +76,48 @@ class FavouriteSportViewModel(app: Application, private val appRepository: AppRe
 
                 else -> {
                     _getFavouriteResponse.postValue(
+                        Event(
+                            Resource.Error(t.localizedMessage)
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    private suspend fun updateSportData(body: RequestBodies.UpdatedSportItemBody) {
+        _updateSportItemResponse.postValue(Event(Resource.Loading()))
+        try {
+            if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
+                val response = appRepository.updateSportData(body)
+                _updateSportItemResponse.postValue(response?.let { handleSportItemResponse(it) })
+            } else {
+                _updateSportItemResponse.postValue(
+                    Event(
+                        Resource.Error(
+                            getApplication<MyApplication>().getString(
+                                R.string.no_internet_connection
+                            )
+                        )
+                    )
+                )
+            }
+        } catch (t: Throwable) {
+            when (t) {
+                is IOException -> {
+                    _updateSportItemResponse.postValue(
+                        Event(
+                            Resource.Error(
+                                getApplication<MyApplication>().getString(
+                                    R.string.network_failure
+                                )
+                            )
+                        )
+                    )
+                }
+
+                else -> {
+                    _updateSportItemResponse.postValue(
                         Event(
                             Resource.Error(t.localizedMessage)
                         )
@@ -126,6 +175,15 @@ class FavouriteSportViewModel(app: Application, private val appRepository: AppRe
 
 
     private fun handleResponse(response: retrofit2.Response<FavouriteSportResponse>): Event<Resource<FavouriteSportResponse>>? {
+        if (response.isSuccessful) {
+            response.body()?.let { resultResponse ->
+                return Event(Resource.Success(resultResponse))
+            }
+        }
+        return Event(Resource.Error(response.message()))
+    }
+
+    private fun handleSportItemResponse(response: retrofit2.Response<CommonResponse>): Event<Resource<CommonResponse>>? {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
                 return Event(Resource.Success(resultResponse))

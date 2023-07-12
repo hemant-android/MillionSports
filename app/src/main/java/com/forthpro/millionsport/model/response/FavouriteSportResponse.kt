@@ -11,7 +11,7 @@ data class FavouriteSportResponse(
         val id: String,
         val language_id: Int,
         val light_logo: String,
-        val position: Int,
+        val position: String,
         val status: String,
         val title: String
     )

@@ -22,7 +22,7 @@ import com.forthpro.millionsport.viewmodel.ViewModelProviderFactory
 import java.util.ArrayList
 
 class FavouriteSportActivity : BaseActivity(),
-    OnStartDragListener {
+    OnStartDragListener,FavSportsDragDropAdapter.onClickListner {
 
     private lateinit var arrFavSport: ArrayList<FavouriteSportResponse.SportsArray>
     private lateinit var binding: ActivityFavSportBinding
@@ -48,6 +48,8 @@ class FavouriteSportActivity : BaseActivity(),
         touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(binding.rvFavSport)
         binding.rvFavSport.adapter = mSportAdapter
+
+        mSportAdapter.setClickListner(this)
 
         binding.imgBack.setOnClickListener {
             finish()
@@ -141,4 +143,45 @@ class FavouriteSportActivity : BaseActivity(),
     override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
         touchHelper.startDrag(viewHolder)
     }
+
+    override fun dragAndDropSportItem(fromPosition: Int, toPosition: Int) {
+        val body = RequestBodies.UpdatedSportItemBody(PreferenceHelper.deviceId,arrFavSport[fromPosition].id,arrFavSport[fromPosition].position,arrFavSport[toPosition].id,arrFavSport[toPosition].position)
+        viewModel.updateSportItem(body)
+
+        viewModel.updateSportItemResponse.observe(this) { event ->
+            event?.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Success -> {
+                        hideProgressBar()
+
+                        if (response.data?.status == 1) {
+                            Toast.makeText(
+                                this,
+                                response.data?.message,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            Toast.makeText(
+                                this,
+                                "Data not found",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+
+                    is Resource.Error -> {
+                        hideProgressBar()
+                        response.message?.let { message ->
+                            Log.e("error", message)
+                        }
+                    }
+
+                    is Resource.Loading -> {
+                        showProgressBar()
+                    }
+                }
+            }
+        }
+    }
+
 }

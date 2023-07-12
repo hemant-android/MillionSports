@@ -9,6 +9,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
+import com.forthpro.millionsport.BuildConfig
+import com.forthpro.millionsport.R
 import com.forthpro.millionsport.config.PreferenceHelper
 import com.forthpro.millionsport.databinding.FragmentHomeBinding
 import com.forthpro.millionsport.model.RequestBodies
@@ -211,10 +214,15 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
                             }
 
                             if ((response.data?.popular_competitions != null && response.data?.popular_competitions.isNotEmpty()) || (response.data?.popular_competitions_country != null && response.data?.popular_competitions_country.isNotEmpty())) {
-                                binding.tvNoRecordFound.visibility = View.GONE
+                                binding.llNoRecordFound.visibility = View.GONE
                             } else {
-                                binding.tvNoRecordFound.visibility = View.VISIBLE
+                                binding.llNoRecordFound.visibility = View.VISIBLE
                                 binding.tvNoRecordFound.text = response.data?.message
+
+                                Glide.with(requireActivity())
+                                    .load(BuildConfig.SERVER_URL + playerImage)
+                                    .placeholder(R.drawable.progress_animation)
+                                    .into(binding.imgSport!!)
                             }
 
                             if (response.data?.popular_competitions != null && response.data?.popular_competitions.isNotEmpty()) {
@@ -307,10 +315,14 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
                             }
 
                             if ((response.data?.popular_competitions != null && response.data?.popular_competitions.isNotEmpty()) || (response.data?.popular_competitions_country != null && response.data?.popular_competitions_country.isNotEmpty())) {
-                                binding.tvNoRecordFound.visibility = View.GONE
+                                binding.llNoRecordFound.visibility = View.GONE
                             } else {
-                                binding.tvNoRecordFound.visibility = View.VISIBLE
+                                binding.llNoRecordFound.visibility = View.VISIBLE
                                 binding.tvNoRecordFound.text = response.data?.message
+                                Glide.with(requireActivity())
+                                    .load(BuildConfig.SERVER_URL + playerImage)
+                                    .placeholder(R.drawable.progress_animation)
+                                    .into(binding.imgSport!!)
                             }
 
                             if (response.data?.popular_competitions != null && response.data?.popular_competitions.isNotEmpty()) {

@@ -2,6 +2,7 @@ package com.forthpro.millionsport.util
 
 import android.content.Context
 import android.icu.text.SimpleDateFormat
+import android.icu.util.TimeZone
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
@@ -59,10 +60,30 @@ object Utils {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getDayMonth(getDate: String?): String? {
-        val sdfWeekName = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+    fun convertTimeCurrentTimeZone(getDate: String?, timeFormat: String): String? {
+        var timeSelection = if (timeFormat == "1") {
+            "hh.mm"
+        } else {
+            "HH.mm"
+        }
+        val sdfWeekName = SimpleDateFormat("$timeSelection", Locale.getDefault())
+        sdfWeekName.timeZone = TimeZone.getDefault()
         val dateWeekName = sdfWeekName.parse(getDate)
-        sdfWeekName.applyPattern("d MMM")
+        sdfWeekName.applyPattern(timeSelection)
+        return sdfWeekName.format(dateWeekName)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun convertPredictionTimeCurrentTimeZone(getDate: String?, timeFormat: String): String? {
+        var timeSelection = if (timeFormat == "1") {
+            "hh:mm"
+        } else {
+            "HH:mm"
+        }
+        val sdfWeekName = SimpleDateFormat("$timeSelection", Locale.getDefault())
+        sdfWeekName.timeZone = TimeZone.getDefault()
+        val dateWeekName = sdfWeekName.parse(getDate)
+        sdfWeekName.applyPattern(timeSelection)
         return sdfWeekName.format(dateWeekName)
     }
 

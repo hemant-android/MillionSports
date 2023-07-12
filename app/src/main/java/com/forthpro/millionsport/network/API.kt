@@ -30,6 +30,9 @@ interface API {
     @POST("api/getFavouriteSports")
     suspend fun getFavouriteSPortData(@Body body: RequestBodies.GetNotificationBody): Response<FavouriteSportResponse>
 
+    @POST("api/updateFavouriteSports")
+    suspend fun updateSPortItemData(@Body body: RequestBodies.UpdatedSportItemBody): Response<CommonResponse>
+
     @POST("api/notificationUpdateSetting")
     suspend fun updateNotificationData(@Body body: RequestBodies.UpdatedNotificationBody): Response<CommonResponse>
 

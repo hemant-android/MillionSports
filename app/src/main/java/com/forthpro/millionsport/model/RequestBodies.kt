@@ -54,4 +54,12 @@ object RequestBodies {
         val default_name: String,
         val favourite: String
     )
+
+    data class UpdatedSportItemBody(
+        val device_id: String,
+        val fromSportId: String,
+        val fromposition: String,
+        val toSportId: String,
+        val toposition: String
+    )
 }
