@@ -13,6 +13,8 @@
         android:layout_marginRight="@dimen/_5sdp"
         android:background="@drawable/bg_white_rectangle"
         android:fontFamily="@font/roboto_regular_400"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:lineSpacingExtra="1sp"
         android:padding="@dimen/_5sdp"
         android:textColor="@color/white"

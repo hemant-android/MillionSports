@@ -70,6 +70,8 @@
                 android:layout_height="wrap_content"
                 android:background="#1D1F24"
                 android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:weightSum="3">
 
                 <TextView
@@ -80,6 +82,7 @@
                     android:fontFamily="@font/roboto_bold_700"
                     android:gravity="center"
                     android:lineSpacingExtra="1sp"
+                    android:visibility="visible"
                     android:padding="@dimen/_8sdp"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_11ssp"
@@ -106,6 +109,7 @@
                     android:fontFamily="@font/roboto_regular_400"
                     android:gravity="center"
                     android:lineSpacingExtra="1sp"
+                    android:visibility="visible"
                     android:padding="@dimen/_8sdp"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_11ssp"
@@ -154,6 +158,7 @@
         android:id="@+id/progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:progressDrawable="@drawable/loader"
         android:layout_centerInParent="true"
         android:visibility="gone" />
 </RelativeLayout>

@@ -46,27 +46,29 @@
                     tools:listitem="@layout/row_date_wise_item" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/tvPopularCompetitions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/primary"
-                android:fontFamily="@font/roboto_bold_700"
-                android:lineSpacingExtra="2sp"
-                android:paddingLeft="@dimen/_10sdp"
-                android:paddingTop="@dimen/_8sdp"
-                android:paddingRight="@dimen/_10sdp"
-                android:paddingBottom="@dimen/_8sdp"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:textSize="@dimen/_12sdp"
-                android:translationY="-0.9sp" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_15sdp"
                 android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvPopularCompetitions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/primary"
+                    android:fontFamily="@font/roboto_bold_700"
+                    android:lineSpacingExtra="2sp"
+                    android:paddingLeft="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingRight="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_8sdp"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:textSize="@dimen/_12sdp"
+                    android:translationY="-0.9sp" />
+
 
                 <com.forthpro.millionsport.util.NonScrollExpandableListView
                     android:id="@+id/expendablePopularCompetitions"
@@ -74,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/primary"
                     android:groupIndicator="@null" />
-            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/tvCompetitionsByCountry"
@@ -92,11 +94,6 @@
                 android:textColorHint="@color/white"
                 android:textSize="@dimen/_12sdp"
                 android:translationY="-0.9sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
 
                 <com.forthpro.millionsport.util.NonScrollExpandableListView
                     android:id="@+id/expendableCompetitionsByCountry"
@@ -119,9 +116,9 @@
             android:id="@+id/imgSport"
             android:layout_width="@dimen/_70sdp"
             android:layout_height="@dimen/_70sdp"
+            android:layout_centerInParent="true"
             android:padding="@dimen/_10ssp"
-            android:scaleType="centerInside"
-            android:layout_centerInParent="true" />
+            android:scaleType="centerInside" />
 
         <TextView
             android:id="@+id/tvNoRecordFound"
@@ -142,5 +139,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:progressDrawable="@drawable/loader"
         android:visibility="gone" />
 </RelativeLayout>

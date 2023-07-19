@@ -155,15 +155,13 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
 
     override fun onResume() {
         super.onResume()
-        val body = RequestBodies.DashboardBody(PreferenceHelper.deviceId, "", "")
-        viewModel.getDashboard(body)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        val body = RequestBodies.DashboardBody(PreferenceHelper.deviceId,"", "")
-//        viewModel.getDashboard(body)
+        val body = RequestBodies.DashboardBody(PreferenceHelper.deviceId, "", "")
+        viewModel.getDashboard(body)
 
         viewModel.getDashboardResponse.observe(requireActivity()) { event ->
             event?.getContentIfNotHandled()?.let { response ->

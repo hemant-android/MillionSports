@@ -65,7 +65,7 @@ class DateWiseFavAdapter(val mContext: Activity) :
             holder.tvWeekName!!.text = /*Utils.getWeekName(items!![position].date_value)*/items!![position].day_name
         }
 
-        holder.tvDateName!!.text = /*items!![position].date_value1*/Utils.convertTimeCurrentTimeZone(items!![position].date_value1,PreferenceHelper.timeFormat)
+        holder.tvDateName!!.text = items!![position].date_value1//Utils.convertTimeCurrentTimeZone(items!![position].date_value1,PreferenceHelper.timeFormat)
 
         holder.itemView.setOnClickListener {
             onclick.clickDateItem(items!![position].date_value)

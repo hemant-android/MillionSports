@@ -203,6 +203,7 @@ class FavouriteActivity : BaseActivity(), SportsFavAdapter.onClickListner,
                                     for (i in arrSports!!.indices) {
                                         if (i == 0) {
                                             playerImage = arrSports!![i].light_logo
+                                            sportId = arrSports!![i].id
                                         }
                                         arrSports!![i].isSelect = i == 0
                                     }
@@ -211,6 +212,33 @@ class FavouriteActivity : BaseActivity(), SportsFavAdapter.onClickListner,
 
                                 binding.rvGame.adapter = mSportAdapter
                                 mSportAdapter.setClickListner(this)
+
+                                if (sportId == "9" || sportId == "13") {
+                                    binding.tvMatch.visibility = View.GONE
+                                    binding.tvTeams.visibility = View.GONE
+                                    binding.tvCompetition.visibility = View.VISIBLE
+
+                                    binding.tvMatch.typeface = ResourcesCompat.getFont(this, R.font.roboto_regular_400)
+                                    binding.tvCompetition.typeface = ResourcesCompat.getFont(this, R.font.roboto_bold_700)
+                                    binding.tvTeams.typeface = ResourcesCompat.getFont(this, R.font.roboto_regular_400)
+
+                                    binding.viewPager.currentItem = 1
+
+                                    selectedTab = 1
+
+                                    val frag = (binding.viewPager.adapter as ViewPagerAdapter).instantiateItem(
+                                        binding.viewPager,
+                                        binding.viewPager.currentItem
+                                    ) as CompetitionFragment
+
+                                    frag.callMatchDetail(sportId!!, chooseDate!!)
+
+                                    binding.viewPager.beginFakeDrag()
+                                } else {
+                                    binding.tvMatch.visibility = View.VISIBLE
+                                    binding.tvTeams.visibility = View.VISIBLE
+                                    binding.tvCompetition.visibility = View.VISIBLE
+                                }
                             }
 
                             if (response.data?.dateArray != null && response.data?.dateArray.isNotEmpty()) {
@@ -299,33 +327,66 @@ class FavouriteActivity : BaseActivity(), SportsFavAdapter.onClickListner,
             mSportAdapter.setSportIdData(sportId!!, arrSports!!)
         }
 
-        when (selectedTab) {
-            0 -> {
-                val frag = (binding.viewPager.adapter as ViewPagerAdapter).instantiateItem(
-                    binding.viewPager,
-                    binding.viewPager.currentItem
-                ) as MatchFragment
-                frag.callMatchDetail(sportId!!, chooseDate!!)
+        if (sportId == "9" || sportId == "13") {
+            binding.tvMatch.visibility = View.GONE
+            binding.tvTeams.visibility = View.GONE
+            binding.tvCompetition.visibility = View.VISIBLE
+
+            binding.tvMatch.typeface = ResourcesCompat.getFont(this, R.font.roboto_regular_400)
+            binding.tvCompetition.typeface = ResourcesCompat.getFont(this, R.font.roboto_bold_700)
+            binding.tvTeams.typeface = ResourcesCompat.getFont(this, R.font.roboto_regular_400)
+
+            binding.viewPager.currentItem = 1
+
+            selectedTab = 1
+
+            val frag = (binding.viewPager.adapter as ViewPagerAdapter).instantiateItem(
+                binding.viewPager,
+                binding.viewPager.currentItem
+            ) as CompetitionFragment
+
+            frag.callMatchDetail(sportId!!, chooseDate!!)
+
+            binding.viewPager.beginFakeDrag()
+        } else {
+            binding.tvMatch.visibility = View.VISIBLE
+            binding.tvTeams.visibility = View.VISIBLE
+            binding.tvCompetition.visibility = View.VISIBLE
+
+            if (binding.viewPager.beginFakeDrag()) {
+                binding.viewPager.endFakeDrag()
             }
 
-            1 -> {
-                val frag = (binding.viewPager.adapter as ViewPagerAdapter).instantiateItem(
-                    binding.viewPager,
-                    binding.viewPager.currentItem
-                ) as CompetitionFragment
+            when (selectedTab) {
+                0 -> {
+                    val frag = (binding.viewPager.adapter as ViewPagerAdapter).instantiateItem(
+                        binding.viewPager,
+                        binding.viewPager.currentItem
+                    ) as MatchFragment
+                    frag.callMatchDetail(sportId!!, chooseDate!!)
+                }
 
-                frag.callMatchDetail(sportId!!, chooseDate!!)
-            }
+                1 -> {
+                    val frag = (binding.viewPager.adapter as ViewPagerAdapter).instantiateItem(
+                        binding.viewPager,
+                        binding.viewPager.currentItem
+                    ) as CompetitionFragment
 
-            2 -> {
-                val frag = (binding.viewPager.adapter as ViewPagerAdapter).instantiateItem(
-                    binding.viewPager,
-                    binding.viewPager.currentItem
-                ) as TeamFragment
+                    frag.callMatchDetail(sportId!!, chooseDate!!)
+                }
 
-                frag.callMatchDetail(sportId!!, chooseDate!!)
+                2 -> {
+                    val frag = (binding.viewPager.adapter as ViewPagerAdapter).instantiateItem(
+                        binding.viewPager,
+                        binding.viewPager.currentItem
+                    ) as TeamFragment
+
+                    frag.callMatchDetail(sportId!!, chooseDate!!)
+                }
             }
         }
+
+
     }
 
 
@@ -334,7 +395,7 @@ class FavouriteActivity : BaseActivity(), SportsFavAdapter.onClickListner,
     }
 
     private fun showProgressBar() {
-        binding.progress.visibility = View.VISIBLE
+        binding.progress.visibility = View.GONE
     }
 
     private fun setupViewModel() {
