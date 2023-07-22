@@ -32,6 +32,7 @@
             android:src="@drawable/ic_fav_large" />
 
         <TextView
+            android:id="@+id/tvNoRecord"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/imgFav"
@@ -39,7 +40,6 @@
             android:gravity="center"
             android:lineSpacingExtra="1sp"
             android:padding="@dimen/_10sdp"
-            android:text="There are currently no match for your teams"
             android:textColor="@color/white"
             android:textSize="@dimen/_11ssp"
             android:translationY="0.55sp" />
@@ -50,5 +50,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/white"
+        android:progressDrawable="@drawable/loader"
         android:visibility="gone" />
 </RelativeLayout>

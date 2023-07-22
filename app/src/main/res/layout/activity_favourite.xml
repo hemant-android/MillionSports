@@ -158,7 +158,9 @@
         android:id="@+id/progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:progressDrawable="@drawable/loader"
         android:layout_centerInParent="true"
+        android:progressDrawable="@drawable/loader"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/white"
         android:visibility="gone" />
 </RelativeLayout>

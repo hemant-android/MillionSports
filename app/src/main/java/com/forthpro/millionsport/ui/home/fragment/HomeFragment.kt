@@ -155,6 +155,14 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
 
     override fun onResume() {
         super.onResume()
+
+        if (PreferenceHelper.isFavSport) {
+
+            PreferenceHelper.isFavSport = false
+
+            val body = RequestBodies.DashboardBody(PreferenceHelper.deviceId, "", "")
+            viewModel.getDashboard(body)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

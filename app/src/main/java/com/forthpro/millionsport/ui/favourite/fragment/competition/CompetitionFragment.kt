@@ -44,7 +44,7 @@ class CompetitionFragment(val sportId: String?, val chooseDate: String?) : Fragm
 
         setupViewModel()
 
-        binding.tvAddTeam.setOnClickListener {
+        binding.tvAddCompetition.setOnClickListener {
             Intent(requireActivity(), GetCompetitionListActivity::class.java).also {
                 startActivity(it)
             }
@@ -58,6 +58,8 @@ class CompetitionFragment(val sportId: String?, val chooseDate: String?) : Fragm
                     is Resource.Success -> {
                         hideProgressBar()
                         if (response.data?.status == 1) {
+
+                            binding.tvAddCompetition.text = response.data?.ADD_COMPETITIONS_LABEL
 
                             if (arrMatches != null && arrMatches!!.isNotEmpty()) {
                                 arrMatches!!.clear()
@@ -73,6 +75,8 @@ class CompetitionFragment(val sportId: String?, val chooseDate: String?) : Fragm
                             } else {
                                 binding.rvCompetition.visibility = View.GONE
                                 binding.llNoRecord.visibility = View.VISIBLE
+
+                                binding.tvNoRecord.text =response.data?.message
                             }
 
                         } else {
@@ -98,11 +102,11 @@ class CompetitionFragment(val sportId: String?, val chooseDate: String?) : Fragm
 
     override fun onResume() {
         super.onResume()
-        val body = RequestBodies.FavBody(PreferenceHelper.deviceId, sportId!!, chooseDate!!)
-        viewModel.getFav(body)
+//        val body = RequestBodies.FavBody(PreferenceHelper.deviceId, sportId!!, chooseDate!!)
+//        viewModel.getFav(body)
     }
 
-    internal fun callMatchDetail(sportId: String, chooseDate: String) {
+    internal fun callCompetitionDetail(sportId: String, chooseDate: String) {
         val body = RequestBodies.FavBody(PreferenceHelper.deviceId, sportId, chooseDate)
         viewModel.getFav(body)
     }

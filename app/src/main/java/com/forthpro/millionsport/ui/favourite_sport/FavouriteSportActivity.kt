@@ -155,11 +155,8 @@ class FavouriteSportActivity : BaseActivity(),
                         hideProgressBar()
 
                         if (response.data?.status == 1) {
-                            Toast.makeText(
-                                this,
-                                response.data?.message,
-                                Toast.LENGTH_SHORT
-                            ).show()
+//                            Toast.makeText(this, response.data?.message, Toast.LENGTH_SHORT).show()
+                            PreferenceHelper.isFavSport = true
                         } else {
                             Toast.makeText(
                                 this,

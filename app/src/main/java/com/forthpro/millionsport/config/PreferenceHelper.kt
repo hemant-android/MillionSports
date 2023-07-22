@@ -11,6 +11,10 @@ object PreferenceHelper {
         get() = preferences.get(PrefKey.IsLoggedIn, false)
         set(loggedIn) = preferences.set(PrefKey.IsLoggedIn, loggedIn)
 
+    var isFavSport: Boolean
+        get() = preferences.get(PrefKey.isFavSport, false)
+        set(isFavSport) = preferences.set(PrefKey.isFavSport, isFavSport)
+
     var userId: String
         get() = preferences.get(PrefKey.userId, "")
         set(userId) = preferences.set(PrefKey.userId, userId)

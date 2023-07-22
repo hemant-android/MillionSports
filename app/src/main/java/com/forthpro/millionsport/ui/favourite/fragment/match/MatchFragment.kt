@@ -61,6 +61,7 @@ class MatchFragment(val sportId: String?, val chooseDate: String?) : Fragment() 
                                 adapter.setData(arrMatches!!)
                             } else {
                                 binding.llNoRecord.visibility = View.VISIBLE
+                                binding.tvNoRecord.text =response.data?.message
                             }
 
                         } else {
@@ -86,8 +87,8 @@ class MatchFragment(val sportId: String?, val chooseDate: String?) : Fragment() 
 
     override fun onResume() {
         super.onResume()
-        val body = RequestBodies.FavBody(PreferenceHelper.deviceId, sportId!!, chooseDate!!)
-        viewModel.getFav(body)
+//        val body = RequestBodies.FavBody(PreferenceHelper.deviceId, sportId!!, chooseDate!!)
+//        viewModel.getFav(body)
     }
 
     internal fun callMatchDetail(sportId: String, chooseDate: String) {

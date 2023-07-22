@@ -58,6 +58,7 @@ class TeamFragment(val sportId: String?, val chooseDate: String?) : Fragment() {
                         hideProgressBar()
                         if (response.data?.status == 1) {
 
+                            binding.tvAddTeam.text = response.data?.ADDTEAMS_LABEL
                             if (arrMatches != null && arrMatches!!.isNotEmpty()) {
                                 arrMatches!!.clear()
                             }
@@ -72,6 +73,7 @@ class TeamFragment(val sportId: String?, val chooseDate: String?) : Fragment() {
                             } else {
                                 binding.rvTeam.visibility = View.GONE
                                 binding.llNoRecord.visibility = View.VISIBLE
+                                binding.tvNoRecord.text =response.data?.message
                             }
 
                         } else {
@@ -97,11 +99,11 @@ class TeamFragment(val sportId: String?, val chooseDate: String?) : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        val body = RequestBodies.FavBody(PreferenceHelper.deviceId, sportId!!, chooseDate!!)
-        viewModel.getFav(body)
+//        val body = RequestBodies.FavBody(PreferenceHelper.deviceId, sportId!!, chooseDate!!)
+//        viewModel.getFav(body)
     }
 
-    internal fun callMatchDetail(sportId: String, chooseDate: String) {
+    internal fun callTeamDetail(sportId: String, chooseDate: String) {
         val body = RequestBodies.FavBody(PreferenceHelper.deviceId, sportId, chooseDate)
         viewModel.getFav(body)
     }

@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/box1Key"
-        android:layout_width="@dimen/_160sdp"
+        android:layout_width="@dimen/_180sdp"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/_5sdp"
         android:background="@drawable/bg_white_rectangle"
