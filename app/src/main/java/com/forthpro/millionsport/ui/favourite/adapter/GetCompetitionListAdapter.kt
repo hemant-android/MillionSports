@@ -20,7 +20,7 @@ class GetCompetitionListAdapter(private val mContext: Context) :
     lateinit var onclick: onClickListner
 
     interface onClickListner {
-        fun clickFavUnFav(position: Int,sportId: Int,country_id: Int,team_name: String,fav: Int)
+        fun clickFavUnFav(position: Int,sportId: Int,country_id: Int,team_name: String,fav: Int,flag: String)
     }
 
     fun setClickListner(onclick: onClickListner) {
@@ -52,7 +52,7 @@ class GetCompetitionListAdapter(private val mContext: Context) :
         holder.tvTeamName!!.text = "" + items[position].name
 
         holder.imgFav!!.setOnClickListener {
-            onclick.clickFavUnFav(position,items[position].sport_id,items[position].country_id,items[position].name,items[position].favourite)
+            onclick.clickFavUnFav(position,items[position].sport_id,items[position].country_id,items[position].name,items[position].favourite,items[position].country.country_logo)
         }
     }
 
