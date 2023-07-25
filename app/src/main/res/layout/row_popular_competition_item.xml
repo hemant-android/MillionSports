@@ -12,8 +12,8 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imgFlag"
-        android:layout_width="@dimen/_20sdp"
-        android:layout_height="@dimen/_20sdp"
+        android:layout_width="@dimen/_18sdp"
+        android:layout_height="@dimen/_18sdp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:src="@mipmap/english"
@@ -31,7 +31,7 @@
         android:lineSpacingExtra="1sp"
         android:text="@string/English"
         android:textColor="@color/white"
-        android:textSize="@dimen/_10sdp"
+        android:textSize="@dimen/_9sdp"
         android:translationY="0.47sp" />
 
     <ImageView

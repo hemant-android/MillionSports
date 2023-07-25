@@ -22,7 +22,7 @@ import com.forthpro.millionsport.ui.favourite.fragment.competition.viewmodel.Com
 import com.forthpro.millionsport.util.Resource
 import com.forthpro.millionsport.viewmodel.ViewModelProviderFactory
 
-class CompetitionFragment(val sportId: String?, var chooseDate: String?) : Fragment(), CompetitionAdapter.onClickListner {
+class CompetitionFragment(var sportId: String?, var chooseDate: String?) : Fragment(), CompetitionAdapter.onClickListner {
     private lateinit var binding: FragmentCompetitionBinding
 
     private lateinit var viewModel: CompetitionViewModel
@@ -78,7 +78,7 @@ class CompetitionFragment(val sportId: String?, var chooseDate: String?) : Fragm
                                 adapter.setData(arrMatches!!)
                             } else {
                                 binding.rvCompetition.visibility = View.GONE
-                                binding.llNoRecord.visibility = View.VISIBLE
+                                binding.llNoRecord.visibility = View.GONE
 
                                 binding.tvNoRecord.text =response.data?.message
                             }
@@ -109,9 +109,10 @@ class CompetitionFragment(val sportId: String?, var chooseDate: String?) : Fragm
 
     }
 
-    internal fun callCompetitionDetail(sportId: String, choose_Date: String) {
+    internal fun callCompetitionDetail(sport_Id: String, choose_Date: String) {
         chooseDate = choose_Date
-        val body = RequestBodies.FavBody(PreferenceHelper.deviceId, sportId, choose_Date)
+        sportId = sport_Id
+        val body = RequestBodies.FavBody(PreferenceHelper.deviceId, sport_Id, choose_Date)
         viewModel.getFav(body)
     }
 

@@ -21,7 +21,7 @@ import com.forthpro.millionsport.ui.favourite.fragment.team.viewmodel.TeamViewMo
 import com.forthpro.millionsport.util.Resource
 import com.forthpro.millionsport.viewmodel.ViewModelProviderFactory
 
-class TeamFragment(val sportId: String?, var chooseDate: String?) : Fragment(), TeamAdapter.onClickListner {
+class TeamFragment(var sportId: String?, var chooseDate: String?) : Fragment(), TeamAdapter.onClickListner {
     private lateinit var binding: FragmentTeamBinding
 
     private lateinit var viewModel: TeamViewModel
@@ -76,7 +76,7 @@ class TeamFragment(val sportId: String?, var chooseDate: String?) : Fragment(), 
                                 adapter.setData(arrMatches!!)
                             } else {
                                 binding.rvTeam.visibility = View.GONE
-                                binding.llNoRecord.visibility = View.VISIBLE
+                                binding.llNoRecord.visibility = View.GONE
                                 binding.tvNoRecord.text =response.data?.message
                             }
 
@@ -105,9 +105,10 @@ class TeamFragment(val sportId: String?, var chooseDate: String?) : Fragment(), 
         super.onResume()
     }
 
-    internal fun callTeamDetail(sportId: String, choose_Date: String) {
+    internal fun callTeamDetail(sport_Id: String, choose_Date: String) {
         chooseDate = choose_Date
-        val body = RequestBodies.FavBody(PreferenceHelper.deviceId, sportId, choose_Date)
+        sportId = sport_Id
+        val body = RequestBodies.FavBody(PreferenceHelper.deviceId, sport_Id, choose_Date)
         viewModel.getFav(body)
     }
 
