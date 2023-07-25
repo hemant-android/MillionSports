@@ -1,6 +1,8 @@
 package com.forthpro.millionsport.ui.favourite
 
+import android.app.Activity
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
@@ -36,6 +38,8 @@ class GetTeamListActivity : BaseActivity(), GetTeamListAdapter.onClickListner {
 
     private var allTeams: ArrayList<GetTeamListResponse.AllTeam>? = arrayListOf()
 
+    var sportId: String? = ""
+    var chooseDate: String? = ""
     private var label: String? = ""
     private var yes: String? = ""
     private var no: String? = ""
@@ -45,9 +49,18 @@ class GetTeamListActivity : BaseActivity(), GetTeamListAdapter.onClickListner {
         binding = ActivityGetTeamListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val bundle = intent.extras
+        if (bundle != null) {
+            sportId = bundle.getString("sportId")
+            chooseDate = bundle.getString("chooseDate")
+        }
+
         setupViewModel()
 
         binding.imgBack.setOnClickListener {
+            val data = Intent()
+            data.putExtra("chooseDate", chooseDate)
+            setResult(Activity.RESULT_OK, data);
             finish()
         }
 
@@ -68,7 +81,7 @@ class GetTeamListActivity : BaseActivity(), GetTeamListAdapter.onClickListner {
 
         })
 
-        viewModel.getTeamListData(RequestBodies.GetTeamListBody(PreferenceHelper.deviceId, "1"))
+        viewModel.getTeamListData(RequestBodies.GetTeamListBody(PreferenceHelper.deviceId, sportId!!))
 
         viewModel.getTeamListResponse.observe(this) { event ->
             event?.getContentIfNotHandled()?.let { response ->
@@ -116,6 +129,12 @@ class GetTeamListActivity : BaseActivity(), GetTeamListAdapter.onClickListner {
         }
     }
 
+    override fun onBackPressed() {
+        val data = Intent()
+        data.putExtra("chooseDate", chooseDate)
+        setResult(Activity.RESULT_OK, data);
+        finish()
+    }
     private fun hideProgressBar() {
         binding.progress.visibility = View.GONE
     }

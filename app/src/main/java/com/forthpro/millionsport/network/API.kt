@@ -15,6 +15,9 @@ interface API {
     @POST("api/getLanguageText")
     suspend fun getLanguageLabel(@Body body: RequestBodies.LanguageLabelBody): Response<CommonResponse>
 
+    @POST("api/changeLanguage")
+    suspend fun changeLanguage(@Body body: RequestBodies.ChangeLanguageBody): Response<CommonResponse>
+
     @GET("api/second_screen")
     suspend fun getAllTimeFormat(): Response<TimeFormatResponse>
 

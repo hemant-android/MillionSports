@@ -59,26 +59,38 @@ class ExpandablePopularCompetitionByCountryAdapter(
         val box2 = convertView!!.findViewById<TextView>(R.id.box2)
         val box3 = convertView!!.findViewById<TextView>(R.id.box3)
 
-        var mChild = (getChild(groupPosition,
-            childPosition) as DashboardResponse.PopularCompetitionsCountry).prediction[childPosition]
-
-        if (!TextUtils.isEmpty(mChild.Home)) {
-            tvLeagueName.visibility = View.VISIBLE
-            tvLeagueName.text = mChild.Home
-        } else {
-            tvLeagueName.visibility = View.GONE
-        }
-        if (!TextUtils.isEmpty(mChild.Away)) {
-            tvLeagueCountry.visibility = View.VISIBLE
-            tvLeagueCountry.text = mChild.Away
-        } else {
-            tvLeagueCountry.visibility = View.GONE
-        }
-
-        tvTime.text = /*mChild.prediction_time*/
-            Utils.convertPredictionTimeCurrentTimeZone(mChild.prediction_date+" "+mChild.prediction_time, PreferenceHelper.timeFormat)
+        var mChild = (getChild(
+            groupPosition,
+            childPosition
+        ) as DashboardResponse.PopularCompetitionsCountry).prediction[childPosition]
 
         var mParent = getGroup(groupPosition) as DashboardResponse.PopularCompetitionsCountry
+
+        if (mParent.sport_id == 9) {
+            if (mChild.S_D == "1") {
+                tvLeagueName.text = mChild.Player_H_1
+                tvLeagueCountry.text = mChild.Player_A_1
+            } else {
+                tvLeagueName.text = mChild.Player_H_1 + "/" + mChild.Player_H_2
+                tvLeagueCountry.text = mChild.Player_A_1 + "/" + mChild.Player_A_2
+            }
+
+        } else {
+            if (!TextUtils.isEmpty(mChild.Home)) {
+                tvLeagueName.visibility = View.VISIBLE
+                tvLeagueName.text = mChild.Home
+            } else {
+                tvLeagueName.visibility = View.GONE
+            }
+            if (!TextUtils.isEmpty(mChild.Away)) {
+                tvLeagueCountry.visibility = View.VISIBLE
+                tvLeagueCountry.text = mChild.Away
+            } else {
+                tvLeagueCountry.visibility = View.GONE
+            }
+        }
+
+        tvTime.text =Utils.convertPredictionTimeCurrentTimeZone(mChild.prediction_date + " " + mChild.prediction_time,PreferenceHelper.timeFormat)
 
         when (mParent.sport_id) {
             1 -> {
@@ -90,6 +102,7 @@ class ExpandablePopularCompetitionByCountryAdapter(
                 box2.text = mChild.FT_X
                 box3.text = mChild.FT_2
             }
+
             2 -> {
                 box1.visibility = View.VISIBLE
                 box2.visibility = View.VISIBLE
@@ -99,6 +112,7 @@ class ExpandablePopularCompetitionByCountryAdapter(
                 box2.text = mChild.FT_X
                 box3.text = mChild.FT_2
             }
+
             3 -> {
                 box1.visibility = View.VISIBLE
                 box2.visibility = View.VISIBLE
@@ -107,6 +121,7 @@ class ExpandablePopularCompetitionByCountryAdapter(
                 box1.text = mChild.FT_2W_1
                 box2.text = mChild.FT_2W_2
             }
+
             4 -> {
                 box1.visibility = View.VISIBLE
                 box2.visibility = View.VISIBLE
@@ -116,6 +131,7 @@ class ExpandablePopularCompetitionByCountryAdapter(
                 box2.text = mChild.FT_X
                 box3.text = mChild.FT_2
             }
+
             5 -> {
                 box1.visibility = View.VISIBLE
                 box2.visibility = View.VISIBLE
@@ -125,6 +141,7 @@ class ExpandablePopularCompetitionByCountryAdapter(
                 box2.text = mChild.FT_X
                 box3.text = mChild.FT_2
             }
+
             6 -> {
                 box1.visibility = View.VISIBLE
                 box2.visibility = View.VISIBLE
@@ -133,6 +150,7 @@ class ExpandablePopularCompetitionByCountryAdapter(
                 box1.text = mChild.FT_1
                 box2.text = mChild.FT_2
             }
+
             7 -> {
                 box1.visibility = View.VISIBLE
                 box2.visibility = View.VISIBLE
@@ -142,6 +160,7 @@ class ExpandablePopularCompetitionByCountryAdapter(
                 box2.text = mChild.FT_X
                 box3.text = mChild.FT_2
             }
+
             8 -> {
                 box1.visibility = View.VISIBLE
                 box2.visibility = View.VISIBLE
@@ -151,14 +170,16 @@ class ExpandablePopularCompetitionByCountryAdapter(
                 box2.text = mChild.FT_X
                 box3.text = mChild.FT_2
             }
+
             9 -> {
                 box1.visibility = View.VISIBLE
                 box2.visibility = View.VISIBLE
                 box3.visibility = View.GONE
 
-                box1.text = mChild.Player_H_1
-                box2.text = mChild.Player_H_2
+                box1.text = mChild.FT_1
+                box2.text = mChild.FT_2
             }
+
             10 -> {
                 box1.visibility = View.VISIBLE
                 box2.visibility = View.VISIBLE
@@ -167,6 +188,7 @@ class ExpandablePopularCompetitionByCountryAdapter(
                 box1.text = mChild.FT_2W_1
                 box2.text = mChild.FT_2W_2
             }
+
             11 -> {
                 box1.visibility = View.VISIBLE
                 box2.visibility = View.VISIBLE
@@ -175,6 +197,7 @@ class ExpandablePopularCompetitionByCountryAdapter(
                 box1.text = mChild.FT_1
                 box2.text = mChild.FT_2
             }
+
             12 -> {
                 box1.visibility = View.VISIBLE
                 box2.visibility = View.VISIBLE
@@ -184,6 +207,7 @@ class ExpandablePopularCompetitionByCountryAdapter(
                 box2.text = mChild.FT_X
                 box3.text = mChild.FT_2
             }
+
             13 -> {
 
                 box1.visibility = View.VISIBLE
@@ -193,6 +217,7 @@ class ExpandablePopularCompetitionByCountryAdapter(
                 box1.text = mChild.FT_1
                 box2.text = mChild.FT_2
             }
+
             else -> {
 
             }

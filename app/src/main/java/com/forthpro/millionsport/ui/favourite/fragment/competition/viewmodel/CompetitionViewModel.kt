@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.forthpro.millionsport.R
 import com.forthpro.millionsport.app.MyApplication
 import com.forthpro.millionsport.model.RequestBodies
+import com.forthpro.millionsport.model.response.CommonResponse
 import com.forthpro.millionsport.model.response.CompetitionResponse
 import com.forthpro.millionsport.model.response.TeamResponse
 import com.forthpro.millionsport.repository.AppRepository
@@ -23,16 +24,17 @@ class CompetitionViewModel(app: Application, private val appRepository: AppRepos
     private val _getFavResponse = MutableLiveData<Event<Resource<CompetitionResponse>>>()
     val getFavResponse: LiveData<Event<Resource<CompetitionResponse>>> = _getFavResponse
 
-    private val _getFavResponseFilter = MutableLiveData<Event<Resource<CompetitionResponse>>>()
-    val getFavResponseFilter: LiveData<Event<Resource<CompetitionResponse>>> = _getFavResponseFilter
+    private val _favAddRemoveResponse = MutableLiveData<Event<Resource<CommonResponse>>>()
+    val favAddRemoveResponse: LiveData<Event<Resource<CommonResponse>>> = _favAddRemoveResponse
 
     fun getFav(body: RequestBodies.FavBody) = viewModelScope.launch {
         getFavData(body)
     }
 
-    fun getFavFilter(body: RequestBodies.FavBody) = viewModelScope.launch {
-        getFavDataFilter(body)
+    fun favAddRemoveData(body: RequestBodies.FavAddRemoveCompetitionBody) = viewModelScope.launch {
+        favAddRemoveDetail(body)
     }
+
 
     private suspend fun getFavData(body: RequestBodies.FavBody) {
         _getFavResponse.postValue(Event(Resource.Loading()))
@@ -76,14 +78,14 @@ class CompetitionViewModel(app: Application, private val appRepository: AppRepos
         }
     }
 
-    private suspend fun getFavDataFilter(body: RequestBodies.FavBody) {
-        _getFavResponseFilter.postValue(Event(Resource.Loading()))
+    private suspend fun favAddRemoveDetail(body: RequestBodies.FavAddRemoveCompetitionBody) {
+        _favAddRemoveResponse.postValue(Event(Resource.Loading()))
         try {
             if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
-                val response = appRepository.getCompetitionData(body)
-                _getFavResponseFilter.postValue(response?.let { handleResponse(it) })
+                val response = appRepository.favAddRemoveCompetitionData(body)
+                _favAddRemoveResponse.postValue(response?.let { handleFavAddRemoveResponse(it) })
             } else {
-                _getFavResponseFilter.postValue(
+                _favAddRemoveResponse.postValue(
                     Event(
                         Resource.Error(
                             getApplication<MyApplication>().getString(
@@ -96,7 +98,7 @@ class CompetitionViewModel(app: Application, private val appRepository: AppRepos
         } catch (t: Throwable) {
             when (t) {
                 is IOException -> {
-                    _getFavResponseFilter.postValue(
+                    _favAddRemoveResponse.postValue(
                         Event(
                             Resource.Error(
                                 getApplication<MyApplication>().getString(
@@ -108,7 +110,7 @@ class CompetitionViewModel(app: Application, private val appRepository: AppRepos
                 }
 
                 else -> {
-                    _getFavResponseFilter.postValue(
+                    _favAddRemoveResponse.postValue(
                         Event(
                             Resource.Error(t.localizedMessage)
                         )
@@ -119,6 +121,15 @@ class CompetitionViewModel(app: Application, private val appRepository: AppRepos
     }
 
     private fun handleResponse(response: retrofit2.Response<CompetitionResponse>): Event<Resource<CompetitionResponse>>? {
+        if (response.isSuccessful) {
+            response.body()?.let { resultResponse ->
+                return Event(Resource.Success(resultResponse))
+            }
+        }
+        return Event(Resource.Error(response.message()))
+    }
+
+    private fun handleFavAddRemoveResponse(response: retrofit2.Response<CommonResponse>): Event<Resource<CommonResponse>>? {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
                 return Event(Resource.Success(resultResponse))

@@ -7,6 +7,11 @@ object RequestBodies {
         val languageId: String,
     )
 
+    data class ChangeLanguageBody(
+        val platform: String,
+        val device_id: String,
+    )
+
     data class DashboardBody(
         val device_id: String,
         val sportId: String,
@@ -26,17 +31,17 @@ object RequestBodies {
 
     data class GetTeamListBody(
         val device_id: String,
-        val sportId: String
+        val sportId: String,
     )
 
     data class GetNotificationBody(
-        val device_id: String
+        val device_id: String,
     )
 
     data class UpdatedNotificationBody(
         val device_id: String,
         val notification_id: String,
-        val notification: String
+        val notification: String,
     )
 
     data class FavAddRemoveBody(
@@ -44,7 +49,7 @@ object RequestBodies {
         val sportId: String,
         val country_id: String,
         val team_name: String,
-        val favourite: String
+        val favourite: String,
     )
 
     data class FavAddRemoveCompetitionBody(
@@ -52,7 +57,7 @@ object RequestBodies {
         val sportId: String,
         val country_id: String,
         val default_name: String,
-        val favourite: String
+        val favourite: String,
     )
 
     data class UpdatedSportItemBody(
@@ -60,6 +65,6 @@ object RequestBodies {
         val fromSportId: String,
         val fromposition: String,
         val toSportId: String,
-        val toposition: String
+        val toposition: String,
     )
 }

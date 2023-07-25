@@ -62,24 +62,36 @@ class ExpandablePopularCompetitionAdapter(
         var mChild = (getChild(groupPosition,
             childPosition) as DashboardResponse.PopularCompetition).prediction[childPosition]
 
-        if (!TextUtils.isEmpty(mChild.Home)) {
-            tvLeagueName.visibility = View.VISIBLE
-            tvLeagueName.text = mChild.Home
-        } else {
-            tvLeagueName.visibility = View.GONE
-        }
-        if (!TextUtils.isEmpty(mChild.Away)) {
-            tvLeagueCountry.visibility = View.VISIBLE
-            tvLeagueCountry.text = mChild.Away
-        } else {
-            tvLeagueCountry.visibility = View.GONE
-        }
-
-        tvTime.text =
-            Utils.convertPredictionTimeCurrentTimeZone(mChild.prediction_date+" "+mChild.prediction_time, PreferenceHelper.timeFormat)
-
-
         var mParent = getGroup(groupPosition) as DashboardResponse.PopularCompetition
+
+        tvTime.text = Utils.convertPredictionTimeCurrentTimeZone(mChild.prediction_date+" "+mChild.prediction_time, PreferenceHelper.timeFormat)
+
+        if (mParent.sport_id == 9)
+        {
+            if (mChild.S_D == "1")
+            {
+                tvLeagueName.text = mChild.Player_H_1
+                tvLeagueCountry.text = mChild.Player_A_1
+            }else{
+                tvLeagueName.text = mChild.Player_H_1 +"/"+mChild.Player_H_2
+                tvLeagueCountry.text = mChild.Player_A_1 +"/"+mChild.Player_A_2
+            }
+
+        }else{
+            if (!TextUtils.isEmpty(mChild.Home)) {
+                tvLeagueName.visibility = View.VISIBLE
+                tvLeagueName.text = mChild.Home
+            } else {
+                tvLeagueName.visibility = View.GONE
+            }
+            if (!TextUtils.isEmpty(mChild.Away)) {
+                tvLeagueCountry.visibility = View.VISIBLE
+                tvLeagueCountry.text = mChild.Away
+            } else {
+                tvLeagueCountry.visibility = View.GONE
+            }
+        }
+
 
         when (mParent.sport_id) {
             1 -> {
@@ -157,8 +169,8 @@ class ExpandablePopularCompetitionAdapter(
                 box2.visibility = View.VISIBLE
                 box3.visibility = View.GONE
 
-                box1.text = mChild.Player_H_1
-                box2.text = mChild.Player_H_2
+                box1.text = mChild.FT_1
+                box2.text = mChild.FT_2
             }
             10 -> {
                 box1.visibility = View.VISIBLE

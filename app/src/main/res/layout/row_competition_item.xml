@@ -12,8 +12,8 @@
         android:layout_height="wrap_content"
         android:background="@color/accent"
         android:paddingLeft="@dimen/_10sdp"
-        android:paddingRight="@dimen/_10sdp"
         android:paddingTop="@dimen/_5sdp"
+        android:paddingRight="@dimen/_10sdp"
         android:paddingBottom="@dimen/_5sdp">
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -61,6 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/_5sdp" />
+            android:layout_marginRight="@dimen/_5sdp"
+            android:src="@drawable/ic_fav_select" />
     </RelativeLayout>
 </LinearLayout>

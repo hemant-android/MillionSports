@@ -54,9 +54,6 @@ class FavouriteActivity : BaseActivity(), SportsFavAdapter.onClickListner,
 
         setupViewModel()
 
-        adapter = ViewPagerAdapter(supportFragmentManager, sportId, chooseDate)
-        binding.viewPager.adapter = adapter!!
-
         binding.imgBack.setOnClickListener {
             finish()
         }
@@ -190,46 +187,6 @@ class FavouriteActivity : BaseActivity(), SportsFavAdapter.onClickListner,
                                 binding.rvGame.adapter = mSportAdapter
                                 mSportAdapter.setClickListner(this)
 
-                                if (sportId == "9" || sportId == "13") {
-                                    binding.tvMatch.visibility = View.GONE
-                                    binding.tvTeams.visibility = View.GONE
-                                    binding.tvCompetition.visibility = View.VISIBLE
-
-                                    binding.tvMatch.typeface = ResourcesCompat.getFont(this, R.font.roboto_regular_400)
-                                    binding.tvCompetition.typeface = ResourcesCompat.getFont(this, R.font.roboto_bold_700)
-                                    binding.tvTeams.typeface = ResourcesCompat.getFont(this, R.font.roboto_regular_400)
-
-                                    binding.viewPager.currentItem = 1
-
-                                    selectedTab = 1
-
-                                    val frag = (binding.viewPager.adapter as ViewPagerAdapter).instantiateItem(
-                                        binding.viewPager,binding.viewPager.currentItem) as CompetitionFragment
-
-                                    frag.callCompetitionDetail(sportId!!, chooseDate!!)
-
-                                    binding.viewPager.beginFakeDrag()
-                                } else {
-                                    binding.tvMatch.visibility = View.VISIBLE
-                                    binding.tvTeams.visibility = View.VISIBLE
-                                    binding.tvCompetition.visibility = View.VISIBLE
-
-                                    binding.tvMatch.typeface = ResourcesCompat.getFont(this, R.font.roboto_bold_700)
-                                    binding.tvCompetition.typeface =ResourcesCompat.getFont(this, R.font.roboto_regular_400)
-                                    binding.tvTeams.typeface = ResourcesCompat.getFont(this, R.font.roboto_regular_400)
-
-                                    binding.viewPager.currentItem = 0
-
-                                    selectedTab = 0
-
-                                    val frag = (binding.viewPager.adapter as ViewPagerAdapter).instantiateItem(
-                                        binding.viewPager,
-                                        binding.viewPager.currentItem
-                                    ) as MatchFragment
-
-                                    frag.callMatchDetail(sportId!!, chooseDate!!)
-
-                                }
                             }
 
                             if (response.data?.dateArray != null && response.data?.dateArray.isNotEmpty()) {
@@ -237,6 +194,9 @@ class FavouriteActivity : BaseActivity(), SportsFavAdapter.onClickListner,
 
                                 if (arrDate != null && arrDate!!.isNotEmpty()) {
                                     for (i in arrDate!!.indices) {
+                                        if (i == 0) {
+                                            chooseDate = arrDate!![i].date_value
+                                        }
                                         arrDate!![i].isSelect = i == 0
                                     }
                                 }
@@ -246,6 +206,50 @@ class FavouriteActivity : BaseActivity(), SportsFavAdapter.onClickListner,
                             binding.tvMatch.text = response.data?.MATCH_LABEL
                             binding.tvCompetition.text = response.data?.COMPETITIONS_LABEL
                             binding.tvTeams.text = response.data?.TEAMS_LABEL
+
+                            adapter = ViewPagerAdapter(supportFragmentManager, sportId, chooseDate)
+                            binding.viewPager.adapter = adapter!!
+
+                            if (sportId == "9" || sportId == "13") {
+                                binding.tvMatch.visibility = View.GONE
+                                binding.tvTeams.visibility = View.GONE
+                                binding.tvCompetition.visibility = View.VISIBLE
+
+                                binding.tvMatch.typeface = ResourcesCompat.getFont(this, R.font.roboto_regular_400)
+                                binding.tvCompetition.typeface = ResourcesCompat.getFont(this, R.font.roboto_bold_700)
+                                binding.tvTeams.typeface = ResourcesCompat.getFont(this, R.font.roboto_regular_400)
+
+                                binding.viewPager.currentItem = 1
+
+                                selectedTab = 1
+
+                                val frag = (binding.viewPager.adapter as ViewPagerAdapter).instantiateItem(
+                                    binding.viewPager,binding.viewPager.currentItem) as CompetitionFragment
+
+                                frag.callCompetitionDetail(sportId!!, chooseDate!!)
+
+                                binding.viewPager.beginFakeDrag()
+                            } else {
+                                binding.tvMatch.visibility = View.VISIBLE
+                                binding.tvTeams.visibility = View.VISIBLE
+                                binding.tvCompetition.visibility = View.VISIBLE
+
+                                binding.tvMatch.typeface = ResourcesCompat.getFont(this, R.font.roboto_bold_700)
+                                binding.tvCompetition.typeface =ResourcesCompat.getFont(this, R.font.roboto_regular_400)
+                                binding.tvTeams.typeface = ResourcesCompat.getFont(this, R.font.roboto_regular_400)
+
+                                binding.viewPager.currentItem = 0
+
+                                selectedTab = 0
+
+                                val frag = (binding.viewPager.adapter as ViewPagerAdapter).instantiateItem(
+                                    binding.viewPager,
+                                    binding.viewPager.currentItem
+                                ) as MatchFragment
+
+                                frag.callMatchDetail(sportId!!, chooseDate!!)
+
+                            }
 
                         } else {
                             Toast.makeText(this, "Data not found", Toast.LENGTH_SHORT).show()

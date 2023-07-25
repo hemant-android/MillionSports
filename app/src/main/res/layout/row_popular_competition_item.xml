@@ -12,8 +12,8 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imgFlag"
-        android:layout_width="@dimen/_22sdp"
-        android:layout_height="@dimen/_22sdp"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:src="@mipmap/english"

@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.forthpro.millionsport.BuildConfig
@@ -18,7 +19,7 @@ class TeamAdapter(private val mContext: Context) :
     lateinit var onclick: onClickListner
 
     interface onClickListner {
-        fun clickItem(languageId: String)
+        fun clickFavUnFav(position: Int,sportId: Int,country_id: Int,team_name: String,fav: Int)
     }
 
     fun setClickListner(onclick: onClickListner) {
@@ -42,6 +43,10 @@ class TeamAdapter(private val mContext: Context) :
 
         holder.tvCountryName!!.text = "(" + items[position].country.name + ")"
         holder.tvTeamName!!.text = "" + items[position].team_name
+
+        holder.imgFav!!.setOnClickListener {
+            onclick.clickFavUnFav(position,items[position].sport_id,items[position].country_id,items[position].team_name,items[position].favourite)
+        }
     }
 
     // Inflates the item views
@@ -60,6 +65,7 @@ class TeamAdapter(private val mContext: Context) :
         val imgFlag: ShapeableImageView? = view.findViewById(R.id.imgFlag)
         val tvCountryName: TextView? = view.findViewById(R.id.tvCountryName)
         val tvTeamName: TextView? = view.findViewById(R.id.tvTeamName)
+        val imgFav: ImageView? = view.findViewById(R.id.imgFav)
     }
 
 }

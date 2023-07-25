@@ -1,6 +1,8 @@
 package com.forthpro.millionsport.ui.favourite
 
+import android.app.Activity
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
@@ -37,6 +39,8 @@ class GetCompetitionListActivity : BaseActivity(), GetCompetitionListAdapter.onC
 
     private var allTeams: ArrayList<GetCompetitionListResponse.AllCompetiontion>? = arrayListOf()
 
+    var sportId: String? = ""
+    var chooseDate: String? = ""
     private var label: String? = ""
     private var yes: String? = ""
     private var no: String? = ""
@@ -46,9 +50,18 @@ class GetCompetitionListActivity : BaseActivity(), GetCompetitionListAdapter.onC
         binding = ActivityGetTeamListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val bundle = intent.extras
+        if (bundle != null) {
+            sportId = bundle.getString("sportId")
+            chooseDate = bundle.getString("chooseDate")
+        }
+
         setupViewModel()
 
         binding.imgBack.setOnClickListener {
+            val data = Intent()
+            data.putExtra("chooseDate", chooseDate)
+            setResult(Activity.RESULT_OK, data);
             finish()
         }
 
@@ -69,7 +82,7 @@ class GetCompetitionListActivity : BaseActivity(), GetCompetitionListAdapter.onC
 
         })
 
-        viewModel.getTeamListData(RequestBodies.GetTeamListBody(PreferenceHelper.deviceId, "1"))
+        viewModel.getTeamListData(RequestBodies.GetTeamListBody(PreferenceHelper.deviceId, sportId!!))
 
         viewModel.getTeamListResponse.observe(this) { event ->
             event?.getContentIfNotHandled()?.let { response ->
@@ -114,6 +127,13 @@ class GetCompetitionListActivity : BaseActivity(), GetCompetitionListAdapter.onC
                 }
             }
         }
+    }
+
+    override fun onBackPressed() {
+        val data = Intent()
+        data.putExtra("chooseDate", chooseDate)
+        setResult(Activity.RESULT_OK, data);
+        finish()
     }
 
     private fun hideProgressBar() {
@@ -208,13 +228,7 @@ class GetCompetitionListActivity : BaseActivity(), GetCompetitionListAdapter.onC
                             is Resource.Success -> {
                                 hideProgressBar()
                                 if (response.data?.status == 1) {
-                                    /*if (allTeams!![position].favourite == 0) {
-                                        allTeams!![position].favourite = 1
-                                    } else {
-                                        allTeams!![position].favourite = 0
-                                    }
-                                    adapter.notifyDataSetChanged()*/
-//                            viewModel.getTeamListData(RequestBodies.GetTeamListBody(PreferenceHelper.deviceId, "1"))
+
                                 } else {
                                     Toast.makeText(this, "Data not found", Toast.LENGTH_SHORT)
                                         .show()

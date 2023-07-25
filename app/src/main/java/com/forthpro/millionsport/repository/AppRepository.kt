@@ -6,6 +6,7 @@ import com.forthpro.millionsport.network.RetrofitInstance
 class AppRepository {
     suspend fun getAllLanguageData() = RetrofitInstance().retrofitApi?.getAllLanguage()
     suspend fun getLanguageLabelData(body: RequestBodies.LanguageLabelBody) =RetrofitInstance().retrofitApi?.getLanguageLabel(body)
+    suspend fun changeLanguageData(body: RequestBodies.ChangeLanguageBody) =RetrofitInstance().retrofitApi?.changeLanguage(body)
     suspend fun getAllTimeFormatData() = RetrofitInstance().retrofitApi?.getAllTimeFormat()
     suspend fun getSideMenuData() = RetrofitInstance().retrofitApi?.getSideMenuData()
     suspend fun getNotificationData(body: RequestBodies.GetNotificationBody) =RetrofitInstance().retrofitApi?.getNotificationData(body)

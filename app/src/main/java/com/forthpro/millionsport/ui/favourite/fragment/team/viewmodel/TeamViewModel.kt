@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.forthpro.millionsport.R
 import com.forthpro.millionsport.app.MyApplication
 import com.forthpro.millionsport.model.RequestBodies
+import com.forthpro.millionsport.model.response.CommonResponse
 import com.forthpro.millionsport.model.response.TeamResponse
 import com.forthpro.millionsport.repository.AppRepository
 import com.forthpro.millionsport.util.Event
@@ -22,15 +23,15 @@ class TeamViewModel(app: Application, private val appRepository: AppRepository) 
     private val _getFavResponse = MutableLiveData<Event<Resource<TeamResponse>>>()
     val getFavResponse: LiveData<Event<Resource<TeamResponse>>> = _getFavResponse
 
-    private val _getFavResponseFilter = MutableLiveData<Event<Resource<TeamResponse>>>()
-    val getFavResponseFilter: LiveData<Event<Resource<TeamResponse>>> = _getFavResponseFilter
+    private val _favAddRemoveResponse = MutableLiveData<Event<Resource<CommonResponse>>>()
+    val favAddRemoveResponse: LiveData<Event<Resource<CommonResponse>>> = _favAddRemoveResponse
 
     fun getFav(body: RequestBodies.FavBody) = viewModelScope.launch {
         getFavData(body)
     }
 
-    fun getFavFilter(body: RequestBodies.FavBody) = viewModelScope.launch {
-        getFavDataFilter(body)
+    fun favAddRemoveData(body: RequestBodies.FavAddRemoveBody) = viewModelScope.launch {
+        favAddRemoveDetail(body)
     }
 
     private suspend fun getFavData(body: RequestBodies.FavBody) {
@@ -75,14 +76,14 @@ class TeamViewModel(app: Application, private val appRepository: AppRepository) 
         }
     }
 
-    private suspend fun getFavDataFilter(body: RequestBodies.FavBody) {
-        _getFavResponseFilter.postValue(Event(Resource.Loading()))
+    private suspend fun favAddRemoveDetail(body: RequestBodies.FavAddRemoveBody) {
+        _favAddRemoveResponse.postValue(Event(Resource.Loading()))
         try {
             if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
-                val response = appRepository.getTeamData(body)
-                _getFavResponseFilter.postValue(response?.let { handleResponse(it) })
+                val response = appRepository.favAddRemoveData(body)
+                _favAddRemoveResponse.postValue(response?.let { handleFavAddRemoveResponse(it) })
             } else {
-                _getFavResponseFilter.postValue(
+                _favAddRemoveResponse.postValue(
                     Event(
                         Resource.Error(
                             getApplication<MyApplication>().getString(
@@ -95,7 +96,7 @@ class TeamViewModel(app: Application, private val appRepository: AppRepository) 
         } catch (t: Throwable) {
             when (t) {
                 is IOException -> {
-                    _getFavResponseFilter.postValue(
+                    _favAddRemoveResponse.postValue(
                         Event(
                             Resource.Error(
                                 getApplication<MyApplication>().getString(
@@ -107,7 +108,7 @@ class TeamViewModel(app: Application, private val appRepository: AppRepository) 
                 }
 
                 else -> {
-                    _getFavResponseFilter.postValue(
+                    _favAddRemoveResponse.postValue(
                         Event(
                             Resource.Error(t.localizedMessage)
                         )
@@ -118,6 +119,15 @@ class TeamViewModel(app: Application, private val appRepository: AppRepository) 
     }
 
     private fun handleResponse(response: retrofit2.Response<TeamResponse>): Event<Resource<TeamResponse>>? {
+        if (response.isSuccessful) {
+            response.body()?.let { resultResponse ->
+                return Event(Resource.Success(resultResponse))
+            }
+        }
+        return Event(Resource.Error(response.message()))
+    }
+
+    private fun handleFavAddRemoveResponse(response: retrofit2.Response<CommonResponse>): Event<Resource<CommonResponse>>? {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
                 return Event(Resource.Success(resultResponse))

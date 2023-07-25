@@ -66,7 +66,7 @@
                     android:textAllCaps="true"
                     android:textColor="@color/white"
                     android:textColorHint="@color/white"
-                    android:textSize="@dimen/_12sdp"
+                    android:textSize="@dimen/_10sdp"
                     android:translationY="-0.9sp" />
 
 
@@ -92,7 +92,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
-                android:textSize="@dimen/_12sdp"
+                android:textSize="@dimen/_10sdp"
                 android:translationY="-0.9sp" />
 
                 <com.forthpro.millionsport.util.NonScrollExpandableListView

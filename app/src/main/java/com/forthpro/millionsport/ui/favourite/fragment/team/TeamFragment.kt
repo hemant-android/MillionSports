@@ -1,5 +1,6 @@
 package com.forthpro.millionsport.ui.favourite.fragment.team
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -20,7 +21,7 @@ import com.forthpro.millionsport.ui.favourite.fragment.team.viewmodel.TeamViewMo
 import com.forthpro.millionsport.util.Resource
 import com.forthpro.millionsport.viewmodel.ViewModelProviderFactory
 
-class TeamFragment(val sportId: String?, val chooseDate: String?) : Fragment() {
+class TeamFragment(val sportId: String?, var chooseDate: String?) : Fragment(), TeamAdapter.onClickListner {
     private lateinit var binding: FragmentTeamBinding
 
     private lateinit var viewModel: TeamViewModel
@@ -45,11 +46,14 @@ class TeamFragment(val sportId: String?, val chooseDate: String?) : Fragment() {
 
         binding.tvAddTeam.setOnClickListener {
             Intent(requireActivity(), GetTeamListActivity::class.java).also {
-                startActivity(it)
+                it.putExtra("sportId", sportId.toString())
+                it.putExtra("chooseDate", chooseDate)
+                startActivityForResult(it,101)
             }
         }
 
         binding.rvTeam.adapter = adapter
+        adapter.setClickListner(this)
 
         viewModel.getFavResponse.observe(requireActivity()) { event ->
             event?.getContentIfNotHandled()?.let { response ->
@@ -99,12 +103,11 @@ class TeamFragment(val sportId: String?, val chooseDate: String?) : Fragment() {
 
     override fun onResume() {
         super.onResume()
-//        val body = RequestBodies.FavBody(PreferenceHelper.deviceId, sportId!!, chooseDate!!)
-//        viewModel.getFav(body)
     }
 
-    internal fun callTeamDetail(sportId: String, chooseDate: String) {
-        val body = RequestBodies.FavBody(PreferenceHelper.deviceId, sportId, chooseDate)
+    internal fun callTeamDetail(sportId: String, choose_Date: String) {
+        chooseDate = choose_Date
+        val body = RequestBodies.FavBody(PreferenceHelper.deviceId, sportId, choose_Date)
         viewModel.getFav(body)
     }
 
@@ -120,5 +123,68 @@ class TeamFragment(val sportId: String?, val chooseDate: String?) : Fragment() {
         val repository = AppRepository()
         val factory = ViewModelProviderFactory(requireActivity().application, repository)
         viewModel = ViewModelProvider(this, factory)[TeamViewModel::class.java]
+    }
+
+    override fun clickFavUnFav(
+        position: Int,
+        sportId: Int,
+        country_id: Int,
+        team_name: String,
+        favourite: Int,
+    ) {
+        viewModel.favAddRemoveData(
+            RequestBodies.FavAddRemoveBody(
+                PreferenceHelper.deviceId,
+                sportId.toString(),
+                country_id.toString(),
+                team_name,
+                "2"
+            )
+        )
+
+        viewModel.favAddRemoveResponse.observe(this) { event ->
+            event?.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Success -> {
+                        hideProgressBar()
+                        if (response.data?.status == 1) {
+
+                            val body = RequestBodies.FavBody(PreferenceHelper.deviceId, sportId!!.toString(), chooseDate!!)
+                            viewModel.getFav(body)
+
+                        } else {
+                            Toast.makeText(requireActivity(), "Data not found", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
+
+                    is Resource.Error -> {
+                        hideProgressBar()
+                        response.message?.let { message ->
+                            Log.e("error", message)
+                        }
+                    }
+
+                    is Resource.Loading -> {
+                        showProgressBar()
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (resultCode) {
+            Activity.RESULT_OK -> {
+                when (requestCode) {
+                    101 -> {
+                        var chooseDate =data!!.getStringExtra("chooseDate")
+                        val body = RequestBodies.FavBody(PreferenceHelper.deviceId, sportId!!, chooseDate!!)
+                        viewModel.getFav(body)
+                    }
+                }
+            }
+        }
     }
 }
