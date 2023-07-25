@@ -68,10 +68,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#1D1F24"
-                android:orientation="horizontal"
                 android:layout_gravity="center"
+                android:background="#1D1F24"
                 android:gravity="center"
+                android:orientation="horizontal"
                 android:weightSum="3">
 
                 <TextView
@@ -82,11 +82,11 @@
                     android:fontFamily="@font/roboto_bold_700"
                     android:gravity="center"
                     android:lineSpacingExtra="1sp"
-                    android:visibility="visible"
                     android:padding="@dimen/_8sdp"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/_11ssp"
-                    android:translationY="0.55sp" />
+                    android:textSize="@dimen/_9ssp"
+                    android:translationY="0.55sp"
+                    android:visibility="visible" />
 
                 <TextView
                     android:id="@+id/tvCompetition"
@@ -98,7 +98,7 @@
                     android:lineSpacingExtra="1sp"
                     android:padding="@dimen/_8sdp"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/_11ssp"
+                    android:textSize="@dimen/_9ssp"
                     android:translationY="0.55sp" />
 
                 <TextView
@@ -109,11 +109,11 @@
                     android:fontFamily="@font/roboto_regular_400"
                     android:gravity="center"
                     android:lineSpacingExtra="1sp"
-                    android:visibility="visible"
                     android:padding="@dimen/_8sdp"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/_11ssp"
-                    android:translationY="0.55sp" />
+                    android:textSize="@dimen/_9ssp"
+                    android:translationY="0.55sp"
+                    android:visibility="visible" />
             </LinearLayout>
 
             <androidx.viewpager.widget.ViewPager
@@ -159,8 +159,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:progressDrawable="@drawable/loader"
         android:indeterminate="true"
         android:indeterminateTint="@color/white"
+        android:progressDrawable="@drawable/loader"
         android:visibility="gone" />
 </RelativeLayout>

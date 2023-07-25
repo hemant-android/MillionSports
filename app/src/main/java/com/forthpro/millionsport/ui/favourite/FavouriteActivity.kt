@@ -83,8 +83,7 @@ class FavouriteActivity : BaseActivity(), SportsFavAdapter.onClickListner,
 
         binding.tvTeams.setOnClickListener {
             binding.tvMatch.typeface = ResourcesCompat.getFont(this, R.font.roboto_regular_400)
-            binding.tvCompetition.typeface =
-                ResourcesCompat.getFont(this, R.font.roboto_regular_400)
+            binding.tvCompetition.typeface =ResourcesCompat.getFont(this, R.font.roboto_regular_400)
             binding.tvTeams.typeface = ResourcesCompat.getFont(this, R.font.roboto_bold_700)
 
             binding.viewPager.currentItem = 2

@@ -11,12 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/accent"
-        android:padding="@dimen/_10sdp">
+        android:paddingLeft="@dimen/_10sdp"
+        android:paddingRight="@dimen/_10sdp"
+        android:paddingTop="@dimen/_5sdp"
+        android:paddingBottom="@dimen/_5sdp">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imgFlag"
-            android:layout_width="@dimen/_25sdp"
-            android:layout_height="@dimen/_25sdp"
+            android:layout_width="@dimen/_22sdp"
+            android:layout_height="@dimen/_22sdp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
@@ -41,7 +44,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_1sdp"
         android:background="@color/accent"
-        android:padding="@dimen/_10sdp">
+        android:paddingLeft="@dimen/_10sdp"
+        android:paddingRight="@dimen/_10sdp"
+        android:paddingTop="@dimen/_5sdp"
+        android:paddingBottom="@dimen/_5sdp">
 
         <TextView
             android:id="@+id/tvTime"
@@ -102,7 +108,11 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular_400"
                 android:lineSpacingExtra="1sp"
-                android:padding="@dimen/_10sdp"
+                android:gravity="center"
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingRight="@dimen/_10sdp"
+                android:paddingTop="@dimen/_7sdp"
+                android:paddingBottom="@dimen/_7sdp"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_10sdp"
                 android:translationY="0.47sp" />
@@ -118,7 +128,11 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular_400"
                 android:lineSpacingExtra="1sp"
-                android:padding="@dimen/_10sdp"
+                android:gravity="center"
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingRight="@dimen/_10sdp"
+                android:paddingTop="@dimen/_7sdp"
+                android:paddingBottom="@dimen/_7sdp"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_10sdp"
                 android:translationY="0.47sp" />
@@ -134,7 +148,11 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular_400"
                 android:lineSpacingExtra="1sp"
-                android:padding="@dimen/_10sdp"
+                android:gravity="center"
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingRight="@dimen/_10sdp"
+                android:paddingTop="@dimen/_7sdp"
+                android:paddingBottom="@dimen/_7sdp"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_10sdp"
                 android:translationY="0.47sp" />

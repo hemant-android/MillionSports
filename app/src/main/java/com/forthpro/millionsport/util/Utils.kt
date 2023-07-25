@@ -1,3 +1,5 @@
+@file:Suppress("UNREACHABLE_CODE")
+
 package com.forthpro.millionsport.util
 
 import android.content.Context
@@ -75,7 +77,7 @@ object Utils {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun convertPredictionTimeCurrentTimeZone(getDate: String?, timeFormat: String): String? {
-        var timeSelection = if (timeFormat == "1") {
+        /*var timeSelection = if (timeFormat == "1") {
             "hh:mm"
         } else {
             "HH:mm"
@@ -84,7 +86,20 @@ object Utils {
         sdfWeekName.timeZone = TimeZone.getDefault()
         val dateWeekName = sdfWeekName.parse(getDate)
         sdfWeekName.applyPattern(timeSelection)
-        return sdfWeekName.format(dateWeekName)
+        return sdfWeekName.format(dateWeekName)*/
+
+        return if (timeFormat == "1") {
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+            val date = LocalDateTime.parse(getDate, formatter)
+            val formatter2 = DateTimeFormatter.ofPattern("hh:mm a")
+            formatter2.format(date)
+        } else {
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+            val date = LocalDateTime.parse(getDate, formatter)
+            val formatter2 = DateTimeFormatter.ofPattern("HH:mm")
+            formatter2.format(date)
+        }
+
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

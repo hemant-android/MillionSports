@@ -76,7 +76,7 @@ class ExpandablePopularCompetitionByCountryAdapter(
         }
 
         tvTime.text = /*mChild.prediction_time*/
-            Utils.convertPredictionTimeCurrentTimeZone(mChild.prediction_time, PreferenceHelper.timeFormat)
+            Utils.convertPredictionTimeCurrentTimeZone(mChild.prediction_date+" "+mChild.prediction_time, PreferenceHelper.timeFormat)
 
         var mParent = getGroup(groupPosition) as DashboardResponse.PopularCompetitionsCountry
 

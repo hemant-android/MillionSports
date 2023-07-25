@@ -1,15 +1,19 @@
 package com.forthpro.millionsport.ui.favourite.fragment.match.adapter
 
 import android.content.Context
+import android.os.Build
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import com.bumptech.glide.Glide
 import com.forthpro.millionsport.BuildConfig
 import com.forthpro.millionsport.R
+import com.forthpro.millionsport.config.PreferenceHelper
 import com.forthpro.millionsport.model.response.MatchResponse
+import com.forthpro.millionsport.util.Utils
 import com.google.android.material.imageview.ShapeableImageView
 
 
@@ -32,6 +36,7 @@ class MatchAdapter(private val mContext: Context) :
         notifyDataSetChanged()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         if (items!![position].country.country_logo != null && items!![position].country.country_logo.isNotEmpty()) {
@@ -41,7 +46,8 @@ class MatchAdapter(private val mContext: Context) :
         }
 
         holder.tvCountryName!!.text = "" + items[position].country.name
-        holder.tvTime!!.text = "" + items[position].prediction_time
+//        holder.tvTime!!.text = "" + items[position].prediction_time
+        holder.tvTime!!.text = Utils.convertPredictionTimeCurrentTimeZone(items[position].prediction_date+" "+items[position].prediction_time, PreferenceHelper.timeFormat)
 
 
         if (!TextUtils.isEmpty(items[position].Home)) {

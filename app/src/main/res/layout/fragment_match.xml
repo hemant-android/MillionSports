@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:src="@drawable/ic_fav_large" />
+            android:src="@drawable/ic_fav" />
 
         <TextView
             android:id="@+id/tvNoRecord"
@@ -39,9 +39,9 @@
             android:fontFamily="@font/roboto_regular_400"
             android:gravity="center"
             android:lineSpacingExtra="1sp"
-            android:padding="@dimen/_10sdp"
+            android:padding="@dimen/_5sdp"
             android:textColor="@color/white"
-            android:textSize="@dimen/_11ssp"
+            android:textSize="@dimen/_10ssp"
             android:translationY="0.55sp" />
     </LinearLayout>
 

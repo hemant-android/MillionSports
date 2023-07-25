@@ -75,8 +75,8 @@ class ExpandablePopularCompetitionAdapter(
             tvLeagueCountry.visibility = View.GONE
         }
 
-        tvTime.text = /*mChild.prediction_time*/
-            Utils.convertPredictionTimeCurrentTimeZone(mChild.prediction_time, PreferenceHelper.timeFormat)
+        tvTime.text =
+            Utils.convertPredictionTimeCurrentTimeZone(mChild.prediction_date+" "+mChild.prediction_time, PreferenceHelper.timeFormat)
 
 
         var mParent = getGroup(groupPosition) as DashboardResponse.PopularCompetition

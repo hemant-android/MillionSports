@@ -136,48 +136,106 @@ class GetCompetitionListActivity : BaseActivity(), GetCompetitionListAdapter.onC
         country_id: Int,
         team_name: String,
         fav: Int,
-        flag: String
+        flag: String,
     ) {
 
-        val dialog = Dialog(this)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.setContentView(R.layout.dialog_confirmation)
+        if (fav == 1) {
+            val dialog = Dialog(this)
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setCancelable(false)
+            dialog.setContentView(R.layout.dialog_confirmation)
 
-        val window: Window = dialog.window!!
-        val wlp = window.attributes
-        wlp.width = WindowManager.LayoutParams.MATCH_PARENT
-        wlp.gravity = Gravity.CENTER
-        window.attributes = wlp
-        dialog.show()
+            val window: Window = dialog.window!!
+            val wlp = window.attributes
+            wlp.width = WindowManager.LayoutParams.MATCH_PARENT
+            wlp.gravity = Gravity.CENTER
+            window.attributes = wlp
+            dialog.show()
 
 
-        val imgFlag = dialog.findViewById(R.id.imgFlag) as ShapeableImageView
-        val tvLeagueName = dialog.findViewById(R.id.tvLeagueName) as TextView
-        val tvLabel = dialog.findViewById(R.id.tvLabel) as TextView
-        val tvYes = dialog.findViewById(R.id.tvYes) as TextView
-        val tvNo = dialog.findViewById(R.id.tvNo) as TextView
+            val imgFlag = dialog.findViewById(R.id.imgFlag) as ShapeableImageView
+            val tvLeagueName = dialog.findViewById(R.id.tvLeagueName) as TextView
+            val tvLabel = dialog.findViewById(R.id.tvLabel) as TextView
+            val tvYes = dialog.findViewById(R.id.tvYes) as TextView
+            val tvNo = dialog.findViewById(R.id.tvNo) as TextView
 
-        if (flag != null && !TextUtils.isEmpty(flag)) {
-            Glide.with(this)
-                .load(BuildConfig.SERVER_URL + flag)
-                .placeholder(R.drawable.progress_animation)
-                .into(imgFlag)
-        }
+            if (flag != null && !TextUtils.isEmpty(flag)) {
+                Glide.with(this)
+                    .load(BuildConfig.SERVER_URL + flag)
+                    .placeholder(R.drawable.progress_animation)
+                    .into(imgFlag)
+            }
 
-        tvLeagueName.text = team_name
-        tvLabel.text = label
-        tvYes.text = yes
-        tvNo.text = no
+            tvLeagueName.text = team_name
+            tvLabel.text = label
+            tvYes.text = yes
+            tvNo.text = no
 
-        tvNo.setOnClickListener {
-            dialog.dismiss()
-        }
+            tvNo.setOnClickListener {
+                dialog.dismiss()
+            }
 
-        tvYes.setOnClickListener {
+            tvYes.setOnClickListener {
 
-            dialog.dismiss()
+                dialog.dismiss()
 
+                var favourite: Int = if (fav == 0) {
+                    1
+                } else {
+                    2
+                }
+
+                if (allTeams!![position].favourite == 0) {
+                    allTeams!![position].favourite = 1
+                } else {
+                    allTeams!![position].favourite = 0
+                }
+                adapter.notifyDataSetChanged()
+
+                viewModel.favAddRemoveData(
+                    RequestBodies.FavAddRemoveCompetitionBody(
+                        PreferenceHelper.deviceId,
+                        sportId.toString(),
+                        country_id.toString(),
+                        team_name,
+                        favourite.toString()
+                    )
+                )
+
+                viewModel.favAddRemoveResponse.observe(this) { event ->
+                    event?.getContentIfNotHandled()?.let { response ->
+                        when (response) {
+                            is Resource.Success -> {
+                                hideProgressBar()
+                                if (response.data?.status == 1) {
+                                    /*if (allTeams!![position].favourite == 0) {
+                                        allTeams!![position].favourite = 1
+                                    } else {
+                                        allTeams!![position].favourite = 0
+                                    }
+                                    adapter.notifyDataSetChanged()*/
+//                            viewModel.getTeamListData(RequestBodies.GetTeamListBody(PreferenceHelper.deviceId, "1"))
+                                } else {
+                                    Toast.makeText(this, "Data not found", Toast.LENGTH_SHORT)
+                                        .show()
+                                }
+                            }
+
+                            is Resource.Error -> {
+                                hideProgressBar()
+                                response.message?.let { message ->
+                                    Log.e("error", message)
+                                }
+                            }
+
+                            is Resource.Loading -> {
+                                showProgressBar()
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
             var favourite: Int = if (fav == 0) {
                 1
             } else {
@@ -234,6 +292,7 @@ class GetCompetitionListActivity : BaseActivity(), GetCompetitionListAdapter.onC
                 }
             }
         }
+
     }
 
     fun localSearching(text: String) {

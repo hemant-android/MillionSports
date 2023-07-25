@@ -52,9 +52,9 @@
                     <ImageView
                         android:id="@+id/imgBackground"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_160sdp"
+                        android:layout_height="@dimen/_200sdp"
                         android:layout_alignParentTop="true"
-                        android:scaleType="centerCrop"
+                        android:scaleType="fitXY"
                         android:visibility="gone" />
 
                     <ImageView

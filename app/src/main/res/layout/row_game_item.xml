@@ -34,7 +34,7 @@
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:layout_marginLeft="@dimen/_35sdp"
+                android:layout_marginLeft="@dimen/_26sdp"
                 android:background="@drawable/bg_red_circle"
                 android:fontFamily="@font/roboto_bold_700"
                 android:gravity="center"
