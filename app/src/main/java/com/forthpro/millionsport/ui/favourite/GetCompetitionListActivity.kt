@@ -78,11 +78,24 @@ class GetCompetitionListActivity : BaseActivity(), GetCompetitionListAdapter.onC
             }
 
             override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
             }
 
         })
 
-        viewModel.getTeamListData(RequestBodies.GetTeamListBody(PreferenceHelper.deviceId, sportId!!))
+        binding.edtSearch.setOnFocusChangeListener { view, b ->
+            if (b) {
+                binding.edtSearch.hint = ""
+            }
+        }
+
+
+        viewModel.getTeamListData(
+            RequestBodies.GetTeamListBody(
+                PreferenceHelper.deviceId,
+                sportId!!
+            )
+        )
 
         viewModel.getTeamListResponse.observe(this) { event ->
             event?.getContentIfNotHandled()?.let { response ->

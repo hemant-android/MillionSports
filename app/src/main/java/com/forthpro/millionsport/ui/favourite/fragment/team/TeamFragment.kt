@@ -1,15 +1,24 @@
 package com.forthpro.millionsport.ui.favourite.fragment.team
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
+import com.forthpro.millionsport.BuildConfig
+import com.forthpro.millionsport.R
 import com.forthpro.millionsport.config.PreferenceHelper
 import com.forthpro.millionsport.databinding.FragmentTeamBinding
 import com.forthpro.millionsport.model.RequestBodies
@@ -20,8 +29,10 @@ import com.forthpro.millionsport.ui.favourite.fragment.team.adapter.TeamAdapter
 import com.forthpro.millionsport.ui.favourite.fragment.team.viewmodel.TeamViewModel
 import com.forthpro.millionsport.util.Resource
 import com.forthpro.millionsport.viewmodel.ViewModelProviderFactory
+import com.google.android.material.imageview.ShapeableImageView
 
-class TeamFragment(var sportId: String?, var chooseDate: String?) : Fragment(), TeamAdapter.onClickListner {
+class TeamFragment(var sportId: String?, var chooseDate: String?) : Fragment(),
+    TeamAdapter.onClickListner {
     private lateinit var binding: FragmentTeamBinding
 
     private lateinit var viewModel: TeamViewModel
@@ -29,6 +40,10 @@ class TeamFragment(var sportId: String?, var chooseDate: String?) : Fragment(), 
     private val adapter: TeamAdapter by lazy { TeamAdapter(requireActivity()) }
 
     private var arrMatches: ArrayList<TeamResponse.FavTeam>? = arrayListOf()
+
+    private var label: String? = ""
+    private var yes: String? = ""
+    private var no: String? = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,7 +63,7 @@ class TeamFragment(var sportId: String?, var chooseDate: String?) : Fragment(), 
             Intent(requireActivity(), GetTeamListActivity::class.java).also {
                 it.putExtra("sportId", sportId.toString())
                 it.putExtra("chooseDate", chooseDate)
-                startActivityForResult(it,101)
+                startActivityForResult(it, 101)
             }
         }
 
@@ -63,6 +78,11 @@ class TeamFragment(var sportId: String?, var chooseDate: String?) : Fragment(), 
                         if (response.data?.status == 1) {
 
                             binding.tvAddTeam.text = response.data?.ADDTEAMS_LABEL
+
+                            label = response.data?.REMOVE_LABEL
+                            yes = response.data?.YES_LABEL
+                            no = response.data?.NO_LABEL
+
                             if (arrMatches != null && arrMatches!!.isNotEmpty()) {
                                 arrMatches!!.clear()
                             }
@@ -77,7 +97,7 @@ class TeamFragment(var sportId: String?, var chooseDate: String?) : Fragment(), 
                             } else {
                                 binding.rvTeam.visibility = View.GONE
                                 binding.llNoRecord.visibility = View.GONE
-                                binding.tvNoRecord.text =response.data?.message
+                                binding.tvNoRecord.text = response.data?.message
                             }
 
                         } else {
@@ -132,46 +152,110 @@ class TeamFragment(var sportId: String?, var chooseDate: String?) : Fragment(), 
         country_id: Int,
         team_name: String,
         favourite: Int,
+        flag: String,
     ) {
-        viewModel.favAddRemoveData(
-            RequestBodies.FavAddRemoveBody(
-                PreferenceHelper.deviceId,
-                sportId.toString(),
-                country_id.toString(),
-                team_name,
-                "2"
+        val dialog = Dialog(requireActivity())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.dialog_confirmation)
+
+        val window: Window = dialog.window!!
+        val wlp = window.attributes
+        wlp.width = WindowManager.LayoutParams.MATCH_PARENT
+        wlp.gravity = Gravity.CENTER
+        window.attributes = wlp
+        dialog.show()
+
+
+        val imgFlag = dialog.findViewById(R.id.imgFlag) as ShapeableImageView
+        val tvLeagueName = dialog.findViewById(R.id.tvLeagueName) as TextView
+        val tvLabel = dialog.findViewById(R.id.tvLabel) as TextView
+        val tvYes = dialog.findViewById(R.id.tvYes) as TextView
+        val tvNo = dialog.findViewById(R.id.tvNo) as TextView
+
+        if (flag != null && !TextUtils.isEmpty(flag)) {
+            Glide.with(this)
+                .load(BuildConfig.SERVER_URL + flag)
+                .placeholder(R.drawable.progress_animation)
+                .into(imgFlag)
+        }
+
+        tvLeagueName.text = team_name
+
+        if (label != null && !TextUtils.isEmpty(label)) {
+            tvLabel.text = label
+        } else {
+            tvLabel.text = "Remove from your favorites?"
+        }
+        if (yes != null && !TextUtils.isEmpty(yes)) {
+            tvYes.text = yes
+        } else {
+            tvYes.text = "Yes"
+        }
+        if (no != null && !TextUtils.isEmpty(no)) {
+            tvNo.text = no
+        } else {
+            tvNo.text = "NO"
+        }
+
+
+
+
+        tvNo.setOnClickListener {
+            dialog.dismiss()
+        }
+        tvYes.setOnClickListener {
+            dialog.dismiss()
+
+            viewModel.favAddRemoveData(
+                RequestBodies.FavAddRemoveBody(
+                    PreferenceHelper.deviceId,
+                    sportId.toString(),
+                    country_id.toString(),
+                    team_name,
+                    "2"
+                )
             )
-        )
 
-        viewModel.favAddRemoveResponse.observe(this) { event ->
-            event?.getContentIfNotHandled()?.let { response ->
-                when (response) {
-                    is Resource.Success -> {
-                        hideProgressBar()
-                        if (response.data?.status == 1) {
+            viewModel.favAddRemoveResponse.observe(this) { event ->
+                event?.getContentIfNotHandled()?.let { response ->
+                    when (response) {
+                        is Resource.Success -> {
+                            hideProgressBar()
+                            if (response.data?.status == 1) {
 
-                            val body = RequestBodies.FavBody(PreferenceHelper.deviceId, sportId!!.toString(), chooseDate!!)
-                            viewModel.getFav(body)
+                                val body = RequestBodies.FavBody(
+                                    PreferenceHelper.deviceId,
+                                    sportId!!.toString(),
+                                    chooseDate!!
+                                )
+                                viewModel.getFav(body)
 
-                        } else {
-                            Toast.makeText(requireActivity(), "Data not found", Toast.LENGTH_SHORT)
-                                .show()
+                            } else {
+                                Toast.makeText(
+                                    requireActivity(),
+                                    "Data not found",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                            }
                         }
-                    }
 
-                    is Resource.Error -> {
-                        hideProgressBar()
-                        response.message?.let { message ->
-                            Log.e("error", message)
+                        is Resource.Error -> {
+                            hideProgressBar()
+                            response.message?.let { message ->
+                                Log.e("error", message)
+                            }
                         }
-                    }
 
-                    is Resource.Loading -> {
-                        showProgressBar()
+                        is Resource.Loading -> {
+                            showProgressBar()
+                        }
                     }
                 }
             }
         }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -180,8 +264,12 @@ class TeamFragment(var sportId: String?, var chooseDate: String?) : Fragment(), 
             Activity.RESULT_OK -> {
                 when (requestCode) {
                     101 -> {
-                        var chooseDate =data!!.getStringExtra("chooseDate")
-                        val body = RequestBodies.FavBody(PreferenceHelper.deviceId, sportId!!, chooseDate!!)
+                        var chooseDate = data!!.getStringExtra("chooseDate")
+                        val body = RequestBodies.FavBody(
+                            PreferenceHelper.deviceId,
+                            sportId!!,
+                            chooseDate!!
+                        )
                         viewModel.getFav(body)
                     }
                 }

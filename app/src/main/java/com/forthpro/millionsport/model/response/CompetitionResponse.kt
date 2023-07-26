@@ -9,6 +9,9 @@ data class CompetitionResponse(
     val message: String,
     val status: Int,
     val token: Any,
+    val NO_LABEL: String,
+    val REMOVE_LABEL: String,
+    val YES_LABEL: String,
 ) {
     data class Competition(
         val country_id: Int,

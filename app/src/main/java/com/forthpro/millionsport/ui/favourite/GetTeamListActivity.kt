@@ -73,7 +73,6 @@ class GetTeamListActivity : BaseActivity(), GetTeamListAdapter.onClickListner {
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
             }
 
             override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -81,7 +80,20 @@ class GetTeamListActivity : BaseActivity(), GetTeamListAdapter.onClickListner {
 
         })
 
-        viewModel.getTeamListData(RequestBodies.GetTeamListBody(PreferenceHelper.deviceId, sportId!!))
+
+
+        binding.edtSearch.setOnFocusChangeListener { view, b ->
+            if (b) {
+                binding.edtSearch.hint = ""
+            }
+        }
+
+        viewModel.getTeamListData(
+            RequestBodies.GetTeamListBody(
+                PreferenceHelper.deviceId,
+                sportId!!
+            )
+        )
 
         viewModel.getTeamListResponse.observe(this) { event ->
             event?.getContentIfNotHandled()?.let { response ->
@@ -135,6 +147,7 @@ class GetTeamListActivity : BaseActivity(), GetTeamListAdapter.onClickListner {
         setResult(Activity.RESULT_OK, data);
         finish()
     }
+
     private fun hideProgressBar() {
         binding.progress.visibility = View.GONE
     }

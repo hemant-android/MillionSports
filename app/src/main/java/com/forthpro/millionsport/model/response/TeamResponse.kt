@@ -9,6 +9,9 @@ data class TeamResponse(
     val message: String,
     val status: Int,
     val token: Any,
+    val NO_LABEL: String,
+    val REMOVE_LABEL: String,
+    val YES_LABEL: String,
 ) {
     data class FavTeam(
         val country: Country,

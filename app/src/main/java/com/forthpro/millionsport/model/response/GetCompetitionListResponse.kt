@@ -1,11 +1,11 @@
 package com.forthpro.millionsport.model.response
 
 data class GetCompetitionListResponse(
-    val NO_LABEL: String,
     val POPULAR_LABEL: String,
+    val NO_LABEL: String,
     val REMOVE_LABEL: String,
-    val SEARCH_LABEL: String,
     val YES_LABEL: String,
+    val SEARCH_LABEL: String,
     val allCompetiontion: ArrayList<AllCompetiontion>,
     val status: Int,
     val token: Any

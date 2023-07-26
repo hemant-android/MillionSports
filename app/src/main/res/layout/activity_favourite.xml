@@ -72,47 +72,47 @@
                 android:background="#1D1F24"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:weightSum="3">
+                android:weightSum="1">
 
                 <TextView
                     android:id="@+id/tvMatch"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight=".3"
                     android:fontFamily="@font/roboto_bold_700"
                     android:gravity="center"
                     android:lineSpacingExtra="1sp"
                     android:padding="@dimen/_8sdp"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/_9ssp"
-                    android:translationY="0.55sp"
+                    android:textSize="@dimen/_10ssp"
+                    android:translationY="0.47sp"
                     android:visibility="visible" />
 
                 <TextView
                     android:id="@+id/tvCompetition"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight=".4"
                     android:fontFamily="@font/roboto_regular_400"
                     android:gravity="center"
                     android:lineSpacingExtra="1sp"
                     android:padding="@dimen/_8sdp"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/_9ssp"
-                    android:translationY="0.55sp" />
+                    android:textSize="@dimen/_10ssp"
+                    android:translationY="0.47sp" />
 
                 <TextView
                     android:id="@+id/tvTeams"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight=".3"
                     android:fontFamily="@font/roboto_regular_400"
                     android:gravity="center"
                     android:lineSpacingExtra="1sp"
                     android:padding="@dimen/_8sdp"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/_9ssp"
-                    android:translationY="0.55sp"
+                    android:textSize="@dimen/_10ssp"
+                    android:translationY="0.47sp"
                     android:visibility="visible" />
             </LinearLayout>
 

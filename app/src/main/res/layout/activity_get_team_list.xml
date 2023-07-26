@@ -47,12 +47,12 @@
             android:background="@drawable/bg_white_rectangle"
             android:drawableLeft="@drawable/ic_search"
             android:drawablePadding="@dimen/_10sdp"
-            android:hint="Search"
+            android:inputType="textNoSuggestions"
+            android:maxLines="1"
             android:padding="@dimen/_7sdp"
             android:textColor="@color/white"
-            android:maxLines="1"
-            android:inputType="textNoSuggestions"
             android:textColorHint="@color/white"
+            android:textCursorDrawable="@drawable/white_cursor"
             android:textSize="@dimen/_10sdp" />
 
         <TextView
@@ -81,8 +81,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:progressDrawable="@drawable/loader"
         android:indeterminate="true"
         android:indeterminateTint="@color/white"
+        android:progressDrawable="@drawable/loader"
         android:visibility="gone" />
 </RelativeLayout>
