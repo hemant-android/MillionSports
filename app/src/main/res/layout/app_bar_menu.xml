@@ -250,13 +250,33 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/_10sdp">
 
-        <ImageView
-            android:id="@+id/imgRateApp"
+        <RelativeLayout
+            android:id="@+id/fram"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_app_rating" />
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true">
+
+            <ImageView
+                android:id="@+id/imgRateApp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_app_rating" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/roboto_bold_700"
+                android:gravity="center"
+                android:lineHeight="10.4px"
+                android:text="5"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_5sdp" />
+        </RelativeLayout>
+
 
         <TextView
             android:id="@+id/tvRateApp"
@@ -264,7 +284,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_toRightOf="@+id/imgRateApp"
+            android:layout_toRightOf="@+id/fram"
             android:fontFamily="@font/roboto_bold_700"
             android:lineSpacingExtra="1sp"
             android:text="App bewerten"

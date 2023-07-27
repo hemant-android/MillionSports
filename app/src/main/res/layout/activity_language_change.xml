@@ -26,7 +26,6 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:fontFamily="@font/roboto_bold_700"
-            android:text="Wahle ine sprache"
             android:textColor="@color/white"
             android:textSize="@dimen/_12sdp" />
     </RelativeLayout>

@@ -45,6 +45,7 @@ class ChangeTimeFormatActivity : BaseActivity() {
                         hideProgressBar()
                         if (response.data?.status == 1) {
 
+                            binding.llLeader.visibility = View.VISIBLE
                             binding.tvTitle.text = response.data?.label1
                             binding.tv24.text = response.data?.label2
                             binding.tv12.text = response.data?.label3
@@ -70,6 +71,7 @@ class ChangeTimeFormatActivity : BaseActivity() {
                             }
 
                         } else {
+                            binding.llLeader.visibility = View.GONE
                             Toast.makeText(
                                 this,
                                 "Data not found",

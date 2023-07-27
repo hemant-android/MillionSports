@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/_5sdp"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <ImageView
                 android:id="@+id/imgBack1"
@@ -52,10 +52,10 @@
                     <ImageView
                         android:id="@+id/imgBackground"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_200sdp"
+                        android:layout_height="@dimen/_150sdp"
                         android:layout_alignParentTop="true"
                         android:scaleType="fitXY"
-                        android:visibility="gone" />
+                        android:visibility="visible" />
 
                     <ImageView
                         android:id="@+id/imgBack"
@@ -66,15 +66,16 @@
                         android:layout_centerVertical="true"
                         android:layout_margin="@dimen/_5sdp"
                         android:padding="@dimen/_5sdp"
-                        android:src="@drawable/ic_back_white" />
+                        android:src="@drawable/ic_back_white"
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_centerInParent="true"
                         android:background="@android:color/transparent"
                         android:orientation="vertical"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <TextView
                             android:id="@+id/tvCountryName"
@@ -83,7 +84,6 @@
                             android:layout_gravity="center"
                             android:fontFamily="@font/roboto_bold_700"
                             android:gravity="center"
-                            android:text="@string/English"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_10sdp"
                             android:translationY="-0.77sp" />
@@ -129,11 +129,10 @@
 
                                 <com.google.android.material.imageview.ShapeableImageView
                                     android:id="@+id/imgFlag"
-                                    android:layout_width="@dimen/_25sdp"
-                                    android:layout_height="@dimen/_25sdp"
+                                    android:layout_width="@dimen/_22sdp"
+                                    android:layout_height="@dimen/_22sdp"
                                     android:layout_gravity="center"
                                     android:layout_marginTop="@dimen/_10sdp"
-                                    android:src="@mipmap/english"
                                     app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
 
                                 <ImageView
@@ -143,15 +142,17 @@
                                     android:layout_centerHorizontal="true"
                                     android:layout_gravity="center"
                                     android:layout_marginTop="@dimen/_5sdp"
-                                    android:src="@mipmap/player" />
+                                    android:src="@mipmap/player"
+                                    android:visibility="gone" />
 
                                 <TextView
                                     android:id="@+id/tvTime"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
-                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:layout_marginTop="@dimen/_10sdp"
                                     android:fontFamily="@font/roboto_regular_400"
+                                    android:gravity="center"
                                     android:lineSpacingExtra="1sp"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/_10sdp"
@@ -180,7 +181,6 @@
                                     android:layout_marginTop="@dimen/_5sdp"
                                     android:fontFamily="@font/roboto_bold_700"
                                     android:gravity="center"
-                                    android:text="@string/English"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/_10sdp"
                                     android:translationY="-0.77sp" />
@@ -206,8 +206,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:progressDrawable="@drawable/loader"
         android:indeterminate="true"
         android:indeterminateTint="@color/white"
+        android:progressDrawable="@drawable/loader"
         android:visibility="gone" />
 </RelativeLayout>

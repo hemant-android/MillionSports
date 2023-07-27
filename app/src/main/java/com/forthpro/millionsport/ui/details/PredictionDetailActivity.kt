@@ -1,14 +1,17 @@
 package com.forthpro.millionsport.ui.details
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.forthpro.millionsport.BaseActivity
 import com.forthpro.millionsport.BuildConfig
 import com.forthpro.millionsport.R
+import com.forthpro.millionsport.config.PreferenceHelper
 import com.forthpro.millionsport.databinding.ActivityDetailBinding
 import com.forthpro.millionsport.model.RequestBodies
 import com.forthpro.millionsport.model.response.PredictionDetailResponse
@@ -16,6 +19,7 @@ import com.forthpro.millionsport.repository.AppRepository
 import com.forthpro.millionsport.ui.details.adapter.detail.SoccerPredictionAdapter
 import com.forthpro.millionsport.ui.details.viewmodel.PredictionDetailViewModel
 import com.forthpro.millionsport.util.Resource
+import com.forthpro.millionsport.util.Utils
 import com.forthpro.millionsport.viewmodel.ViewModelProviderFactory
 
 
@@ -29,14 +33,16 @@ class PredictionDetailActivity : BaseActivity(), SoccerPredictionAdapter.onClick
     var home: String? = ""
     var away: String? = ""
     var playerImage: String? = ""
-    var countryName: String? = ""
+    var predictionName: String? = ""
     var countryFlag: String? = ""
     var time: String? = ""
+    var date: String? = ""
 
     private var arrPrediction: ArrayList<PredictionDetailResponse.PredictionTab>? = arrayListOf()
 
     private val mAdapter: SoccerPredictionAdapter by lazy { SoccerPredictionAdapter(this) }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
@@ -52,15 +58,30 @@ class PredictionDetailActivity : BaseActivity(), SoccerPredictionAdapter.onClick
             away = bundle.getString("away")
             playerImage = bundle.getString("playerImage")
             time = bundle.getString("time")
-            countryName = bundle.getString("countryName")
+            date = bundle.getString("date")
+            predictionName = bundle.getString("predictionName")
             countryFlag = bundle.getString("countryFlag")
         }
 
         binding.tvHome.text = home
         binding.tvAway.text = away
         binding.tvTime.text = time
-        binding.tvCountryName.text = countryName
+        binding.tvCountryName.text = predictionName
 
+        var timing = Utils.convertPredictionTimeCurrentTimeZone("$date $time",PreferenceHelper.timeFormat)
+
+        if (timing!!.contains(" "))
+        {
+            var time = timing.split(" ")[0]
+            var ampm = timing.split(" ")[1]
+
+            binding.tvTime.text = time+"\n"+ampm
+        }else {
+            binding.tvTime.text = Utils.convertPredictionTimeCurrentTimeZone(
+                "$date $time",
+                PreferenceHelper.timeFormat
+            )
+        }
         when (sportId) {
             "1" -> {
                 binding.imgBackground.visibility = View.VISIBLE
@@ -135,7 +156,7 @@ class PredictionDetailActivity : BaseActivity(), SoccerPredictionAdapter.onClick
         binding.rvSoccerPredication.adapter = mAdapter
         mAdapter.setClickListner(this)
 
-        binding.imgBack.setOnClickListener {
+        binding.imgBack1.setOnClickListener {
             finish()
         }
 

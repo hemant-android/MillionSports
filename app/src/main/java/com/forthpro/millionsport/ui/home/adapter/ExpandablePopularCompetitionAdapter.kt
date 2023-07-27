@@ -64,8 +64,19 @@ class ExpandablePopularCompetitionAdapter(
 
         var mParent = getGroup(groupPosition) as DashboardResponse.PopularCompetition
 
-        tvTime.text = Utils.convertPredictionTimeCurrentTimeZone(mChild.prediction_date+" "+mChild.prediction_time, PreferenceHelper.timeFormat)
+        var timing = Utils.convertPredictionTimeCurrentTimeZone(mChild.prediction_date+" "+mChild.prediction_time, PreferenceHelper.timeFormat)
+        if (timing!!.contains(" "))
+        {
+            var time = timing.split(" ")[0]
+            var ampm = timing.split(" ")[1]
 
+            tvTime.text = time+"\n"+ampm
+        }else {
+            tvTime.text = Utils.convertPredictionTimeCurrentTimeZone(
+                mChild.prediction_date + " " + mChild.prediction_time,
+                PreferenceHelper.timeFormat
+            )
+        }
         if (mParent.sport_id == 9)
         {
             if (mChild.S_D == "1")

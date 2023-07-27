@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center|top"
@@ -10,11 +10,10 @@
         android:id="@+id/box1Key"
         android:layout_width="@dimen/_200sdp"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/_5sdp"
         android:background="@drawable/bg_white_rectangle"
         android:fontFamily="@font/roboto_regular_400"
-        android:maxLines="1"
-        android:ellipsize="end"
         android:lineSpacingExtra="1sp"
         android:padding="@dimen/_5sdp"
         android:textColor="@color/white"
@@ -25,11 +24,13 @@
         android:id="@+id/box1"
         android:layout_width="@dimen/_40sdp"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/_5sdp"
+        android:layout_toRightOf="@+id/box1Key"
         android:background="@drawable/bg_white_rectangle"
         android:fontFamily="@font/roboto_regular_400"
-        android:lineSpacingExtra="1sp"
         android:gravity="center"
+        android:lineSpacingExtra="1sp"
         android:padding="@dimen/_5sdp"
         android:textColor="@color/white"
         android:textSize="@dimen/_10sdp"
@@ -42,4 +43,4 @@
         android:background="@color/white"
         android:visibility="gone" />
 
-</LinearLayout>
+</RelativeLayout>

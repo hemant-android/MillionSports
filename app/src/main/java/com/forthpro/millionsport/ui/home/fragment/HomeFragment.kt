@@ -72,20 +72,14 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
         binding.expendablePopularCompetitions!!.setOnChildClickListener { _, _, groupPosition, childPosition, _ ->
 //            Toast.makeText(requireActivity(),"Clicked: " + (titleList as ArrayList<String>)[groupPosition] + " -> " + listData[(titleList as ArrayList<String>)[groupPosition]]!![childPosition],Toast.LENGTH_SHORT).show()
 
-            var sportId =
-                (arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.sport_id
-            var countryName =
-                (arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.country_name
-            var countryFlag =
-                (arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.country_logo
-            var predictionId =
-                (arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.prediction[childPosition].id
-            var home =
-                (arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.prediction[childPosition].Home
-            var away =
-                (arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.prediction[childPosition].Away
-            var time =
-                (arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.prediction[childPosition].prediction_time
+            var sportId =(arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.sport_id
+            var countryFlag = (arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.country_logo
+            var predictionName = (arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.prediction[childPosition].prediction_name
+            var predictionId =(arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.prediction[childPosition].id
+            var home = (arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.prediction[childPosition].Home
+            var away = (arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.prediction[childPosition].Away
+            var time =(arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.prediction[childPosition].prediction_time
+            var date =(arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.prediction[childPosition].prediction_date
 
             if (sportId.toString() == "13") {
 
@@ -96,9 +90,10 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
                     it.putExtra("home", home)
                     it.putExtra("away", away)
                     it.putExtra("playerImage", playerImage)
-                    it.putExtra("countryName", countryName)
+                    it.putExtra("predictionName", predictionName)
                     it.putExtra("countryFlag", countryFlag)
                     it.putExtra("time", time)
+                    it.putExtra("date", date)
                     startActivity(it)
                 }
             }
@@ -124,12 +119,12 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
             var away =
                 (arrPopularCompetitionsCountry as ArrayList<DashboardResponse.PopularCompetitionsCountry>)[groupPosition]!!.prediction[childPosition].Away
 
-            var countryName =
-                (arrPopularCompetitionsCountry as ArrayList<DashboardResponse.PopularCompetitionsCountry>)[groupPosition]!!.country_name
-            var countryFlag =
-                (arrPopularCompetitionsCountry as ArrayList<DashboardResponse.PopularCompetitionsCountry>)[groupPosition]!!.country_logo
-            var time =
-                (arrPopularCompetitionsCountry as ArrayList<DashboardResponse.PopularCompetitionsCountry>)[groupPosition]!!.prediction[childPosition].prediction_time
+            var predictionName = (arrPopularCompetitionsCountry as ArrayList<DashboardResponse.PopularCompetitionsCountry>)[groupPosition]!!.prediction[childPosition].prediction_name
+
+            var time =(arrPopularCompetitionsCountry as ArrayList<DashboardResponse.PopularCompetitionsCountry>)[groupPosition]!!.prediction[childPosition].prediction_time
+            var date =(arrPopularCompetitionsCountry as ArrayList<DashboardResponse.PopularCompetitionsCountry>)[groupPosition]!!.prediction[childPosition].prediction_date
+
+            var countryFlag = (arrPopularCompetitionsCountry as ArrayList<DashboardResponse.PopularCompetitionsCountry>)[groupPosition]!!.country_logo
 
             if (sportId.toString() == "13") {
 
@@ -140,9 +135,10 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
                     it.putExtra("home", home)
                     it.putExtra("away", away)
                     it.putExtra("playerImage", playerImage)
-                    it.putExtra("countryName", countryName)
+                    it.putExtra("predictionName", predictionName)
                     it.putExtra("countryFlag", countryFlag)
                     it.putExtra("time", time)
+                    it.putExtra("date", date)
                     startActivity(it)
                 }
             }

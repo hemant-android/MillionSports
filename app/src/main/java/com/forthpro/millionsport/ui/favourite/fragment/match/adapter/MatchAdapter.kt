@@ -46,9 +46,21 @@ class MatchAdapter(private val mContext: Context) :
         }
 
         holder.tvCountryName!!.text = "" + items[position].country.name
-//        holder.tvTime!!.text = "" + items[position].prediction_time
-        holder.tvTime!!.text = Utils.convertPredictionTimeCurrentTimeZone(items[position].prediction_date+" "+items[position].prediction_time, PreferenceHelper.timeFormat)
 
+        var timing = Utils.convertPredictionTimeCurrentTimeZone(items[position].prediction_date+" "+items[position].prediction_time, PreferenceHelper.timeFormat)
+
+        if (timing!!.contains(" "))
+        {
+            var time = timing.split(" ")[0]
+            var ampm = timing.split(" ")[1]
+
+            holder.tvTime!!.text = time+"\n"+ampm
+        }else {
+            holder.tvTime!!.text = Utils.convertPredictionTimeCurrentTimeZone(
+                items[position].prediction_date + " " + items[position].prediction_time,
+                PreferenceHelper.timeFormat
+            )
+        }
 
         if (!TextUtils.isEmpty(items[position].Home)) {
             holder.tvLeagueHome!!.visibility = View.VISIBLE

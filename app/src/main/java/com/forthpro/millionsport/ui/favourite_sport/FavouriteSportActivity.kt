@@ -55,23 +55,8 @@ class FavouriteSportActivity : BaseActivity(),
             finish()
         }
 
-        binding.tvUpdate.setOnClickListener {
-            if (arrFavSport != null && arrFavSport!!.size > 0) {
-
-                for (item in arrFavSport!!.indices) {
-                    Toast.makeText(
-                        this@FavouriteSportActivity,
-                        "id:----${arrFavSport!![item].id}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-        }
-
-
         val body = RequestBodies.GetNotificationBody(PreferenceHelper.deviceId)
         viewModel.getFavouriteSportItem(body)
-
 
         viewModel.getFavouriteResponse.observe(this) { event ->
             event?.getContentIfNotHandled()?.let { response ->

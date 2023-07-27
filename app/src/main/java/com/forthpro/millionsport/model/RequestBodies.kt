@@ -10,6 +10,7 @@ object RequestBodies {
     data class ChangeLanguageBody(
         val platform: String,
         val device_id: String,
+        val device_token: String,
     )
 
     data class DashboardBody(

@@ -90,8 +90,19 @@ class ExpandablePopularCompetitionByCountryAdapter(
             }
         }
 
-        tvTime.text =Utils.convertPredictionTimeCurrentTimeZone(mChild.prediction_date + " " + mChild.prediction_time,PreferenceHelper.timeFormat)
+        var timing = Utils.convertPredictionTimeCurrentTimeZone(mChild.prediction_date + " " + mChild.prediction_time,PreferenceHelper.timeFormat)
+        if (timing!!.contains(" "))
+        {
+            var time = timing.split(" ")[0]
+            var ampm = timing.split(" ")[1]
 
+            tvTime.text = time+"\n"+ampm
+        }else {
+            tvTime.text = Utils.convertPredictionTimeCurrentTimeZone(
+                mChild.prediction_date + " " + mChild.prediction_time,
+                PreferenceHelper.timeFormat
+            )
+        }
         when (mParent.sport_id) {
             1 -> {
                 box1.visibility = View.VISIBLE
