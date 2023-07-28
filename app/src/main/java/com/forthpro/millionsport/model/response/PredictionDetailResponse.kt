@@ -3,6 +3,7 @@ package com.forthpro.millionsport.model.response
 data class PredictionDetailResponse(
     val awayTeam: String,
     val country_logo: String,
+    val country_id: String,
     val country_name: String,
     val grey_logo: String,
     val sets: String,
@@ -13,6 +14,8 @@ data class PredictionDetailResponse(
     val prediction_name: String,
     val prediction_time: String,
     val status: Int,
+    val homeFavourite: String,
+    val awayFavourite: String,
     val token: Any,
 ) {
     data class PredictionTab(

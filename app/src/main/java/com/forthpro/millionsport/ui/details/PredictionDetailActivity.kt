@@ -30,13 +30,17 @@ class PredictionDetailActivity : BaseActivity(), SoccerPredictionAdapter.onClick
 
     var sportId: String? = ""
     var predictionId: String? = ""
-    var home: String? = ""
-    var away: String? = ""
     var playerImage: String? = ""
+    var homeTeam: String? = ""
+    var awayTeam: String? = ""
     var predictionName: String? = ""
     var countryFlag: String? = ""
     var time: String? = ""
     var date: String? = ""
+
+    var homeFavourite: String? = ""
+    var awayFavourite: String? = ""
+    var countryId: String? = ""
 
     private var arrPrediction: ArrayList<PredictionDetailResponse.PredictionTab>? = arrayListOf()
 
@@ -54,96 +58,89 @@ class PredictionDetailActivity : BaseActivity(), SoccerPredictionAdapter.onClick
         if (bundle != null) {
             sportId = bundle.getString("sportId")
             predictionId = bundle.getString("predictionId")
-            home = bundle.getString("home")
-            away = bundle.getString("away")
-            playerImage = bundle.getString("playerImage")
-            time = bundle.getString("time")
-            date = bundle.getString("date")
-            predictionName = bundle.getString("predictionName")
-            countryFlag = bundle.getString("countryFlag")
+//            home = bundle.getString("home")
+//            away = bundle.getString("away")
+//            playerImage = bundle.getString("playerImage")
+//            time = bundle.getString("time")
+//            date = bundle.getString("date")
+//            predictionName = bundle.getString("predictionName")
+//            countryFlag = bundle.getString("countryFlag")
         }
 
-        binding.tvHome.text = home
-        binding.tvAway.text = away
-        binding.tvTime.text = time
-        binding.tvCountryName.text = predictionName
-
-        var timing = Utils.convertPredictionTimeCurrentTimeZone("$date $time",PreferenceHelper.timeFormat)
-
-        if (timing!!.contains(" "))
-        {
-            var time = timing.split(" ")[0]
-            var ampm = timing.split(" ")[1]
-
-            binding.tvTime.text = time+"\n"+ampm
-        }else {
-            binding.tvTime.text = Utils.convertPredictionTimeCurrentTimeZone(
-                "$date $time",
-                PreferenceHelper.timeFormat
-            )
-        }
         when (sportId) {
             "1" -> {
                 binding.imgBackground.visibility = View.VISIBLE
                 binding.imgBackground.setImageResource(R.drawable.soccer)
             }
+
             "2" -> {
                 binding.imgBackground.visibility = View.VISIBLE
                 binding.imgBackground.setImageResource(R.drawable.hockey)
             }
+
             "3" -> {
                 binding.imgBackground.visibility = View.VISIBLE
                 binding.imgBackground.setImageResource(R.drawable.basketball)
             }
+
             "4" -> {
                 binding.imgBackground.visibility = View.VISIBLE
                 binding.imgBackground.setImageResource(R.drawable.handball)
             }
+
             "5" -> {
                 binding.imgBackground.visibility = View.VISIBLE
                 binding.imgBackground.setImageResource(R.drawable.futsal)
             }
+
             "6" -> {
                 binding.imgBackground.visibility = View.VISIBLE
                 binding.imgBackground.setImageResource(R.drawable.volleyball)
             }
+
             "7" -> {
                 binding.imgBackground.visibility = View.VISIBLE
                 binding.imgBackground.setImageResource(R.drawable.rugby_league)
             }
+
             "8" -> {
                 binding.imgBackground.visibility = View.VISIBLE
                 binding.imgBackground.setImageResource(R.drawable.rugby_union)
             }
+
             "9" -> {
                 binding.imgBackground.visibility = View.VISIBLE
                 binding.imgBackground.setImageResource(R.drawable.tennis)
             }
+
             "10" -> {
                 binding.imgBackground.visibility = View.VISIBLE
                 binding.imgBackground.setImageResource(R.drawable.american_football)
             }
+
             "11" -> {
                 binding.imgBackground.visibility = View.VISIBLE
                 binding.imgBackground.setImageResource(R.drawable.baseball)
             }
+
             "12" -> {
                 binding.imgBackground.visibility = View.VISIBLE
                 binding.imgBackground.setImageResource(R.drawable.pes_pallo)
             }
+
             else -> {
                 binding.imgBackground.visibility = View.GONE
             }
         }
 
 
-        if (countryFlag != null) {
+        /*if (countryFlag != null) {
             Glide.with(this)
                 .load(BuildConfig.SERVER_URL + countryFlag)
                 .centerCrop()
                 .placeholder(R.drawable.progress_animation)
                 .into(binding.imgFlag)
-        }
+        }*/
 
         if (playerImage != null) {
             Glide.with(this)
@@ -160,7 +157,137 @@ class PredictionDetailActivity : BaseActivity(), SoccerPredictionAdapter.onClick
             finish()
         }
 
-        val body = RequestBodies.PredictionDetailsBody(sportId!!, predictionId!!)
+        binding.imgFavHome.setOnClickListener {
+
+            if (homeFavourite == "1") {
+                viewModel.favAddRemoveData(
+                    RequestBodies.FavAddRemoveBody(
+                        PreferenceHelper.deviceId,
+                        sportId.toString(),
+                        countryId!!,
+                        homeTeam!!,
+                        "2"
+                    )
+                )
+            } else {
+                viewModel.favAddRemoveData(
+                    RequestBodies.FavAddRemoveBody(
+                        PreferenceHelper.deviceId,
+                        sportId.toString(),
+                        countryId!!,
+                        homeTeam!!,
+                        "1"
+                    )
+                )
+            }
+
+            viewModel.favAddRemoveResponse.observe(this) { event ->
+                event?.getContentIfNotHandled()?.let { response ->
+                    when (response) {
+                        is Resource.Success -> {
+                            hideProgressBar()
+                            if (response.data?.status == 1) {
+
+                                val body = RequestBodies.PredictionDetailsBody(
+                                    PreferenceHelper.deviceId,
+                                    sportId!!,
+                                    predictionId!!
+                                )
+                                viewModel.getPredictionDetailList(body, sportId!!)
+
+                            } else {
+                                Toast.makeText(
+                                    this,
+                                    "Data not found",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                            }
+                        }
+
+                        is Resource.Error -> {
+                            hideProgressBar()
+                            response.message?.let { message ->
+                                Log.e("error", message)
+                            }
+                        }
+
+                        is Resource.Loading -> {
+                            showProgressBar()
+                        }
+                    }
+                }
+            }
+
+        }
+
+        binding.imgFavAway.setOnClickListener {
+            if (awayFavourite == "1") {
+                viewModel.favAddRemoveData(
+                    RequestBodies.FavAddRemoveBody(
+                        PreferenceHelper.deviceId,
+                        sportId.toString(),
+                        countryId!!,
+                        awayTeam!!,
+                        "2"
+                    )
+                )
+            } else {
+                viewModel.favAddRemoveData(
+                    RequestBodies.FavAddRemoveBody(
+                        PreferenceHelper.deviceId,
+                        sportId.toString(),
+                        countryId!!,
+                        awayTeam!!,
+                        "1"
+                    )
+                )
+            }
+
+            viewModel.favAddRemoveResponse.observe(this) { event ->
+                event?.getContentIfNotHandled()?.let { response ->
+                    when (response) {
+                        is Resource.Success -> {
+                            hideProgressBar()
+                            if (response.data?.status == 1) {
+
+                                val body = RequestBodies.PredictionDetailsBody(
+                                    PreferenceHelper.deviceId,
+                                    sportId!!,
+                                    predictionId!!
+                                )
+                                viewModel.getPredictionDetailList(body, sportId!!)
+
+                            } else {
+                                Toast.makeText(
+                                    this,
+                                    "Data not found",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                            }
+                        }
+
+                        is Resource.Error -> {
+                            hideProgressBar()
+                            response.message?.let { message ->
+                                Log.e("error", message)
+                            }
+                        }
+
+                        is Resource.Loading -> {
+                            showProgressBar()
+                        }
+                    }
+                }
+            }
+        }
+
+        val body = RequestBodies.PredictionDetailsBody(
+            PreferenceHelper.deviceId,
+            sportId!!,
+            predictionId!!
+        )
         viewModel.getPredictionDetailList(body, sportId!!)
 
         viewModel.getDetailResponse.observe(this) { event ->
@@ -170,21 +297,69 @@ class PredictionDetailActivity : BaseActivity(), SoccerPredictionAdapter.onClick
                         hideProgressBar()
                         if (response.data?.status == 1) {
 
+                            binding.tvHome.text = response.data?.homeTeam
+                            binding.tvAway.text = response.data?.awayTeam
+                            binding.tvCountryName.text = response.data?.prediction_name
+
+                            homeTeam = response.data?.homeTeam
+                            awayTeam = response.data?.awayTeam
+                            countryId = response.data?.country_id
+                            homeFavourite = response.data?.homeFavourite
+                            awayFavourite = response.data?.awayFavourite
+
+                            if (response.data?.homeFavourite == "1") {
+                                binding.imgFavHome.setImageResource(R.drawable.ic_fav_select)
+                            } else {
+                                binding.imgFavHome.setImageResource(R.drawable.ic_fav_un_select)
+                            }
+
+                            if (response.data?.awayFavourite == "1") {
+                                binding.imgFavAway.setImageResource(R.drawable.ic_fav_select)
+                            } else {
+                                binding.imgFavAway.setImageResource(R.drawable.ic_fav_un_select)
+                            }
+
+                            Glide.with(this)
+                                .load(BuildConfig.SERVER_URL + response.data?.country_logo)
+                                .centerCrop()
+                                .placeholder(R.drawable.progress_animation)
+                                .into(binding.imgFlag)
+
+                            var date = response.data?.prediction_date
+                            var time = response.data?.prediction_time
+
+                            var timing = Utils.convertPredictionTimeCurrentTimeZone(
+                                "$date $time",
+                                PreferenceHelper.timeFormat
+                            )
+
+                            if (timing!!.contains(" ")) {
+                                var time = timing.split(" ")[0]
+                                var ampm = timing.split(" ")[1]
+
+                                binding.tvTime.text = time + "\n" + ampm
+                            } else {
+                                binding.tvTime.text = Utils.convertPredictionTimeCurrentTimeZone(
+                                    "$date $time",
+                                    PreferenceHelper.timeFormat
+                                )
+                            }
+
                             if (arrPrediction != null && arrPrediction!!.size > 0) {
                                 arrPrediction!!.clear()
                             }
 
-                           var sets = response.data?.sets
+                            var sets = response.data?.sets
 
                             if (response.data?.predictionTab != null && response.data?.predictionTab.isNotEmpty()) {
                                 arrPrediction = response.data?.predictionTab
-                                mAdapter.setData(arrPrediction!!, sportId!!,sets)
+                                mAdapter.setData(arrPrediction!!, sportId!!, sets)
                             } else {
                                 if (mAdapter != null) {
                                     if (arrPrediction != null && arrPrediction!!.size > 0) {
                                         arrPrediction!!.clear()
                                     }
-                                    mAdapter.setData(arrPrediction!!, sportId!!,sets)
+                                    mAdapter.setData(arrPrediction!!, sportId!!, sets)
                                     mAdapter.notifyDataSetChanged()
                                 }
                             }
@@ -193,15 +368,18 @@ class PredictionDetailActivity : BaseActivity(), SoccerPredictionAdapter.onClick
                             Toast.makeText(this, "No record found", Toast.LENGTH_SHORT).show()
                         }
                     }
+
                     is Resource.Error -> {
                         hideProgressBar()
                         response.message?.let { message ->
                             Log.e("error", message)
                         }
                     }
+
                     is Resource.Loading -> {
                         showProgressBar()
                     }
+
                     else -> {}
                 }
             }

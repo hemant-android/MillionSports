@@ -20,6 +20,7 @@ object RequestBodies {
     )
 
     data class PredictionDetailsBody(
+        val device_id: String,
         val sportId: String,
         val predictionId: String,
     )

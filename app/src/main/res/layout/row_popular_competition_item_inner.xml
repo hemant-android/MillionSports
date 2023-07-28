@@ -12,9 +12,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:gravity="center"
         android:layout_gravity="center"
         android:fontFamily="@font/roboto_regular_400"
+        android:gravity="center"
         android:lineSpacingExtra="1sp"
         android:textColor="@color/white"
         android:textSize="@dimen/_10sdp"
@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_toLeftOf="@+id/llBoxes"
         android:layout_toRightOf="@+id/tvTime"
         android:gravity="center_vertical"
         android:orientation="vertical">
@@ -34,10 +35,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:ellipsize="end"
             android:fontFamily="@font/roboto_regular_400"
             android:lineSpacingExtra="1sp"
-            android:maxLines="1"
             android:textColor="@color/white"
             android:textSize="@dimen/_10sdp"
             android:translationY="0.47sp" />
@@ -47,16 +46,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:ellipsize="end"
             android:fontFamily="@font/roboto_regular_400"
             android:lineSpacingExtra="1sp"
-            android:maxLines="1"
             android:textColor="@color/white"
             android:textSize="@dimen/_10sdp"
             android:translationY="0.47sp" />
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/llBoxes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"

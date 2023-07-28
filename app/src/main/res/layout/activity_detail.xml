@@ -103,8 +103,7 @@
                                     android:id="@+id/imgFavHome"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:src="@drawable/ic_fav_un_select" />
+                                    android:layout_gravity="center" />
 
                                 <TextView
                                     android:id="@+id/tvHome"
@@ -170,8 +169,7 @@
                                     android:id="@+id/imgFavAway"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:src="@drawable/ic_fav_select" />
+                                    android:layout_gravity="center" />
 
                                 <TextView
                                     android:id="@+id/tvAway"

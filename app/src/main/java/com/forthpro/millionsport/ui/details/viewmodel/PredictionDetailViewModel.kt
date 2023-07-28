@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.forthpro.millionsport.R
 import com.forthpro.millionsport.app.MyApplication
 import com.forthpro.millionsport.model.RequestBodies
+import com.forthpro.millionsport.model.response.CommonResponse
 import com.forthpro.millionsport.model.response.PredictionDetailResponse
 import com.forthpro.millionsport.repository.AppRepository
 import com.forthpro.millionsport.util.Event
@@ -22,10 +23,17 @@ class PredictionDetailViewModel(app: Application, private val appRepository: App
     private val _getDetailResponse = MutableLiveData<Event<Resource<PredictionDetailResponse>>>()
     val getDetailResponse: LiveData<Event<Resource<PredictionDetailResponse>>> = _getDetailResponse
 
+    private val _favAddRemoveResponse = MutableLiveData<Event<Resource<CommonResponse>>>()
+    val favAddRemoveResponse: LiveData<Event<Resource<CommonResponse>>> = _favAddRemoveResponse
+
     fun getPredictionDetailList(body: RequestBodies.PredictionDetailsBody, sportId: String) =
         viewModelScope.launch {
             getPredictionDetailData(body, sportId)
         }
+
+    fun favAddRemoveData(body: RequestBodies.FavAddRemoveBody) = viewModelScope.launch {
+        favAddRemoveDetail(body)
+    }
 
     private suspend fun getPredictionDetailData(
         body: RequestBodies.PredictionDetailsBody,
@@ -124,7 +132,58 @@ class PredictionDetailViewModel(app: Application, private val appRepository: App
         }
     }
 
+    private suspend fun favAddRemoveDetail(body: RequestBodies.FavAddRemoveBody) {
+        _favAddRemoveResponse.postValue(Event(Resource.Loading()))
+        try {
+            if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
+                val response = appRepository.favAddRemoveData(body)
+                _favAddRemoveResponse.postValue(response?.let { handleFavAddRemoveResponse(it) })
+            } else {
+                _favAddRemoveResponse.postValue(
+                    Event(
+                        Resource.Error(
+                            getApplication<MyApplication>().getString(
+                                R.string.no_internet_connection
+                            )
+                        )
+                    )
+                )
+            }
+        } catch (t: Throwable) {
+            when (t) {
+                is IOException -> {
+                    _favAddRemoveResponse.postValue(
+                        Event(
+                            Resource.Error(
+                                getApplication<MyApplication>().getString(
+                                    R.string.network_failure
+                                )
+                            )
+                        )
+                    )
+                }
+
+                else -> {
+                    _favAddRemoveResponse.postValue(
+                        Event(
+                            Resource.Error(t.localizedMessage)
+                        )
+                    )
+                }
+            }
+        }
+    }
+
     private fun handleCommonResponse(response: retrofit2.Response<PredictionDetailResponse>): Event<Resource<PredictionDetailResponse>>? {
+        if (response.isSuccessful) {
+            response.body()?.let { resultResponse ->
+                return Event(Resource.Success(resultResponse))
+            }
+        }
+        return Event(Resource.Error(response.message()))
+    }
+
+    private fun handleFavAddRemoveResponse(response: retrofit2.Response<CommonResponse>): Event<Resource<CommonResponse>>? {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
                 return Event(Resource.Success(resultResponse))
