@@ -70,62 +70,65 @@ class PredictionDetailActivity : BaseActivity(), SoccerPredictionAdapter.onClick
         when (sportId) {
             "1" -> {
                 binding.imgBackground.visibility = View.VISIBLE
-                binding.imgBackground.setImageResource(R.drawable.soccer)
+                binding.imgBackground.setImageResource(R.mipmap.ic_soccer)
             }
 
             "2" -> {
                 binding.imgBackground.visibility = View.VISIBLE
-                binding.imgBackground.setImageResource(R.drawable.hockey)
+                binding.imgBackground.setImageResource(R.mipmap.ic_hockey)
             }
 
             "3" -> {
                 binding.imgBackground.visibility = View.VISIBLE
-                binding.imgBackground.setImageResource(R.drawable.basketball)
+                binding.imgBackground.setImageResource(R.mipmap.ic_basketball)
             }
 
             "4" -> {
                 binding.imgBackground.visibility = View.VISIBLE
-                binding.imgBackground.setImageResource(R.drawable.handball)
+                binding.imgBackground.setImageResource(R.mipmap.ic_handball)
             }
 
             "5" -> {
                 binding.imgBackground.visibility = View.VISIBLE
-                binding.imgBackground.setImageResource(R.drawable.futsal)
+                binding.imgBackground.setImageResource(R.mipmap.ic_futsal)
             }
 
             "6" -> {
                 binding.imgBackground.visibility = View.VISIBLE
-                binding.imgBackground.setImageResource(R.drawable.volleyball)
+                binding.imgBackground.setImageResource(R.mipmap.ic_volleyball)
             }
 
             "7" -> {
                 binding.imgBackground.visibility = View.VISIBLE
-                binding.imgBackground.setImageResource(R.drawable.rugby_league)
+                binding.imgBackground.setImageResource(R.mipmap.ic_rugby_league)
             }
 
             "8" -> {
                 binding.imgBackground.visibility = View.VISIBLE
-                binding.imgBackground.setImageResource(R.drawable.rugby_union)
+                binding.imgBackground.setImageResource(R.mipmap.ic_rugby_union)
             }
 
             "9" -> {
                 binding.imgBackground.visibility = View.VISIBLE
-                binding.imgBackground.setImageResource(R.drawable.tennis)
+                binding.imgBackground.setImageResource(R.mipmap.ic_tennis)
+
+                binding.imgFavHome.visibility = View.GONE
+                binding.imgFavAway.visibility = View.GONE
             }
 
             "10" -> {
                 binding.imgBackground.visibility = View.VISIBLE
-                binding.imgBackground.setImageResource(R.drawable.american_football)
+                binding.imgBackground.setImageResource(R.mipmap.ic_american_football)
             }
 
             "11" -> {
                 binding.imgBackground.visibility = View.VISIBLE
-                binding.imgBackground.setImageResource(R.drawable.baseball)
+                binding.imgBackground.setImageResource(R.mipmap.ic_baseball)
             }
 
             "12" -> {
                 binding.imgBackground.visibility = View.VISIBLE
-                binding.imgBackground.setImageResource(R.drawable.pes_pallo)
+                binding.imgBackground.setImageResource(R.mipmap.ic_pespall)
             }
 
             else -> {
@@ -153,7 +156,7 @@ class PredictionDetailActivity : BaseActivity(), SoccerPredictionAdapter.onClick
         binding.rvSoccerPredication.adapter = mAdapter
         mAdapter.setClickListner(this)
 
-        binding.imgBack1.setOnClickListener {
+        binding.imgBack.setOnClickListener {
             finish()
         }
 

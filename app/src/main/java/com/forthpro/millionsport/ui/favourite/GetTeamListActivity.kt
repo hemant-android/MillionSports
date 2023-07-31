@@ -164,6 +164,7 @@ class GetTeamListActivity : BaseActivity(), GetTeamListAdapter.onClickListner {
 
     override fun clickFavUnFav(
         position: Int,
+        id: Int,
         sportId: Int,
         country_id: Int,
         team_name: String,
@@ -215,12 +216,24 @@ class GetTeamListActivity : BaseActivity(), GetTeamListAdapter.onClickListner {
                     2
                 }
 
-                if (allTeams!![position].favourite == 0) {
+                for (position in allTeams!!.indices) {
+                    if (allTeams!![position].id == id){
+                        if (allTeams!![position].favourite == 0) {
+                            allTeams!![position].favourite = 1
+                        } else {
+                            allTeams!![position].favourite = 0
+                        }
+                    }
+                }
+
+                adapter.notifyDataSetChanged()
+
+                /*if (allTeams!![position].favourite == 0) {
                     allTeams!![position].favourite = 1
                 } else {
                     allTeams!![position].favourite = 0
                 }
-                adapter.notifyDataSetChanged()
+                adapter.notifyDataSetChanged()*/
 
                 viewModel.favAddRemoveData(
                     RequestBodies.FavAddRemoveBody(
@@ -272,12 +285,23 @@ class GetTeamListActivity : BaseActivity(), GetTeamListAdapter.onClickListner {
                 2
             }
 
-            if (allTeams!![position].favourite == 0) {
+            for (position in allTeams!!.indices) {
+                if (allTeams!![position].id == id){
+                    if (allTeams!![position].favourite == 0) {
+                        allTeams!![position].favourite = 1
+                    } else {
+                        allTeams!![position].favourite = 0
+                    }
+                }
+            }
+            adapter.notifyDataSetChanged()
+
+            /*if (allTeams!![position].favourite == 0) {
                 allTeams!![position].favourite = 1
             } else {
                 allTeams!![position].favourite = 0
             }
-            adapter.notifyDataSetChanged()
+            adapter.notifyDataSetChanged()*/
 
             viewModel.favAddRemoveData(
                 RequestBodies.FavAddRemoveBody(
