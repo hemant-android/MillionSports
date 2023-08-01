@@ -30,8 +30,7 @@ class SportsAdapter(private val mContext: Context) :
         this.onclick = onclick;
     }
 
-    fun setSportIdData(SportId: String, arrSports: ArrayList<DashboardResponse.Sport>) {
-        sportId = SportId
+    fun setSportIdData(arrSports: ArrayList<DashboardResponse.Sport>) {
         items!!.clear()
         items.addAll(arrSports)
         notifyDataSetChanged()

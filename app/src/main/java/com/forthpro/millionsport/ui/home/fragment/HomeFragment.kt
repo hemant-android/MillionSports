@@ -72,14 +72,22 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
         binding.expendablePopularCompetitions!!.setOnChildClickListener { _, _, groupPosition, childPosition, _ ->
 //            Toast.makeText(requireActivity(),"Clicked: " + (titleList as ArrayList<String>)[groupPosition] + " -> " + listData[(titleList as ArrayList<String>)[groupPosition]]!![childPosition],Toast.LENGTH_SHORT).show()
 
-            var sportId =(arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.sport_id
-            var countryFlag = (arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.country_logo
-            var predictionName = (arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.prediction[childPosition].prediction_name
-            var predictionId =(arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.prediction[childPosition].id
-            var home = (arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.prediction[childPosition].Home
-            var away = (arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.prediction[childPosition].Away
-            var time =(arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.prediction[childPosition].prediction_time
-            var date =(arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.prediction[childPosition].prediction_date
+            var sportId =
+                (arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.sport_id
+            var countryFlag =
+                (arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.country_logo
+            var predictionName =
+                (arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.prediction[childPosition].prediction_name
+            var predictionId =
+                (arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.prediction[childPosition].id
+            var home =
+                (arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.prediction[childPosition].Home
+            var away =
+                (arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.prediction[childPosition].Away
+            var time =
+                (arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.prediction[childPosition].prediction_time
+            var date =
+                (arrPopularCompetitions as ArrayList<DashboardResponse.PopularCompetition>)[groupPosition]!!.prediction[childPosition].prediction_date
 
             if (sportId.toString() == "13") {
 
@@ -119,12 +127,16 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
             var away =
                 (arrPopularCompetitionsCountry as ArrayList<DashboardResponse.PopularCompetitionsCountry>)[groupPosition]!!.prediction[childPosition].Away
 
-            var predictionName = (arrPopularCompetitionsCountry as ArrayList<DashboardResponse.PopularCompetitionsCountry>)[groupPosition]!!.prediction[childPosition].prediction_name
+            var predictionName =
+                (arrPopularCompetitionsCountry as ArrayList<DashboardResponse.PopularCompetitionsCountry>)[groupPosition]!!.prediction[childPosition].prediction_name
 
-            var time =(arrPopularCompetitionsCountry as ArrayList<DashboardResponse.PopularCompetitionsCountry>)[groupPosition]!!.prediction[childPosition].prediction_time
-            var date =(arrPopularCompetitionsCountry as ArrayList<DashboardResponse.PopularCompetitionsCountry>)[groupPosition]!!.prediction[childPosition].prediction_date
+            var time =
+                (arrPopularCompetitionsCountry as ArrayList<DashboardResponse.PopularCompetitionsCountry>)[groupPosition]!!.prediction[childPosition].prediction_time
+            var date =
+                (arrPopularCompetitionsCountry as ArrayList<DashboardResponse.PopularCompetitionsCountry>)[groupPosition]!!.prediction[childPosition].prediction_date
 
-            var countryFlag = (arrPopularCompetitionsCountry as ArrayList<DashboardResponse.PopularCompetitionsCountry>)[groupPosition]!!.country_logo
+            var countryFlag =
+                (arrPopularCompetitionsCountry as ArrayList<DashboardResponse.PopularCompetitionsCountry>)[groupPosition]!!.country_logo
 
             if (sportId.toString() == "13") {
 
@@ -179,6 +191,14 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
                             binding.tvCompetitionsByCountry.text =
                                 response.data?.POPULAR_COMPETITIONS_BY_COUNTRY_LABEL
 
+                            if (arrSports != null && arrSports!!.size > 0) {
+                                arrSports!!.clear()
+                            }
+
+                            if (arrDate != null && arrDate!!.size > 0) {
+                                arrDate!!.clear()
+                            }
+
                             if (response.data?.sports != null && response.data?.sports.isNotEmpty()) {
                                 arrSports = response.data.sports
 
@@ -186,11 +206,12 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
                                     for (i in arrSports!!.indices) {
                                         if (i == 0) {
                                             playerImage = arrSports!![i].light_logo
+                                            sportId = arrSports!![i].id
                                         }
                                         arrSports!![i].isSelect = i == 0
                                     }
                                 }
-                                mSportAdapter.setSportIdData(sportId!!, arrSports!!)
+                                mSportAdapter.setSportIdData(arrSports!!)
 
                                 binding.rvGame.adapter = mSportAdapter
                                 mSportAdapter.setClickListner(this)
@@ -201,7 +222,10 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
 
                                 if (arrDate != null && arrDate!!.isNotEmpty()) {
                                     for (i in arrDate!!.indices) {
-                                        arrDate!![i].isSelect = i == 0
+                                        if (i == 0) {
+                                            chooseDate = arrDate!![i].date_value
+                                            arrDate!![i].isSelect = i == 0
+                                        }
                                     }
                                 }
                                 mDateWiseAdapter.setData(arrDate!!, chooseDate)
@@ -307,6 +331,20 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
                             binding.tvCompetitionsByCountry.text =
                                 response.data?.POPULAR_COMPETITIONS_BY_COUNTRY_LABEL
 
+                            if (arrSports != null && arrSports!!.size > 0) {
+                                arrSports!!.clear()
+                            }
+
+                            if (response.data?.sports != null && response.data?.sports.isNotEmpty()) {
+                                arrSports = response.data.sports
+
+                                if (arrSports != null && arrSports!!.isNotEmpty()) {
+                                    for (i in arrSports!!.indices) {
+                                        arrSports!![i].isSelect = arrSports!![i].id == sportId
+                                    }
+                                    mSportAdapter.setSportIdData(arrSports!!)
+                                }
+                            }
 
                             if (arrPopularCompetitions != null && arrPopularCompetitions!!.size > 0) {
                                 arrPopularCompetitions!!.clear()
@@ -419,7 +457,7 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
             for (i in arrSports!!.indices) {
                 arrSports!![i].isSelect = arrSports!![i].id == sportId
             }
-            mSportAdapter.setSportIdData(sportId!!, arrSports!!)
+            mSportAdapter.setSportIdData(arrSports!!)
         }
         val body = RequestBodies.DashboardBody(PreferenceHelper.deviceId, sportId!!, chooseDate!!)
         viewModel.getDashboardFilter(body)

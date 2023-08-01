@@ -42,7 +42,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
-                        android:padding="@dimen/_5sdp"
+                        android:padding="@dimen/_2sdp"
                         android:src="@drawable/ic_back_white" />
 
                     <ImageView
