@@ -4,11 +4,14 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:layout_gravity="center"
+    android:gravity="center"
     android:paddingTop="@dimen/_5sdp"
     android:paddingBottom="@dimen/_5sdp">
 
     <RelativeLayout
         android:layout_width="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -48,12 +51,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rlSport"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
             android:layout_marginTop="@dimen/_2sdp"
             android:fontFamily="@font/arial"
             android:gravity="center"
             android:textColor="@color/white"
+            android:layout_centerInParent="true"
             android:textColorHint="@color/white"
             android:textFontWeight="400"
             android:textSize="@dimen/_10sdp" />

@@ -1,10 +1,13 @@
 package com.forthpro.millionsport.ui.home.adapter
 
+import android.app.Activity
 import android.content.Context
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -13,7 +16,7 @@ import com.forthpro.millionsport.R
 import com.forthpro.millionsport.model.response.DashboardResponse
 
 
-class SportsAdapter(private val mContext: Context) :
+class SportsAdapter(private val mContext: Activity) :
     RecyclerView.Adapter<SportsAdapter.ViewHolder>() {
     private val items: ArrayList<DashboardResponse.Sport>? = arrayListOf()
 
@@ -21,6 +24,7 @@ class SportsAdapter(private val mContext: Context) :
 
     private var selectedItemPos = 0
     lateinit var onclick: onClickListner
+    private var width = 0
 
     interface onClickListner {
         fun clickSportItem(sportId: String,icon: String)
@@ -37,6 +41,13 @@ class SportsAdapter(private val mContext: Context) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
+        val displayMetrics = DisplayMetrics()
+        mContext.windowManager.defaultDisplay.getMetrics(displayMetrics)
+        width = displayMetrics.widthPixels
+        val mWidth = (width / 5)
+
+        holder.itemView!!.layoutParams =LinearLayout.LayoutParams(mWidth, LinearLayout.LayoutParams.WRAP_CONTENT)
 
         if (items!![position].isSelect) {
             if (items!![position].light_logo != null) {

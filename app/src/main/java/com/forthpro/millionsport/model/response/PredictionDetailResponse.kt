@@ -2,11 +2,16 @@ package com.forthpro.millionsport.model.response
 
 data class PredictionDetailResponse(
     val awayTeam: String,
+    val Player_H_1: String,
+    val Player_H_2: String,
+    val Player_A_1: String,
+    val Player_A_2: String,
     val country_logo: String,
     val country_id: String,
     val country_name: String,
     val grey_logo: String,
     val sets: String,
+    val player: String,
     val homeTeam: String,
     val light_logo: String,
     val predictionTab: ArrayList<PredictionTab>,

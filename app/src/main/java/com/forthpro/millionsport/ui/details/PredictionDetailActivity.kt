@@ -300,8 +300,6 @@ class PredictionDetailActivity : BaseActivity(), SoccerPredictionAdapter.onClick
                         hideProgressBar()
                         if (response.data?.status == 1) {
 
-                            binding.tvHome.text = response.data?.homeTeam
-                            binding.tvAway.text = response.data?.awayTeam
                             binding.tvCountryName.text = response.data?.prediction_name
 
                             homeTeam = response.data?.homeTeam
@@ -310,6 +308,20 @@ class PredictionDetailActivity : BaseActivity(), SoccerPredictionAdapter.onClick
                             homeFavourite = response.data?.homeFavourite
                             awayFavourite = response.data?.awayFavourite
 
+
+                            if (sportId == "9") {
+                                if (response.data?.player == "1") {
+                                    binding.tvHome.text = response.data?.Player_H_1
+                                    binding.tvAway.text = response.data?.Player_A_1
+                                } else {
+                                    binding.tvHome.text = response.data?.Player_H_1+"\n"+response.data?.Player_H_2
+                                    binding.tvAway.text = response.data?.Player_A_1+"\n"+response.data?.Player_A_2
+                                }
+
+                            } else {
+                                binding.tvHome.text = response.data?.homeTeam
+                                binding.tvAway.text = response.data?.awayTeam
+                            }
                             if (response.data?.homeFavourite == "1") {
                                 binding.imgFavHome.setImageResource(R.drawable.ic_fav_select)
                             } else {
