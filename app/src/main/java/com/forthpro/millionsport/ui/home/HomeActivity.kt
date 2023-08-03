@@ -1,6 +1,7 @@
 package com.forthpro.millionsport.ui.home
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -114,6 +115,12 @@ class HomeActivity : BaseActivity() {
 
         rlFeedback.setOnClickListener {
             drawerLayout.closeDrawers()
+
+            val intent = Intent(
+                Intent.ACTION_SENDTO,
+                Uri.parse("mailto:${"contact@milionesports.com"}")
+            )
+            startActivity(Intent.createChooser(intent, "Email"))
         }
 
         rlShare.setOnClickListener {
