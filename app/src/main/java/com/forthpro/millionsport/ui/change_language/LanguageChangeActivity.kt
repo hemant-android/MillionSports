@@ -133,7 +133,7 @@ class LanguageChangeActivity : BaseActivity(), LanguageChangeAdapter.onClickList
 
         PreferenceHelper.languageHeader = languageId
 
-        val body = RequestBodies.ChangeLanguageBody("Android",PreferenceHelper.deviceId,"122121")
+        val body = RequestBodies.ChangeLanguageBody("Android",PreferenceHelper.deviceId,PreferenceHelper.deviceToken)
         viewModel.changeLanguage(body)
 
         Intent(this, HomeActivity::class.java).also {

@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'androidx.navigation.safeargs'
+    id("com.google.gms.google-services")
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
@@ -27,7 +29,7 @@ android {
     }
     productFlavors {
         Develop {
-            applicationId "com.forthpro.millionsport"
+            applicationId "com.forthpro.millionsport.dev"
             buildConfigField "String", "SERVER_URL", '"https://forthproitsolution.work/milione_sports/"'
             signingConfig signingConfigs.debug
         }
@@ -90,4 +92,10 @@ dependencies {
     //Navigation Component
     implementation 'androidx.navigation:navigation-fragment-ktx:2.6.0'
     implementation 'androidx.navigation:navigation-ui-ktx:2.6.0'
+
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:32.2.0"))
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.2.0'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
 }

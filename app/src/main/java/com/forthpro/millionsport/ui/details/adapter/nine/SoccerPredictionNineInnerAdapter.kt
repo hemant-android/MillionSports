@@ -105,8 +105,8 @@ class SoccerPredictionNineInnerAdapter(
                 holder.box6Value!!.visibility = View.GONE
 
             } else {
-                holder.llKey!!.weightSum = 2F
-                holder.llValue!!.weightSum = 2F
+                holder.llKey!!.weightSum = 3F
+                holder.llValue!!.weightSum = 3F
 
                 if (items[position].label_value1 != null && !TextUtils.isEmpty(items[position].label_value1)) {
                     holder.box1Value!!.visibility = View.VISIBLE

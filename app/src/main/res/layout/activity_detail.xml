@@ -133,11 +133,11 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_marginTop="@dimen/_10sdp"
-                                android:fontFamily="@font/roboto_regular_400"
+                                android:fontFamily="@font/roboto_bold_700"
                                 android:gravity="center"
                                 android:lineSpacingExtra="1sp"
                                 android:textColor="@color/white"
-                                android:textSize="@dimen/_10sdp"
+                                android:textSize="@dimen/_12sdp"
                                 android:translationY="0.47sp" />
                         </LinearLayout>
 

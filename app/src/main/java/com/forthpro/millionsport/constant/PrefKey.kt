@@ -8,4 +8,5 @@ object PrefKey {
     const val userId = "userId"
     const val token = "token"
     const val deviceId = "deviceId"
+    const val deviceToken = "deviceToken"
 }

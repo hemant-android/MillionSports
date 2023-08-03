@@ -21,7 +21,7 @@ class AppRepository {
     suspend fun getCompetitionListData(body: RequestBodies.GetTeamListBody) =RetrofitInstance().retrofitApi?.getCompetitionListData(body)
     suspend fun favAddRemoveData(body: RequestBodies.FavAddRemoveBody) =RetrofitInstance().retrofitApi?.favAddRemoveData(body)
     suspend fun favAddRemoveCompetitionData(body: RequestBodies.FavAddRemoveCompetitionBody) =RetrofitInstance().retrofitApi?.favAddRemoveCompetitionData(body)
-    suspend fun getFavData(body: RequestBodies.GetNotificationBody) =RetrofitInstance().retrofitApi?.getFavData(body)
+    suspend fun getFavData(body: RequestBodies.DashboardBody) =RetrofitInstance().retrofitApi?.getFavData(body)
     suspend fun getSoccerPredictionDetailsData(body: RequestBodies.PredictionDetailsBody) =RetrofitInstance().retrofitApi?.getSoccerPredictionDetailsData(body)
     suspend fun getHockeyPredictionDetailsData(body: RequestBodies.PredictionDetailsBody) =RetrofitInstance().retrofitApi?.getHockeyPredictionDetailsData(body)
     suspend fun getBasketPredictionDetailsData(body: RequestBodies.PredictionDetailsBody) =RetrofitInstance().retrofitApi?.getBasketPredictionDetailsData(body)

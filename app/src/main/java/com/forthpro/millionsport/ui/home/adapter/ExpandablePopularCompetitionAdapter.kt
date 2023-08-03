@@ -70,7 +70,7 @@ class ExpandablePopularCompetitionAdapter(
             var time = timing.split(" ")[0]
             var ampm = timing.split(" ")[1]
 
-            tvTime.text = time+"\n"+ampm
+            tvTime.text = time+"\n"+ampm.uppercase()
         }else {
             tvTime.text = Utils.convertPredictionTimeCurrentTimeZone(
                 mChild.prediction_date + " " + mChild.prediction_time,

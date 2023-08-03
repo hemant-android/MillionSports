@@ -33,11 +33,6 @@ class PredictionDetailActivity : BaseActivity(), SoccerPredictionAdapter.onClick
     var playerImage: String? = ""
     var homeTeam: String? = ""
     var awayTeam: String? = ""
-    var predictionName: String? = ""
-    var countryFlag: String? = ""
-    var time: String? = ""
-    var date: String? = ""
-
     var homeFavourite: String? = ""
     var awayFavourite: String? = ""
     var countryId: String? = ""
@@ -58,13 +53,6 @@ class PredictionDetailActivity : BaseActivity(), SoccerPredictionAdapter.onClick
         if (bundle != null) {
             sportId = bundle.getString("sportId")
             predictionId = bundle.getString("predictionId")
-//            home = bundle.getString("home")
-//            away = bundle.getString("away")
-//            playerImage = bundle.getString("playerImage")
-//            time = bundle.getString("time")
-//            date = bundle.getString("date")
-//            predictionName = bundle.getString("predictionName")
-//            countryFlag = bundle.getString("countryFlag")
         }
 
         when (sportId) {
@@ -352,7 +340,7 @@ class PredictionDetailActivity : BaseActivity(), SoccerPredictionAdapter.onClick
                                 var time = timing.split(" ")[0]
                                 var ampm = timing.split(" ")[1]
 
-                                binding.tvTime.text = time + "\n" + ampm
+                                binding.tvTime.text = time + "\n" + ampm.uppercase()
                             } else {
                                 binding.tvTime.text = Utils.convertPredictionTimeCurrentTimeZone(
                                     "$date $time",

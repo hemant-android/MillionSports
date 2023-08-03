@@ -61,7 +61,7 @@ interface API {
     suspend fun favAddRemoveCompetitionData(@Body body: RequestBodies.FavAddRemoveCompetitionBody): Response<CommonResponse>
 
     @POST("api/favouriteCommon")
-    suspend fun getFavData(@Body body: RequestBodies.GetNotificationBody): Response<FavouriteCommonResponse>
+    suspend fun getFavData(@Body body: RequestBodies.DashboardBody): Response<FavouriteCommonResponse>
 
     @POST("api/soccerPredictionDetails")
     suspend fun getSoccerPredictionDetailsData(@Body body: RequestBodies.PredictionDetailsBody): Response<PredictionDetailResponse>

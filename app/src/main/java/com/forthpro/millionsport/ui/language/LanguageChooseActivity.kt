@@ -2,6 +2,7 @@ package com.forthpro.millionsport.ui.language
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -17,6 +18,8 @@ import com.forthpro.millionsport.ui.language.viewmodel.LanguageChooseViewModel
 import com.forthpro.millionsport.ui.timing.ChooseTimeFormatActivity
 import com.forthpro.millionsport.util.Resource
 import com.forthpro.millionsport.viewmodel.ViewModelProviderFactory
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 
 
 class LanguageChooseActivity : BaseActivity(), LanguageChooseAdapter.onClickListner {
@@ -45,8 +48,10 @@ class LanguageChooseActivity : BaseActivity(), LanguageChooseAdapter.onClickList
                         hideProgressBar()
                         if (response.data?.status == 1) {
 
-                            val body = RequestBodies.LanguageLabelBody("Select Language",
-                                response.data?.defaultLanguage!!)
+                            val body = RequestBodies.LanguageLabelBody(
+                                "Select Language",
+                                response.data?.defaultLanguage!!
+                            )
                             viewModel.getLanguageLabel(body)
 
                             if (allLanguageList != null && allLanguageList!!.size > 0) {
@@ -69,12 +74,14 @@ class LanguageChooseActivity : BaseActivity(), LanguageChooseAdapter.onClickList
                             ).show()
                         }
                     }
+
                     is Resource.Error -> {
                         hideProgressBar()
                         response.message?.let { message ->
                             Log.e("error", message)
                         }
                     }
+
                     is Resource.Loading -> {
                         showProgressBar()
                     }
@@ -90,19 +97,17 @@ class LanguageChooseActivity : BaseActivity(), LanguageChooseAdapter.onClickList
                         if (response.data?.status == 1) {
                             binding.tvTitle.text = response.data?.showText
                         } else {
-                            Toast.makeText(
-                                this,
-                                "Data not found",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            Toast.makeText(this, response.data?.message, Toast.LENGTH_SHORT).show()
                         }
                     }
+
                     is Resource.Error -> {
                         hideProgressBar()
                         response.message?.let { message ->
                             Log.e("error", message)
                         }
                     }
+
                     is Resource.Loading -> {
                         showProgressBar()
                     }
@@ -114,13 +119,42 @@ class LanguageChooseActivity : BaseActivity(), LanguageChooseAdapter.onClickList
         adapter.setClickListner(this)
     }
 
+    override fun onResume() {
+        super.onResume()
+        getFCMToken()
+    }
+
     override fun clickItem(languageId: String) {
 
         PreferenceHelper.languageHeader = languageId
 
+        val body = RequestBodies.ChangeLanguageBody(
+            "Android",
+            PreferenceHelper.deviceId,
+            PreferenceHelper.deviceToken
+        )
+        viewModel.changeLanguage(body)
+
         Intent(this, ChooseTimeFormatActivity::class.java).also {
             startActivity(it)
         }
+    }
+
+    private fun getFCMToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+
+            // Log and toast
+            if (token != null && !TextUtils.isEmpty(token)) {
+                PreferenceHelper.deviceToken = token!!
+            }
+        })
     }
 
     private fun hideProgressBar() {

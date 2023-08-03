@@ -22,11 +22,18 @@ class FavouriteViewModel(app: Application, private val appRepository: AppReposit
     private val _getFavResponse = MutableLiveData<Event<Resource<FavouriteCommonResponse>>>()
     val getFavResponse: LiveData<Event<Resource<FavouriteCommonResponse>>> = _getFavResponse
 
-    fun getFav(body: RequestBodies.GetNotificationBody) = viewModelScope.launch {
+    private val _getFavResponseFilter = MutableLiveData<Event<Resource<FavouriteCommonResponse>>>()
+    val getFavResponseFilter: LiveData<Event<Resource<FavouriteCommonResponse>>> = _getFavResponseFilter
+
+    fun getFav(body: RequestBodies.DashboardBody) = viewModelScope.launch {
         getFavData(body)
     }
 
-    private suspend fun getFavData(body: RequestBodies.GetNotificationBody) {
+    fun getFavFilter(body: RequestBodies.DashboardBody) = viewModelScope.launch {
+        getFavDataFilter(body)
+    }
+
+    private suspend fun getFavData(body: RequestBodies.DashboardBody) {
         _getFavResponse.postValue(Event(Resource.Loading()))
         try {
             if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
@@ -59,6 +66,48 @@ class FavouriteViewModel(app: Application, private val appRepository: AppReposit
 
                 else -> {
                     _getFavResponse.postValue(
+                        Event(
+                            Resource.Error(t.localizedMessage)
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    private suspend fun getFavDataFilter(body: RequestBodies.DashboardBody) {
+        _getFavResponseFilter.postValue(Event(Resource.Loading()))
+        try {
+            if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
+                val response = appRepository.getFavData(body)
+                _getFavResponseFilter.postValue(response?.let { handleResponse(it) })
+            } else {
+                _getFavResponseFilter.postValue(
+                    Event(
+                        Resource.Error(
+                            getApplication<MyApplication>().getString(
+                                R.string.no_internet_connection
+                            )
+                        )
+                    )
+                )
+            }
+        } catch (t: Throwable) {
+            when (t) {
+                is IOException -> {
+                    _getFavResponseFilter.postValue(
+                        Event(
+                            Resource.Error(
+                                getApplication<MyApplication>().getString(
+                                    R.string.network_failure
+                                )
+                            )
+                        )
+                    )
+                }
+
+                else -> {
+                    _getFavResponseFilter.postValue(
                         Event(
                             Resource.Error(t.localizedMessage)
                         )

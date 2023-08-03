@@ -36,6 +36,10 @@ class LanguageChooseViewModel(app: Application, private val appRepository: AppRe
         getLanguageLabelData(body)
     }
 
+    fun changeLanguage(body: RequestBodies.ChangeLanguageBody) = viewModelScope.launch {
+        changeLanguageData(body)
+    }
+
     private suspend fun getAllLanguageData() {
         _getAllLanguageResponse.postValue(Event(Resource.Loading()))
         try {
@@ -82,6 +86,47 @@ class LanguageChooseViewModel(app: Application, private val appRepository: AppRe
         try {
             if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
                 val response = appRepository.getLanguageLabelData(body)
+                _getLanguageTextResponse.postValue(response?.let { handleLanguageLabelResponse(it) })
+            } else {
+                _getLanguageTextResponse.postValue(
+                    Event(
+                        Resource.Error(
+                            getApplication<MyApplication>().getString(
+                                R.string.no_internet_connection
+                            )
+                        )
+                    )
+                )
+            }
+        } catch (t: Throwable) {
+            when (t) {
+                is IOException -> {
+                    _getLanguageTextResponse.postValue(
+                        Event(
+                            Resource.Error(
+                                getApplication<MyApplication>().getString(
+                                    R.string.network_failure
+                                )
+                            )
+                        )
+                    )
+                }
+                else -> {
+                    _getLanguageTextResponse.postValue(
+                        Event(
+                            Resource.Error(t.localizedMessage)
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    private suspend fun changeLanguageData(body: RequestBodies.ChangeLanguageBody) {
+        _getLanguageTextResponse.postValue(Event(Resource.Loading()))
+        try {
+            if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
+                val response = appRepository.changeLanguageData(body)
                 _getLanguageTextResponse.postValue(response?.let { handleLanguageLabelResponse(it) })
             } else {
                 _getLanguageTextResponse.postValue(

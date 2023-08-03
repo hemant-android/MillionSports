@@ -54,7 +54,7 @@ class MatchAdapter(private val mContext: Context) :
             var time = timing.split(" ")[0]
             var ampm = timing.split(" ")[1]
 
-            holder.tvTime!!.text = time+"\n"+ampm
+            holder.tvTime!!.text = time+"\n"+ampm.uppercase()
         }else {
             holder.tvTime!!.text = Utils.convertPredictionTimeCurrentTimeZone(
                 items[position].prediction_date + " " + items[position].prediction_time,

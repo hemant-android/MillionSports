@@ -161,7 +161,7 @@ class FavouriteActivity : BaseActivity(), SportsFavAdapter.onClickListner,
             }
         })
 
-        viewModel.getFav(RequestBodies.GetNotificationBody(PreferenceHelper.deviceId))
+        viewModel.getFav(RequestBodies.DashboardBody(PreferenceHelper.deviceId,"",""))
 
         viewModel.getFavResponse.observe(this) { event ->
             event?.getContentIfNotHandled()?.let { response ->
@@ -269,6 +269,56 @@ class FavouriteActivity : BaseActivity(), SportsFavAdapter.onClickListner,
                 }
             }
         }
+
+        viewModel.getFavResponseFilter.observe(this) { event ->
+            event?.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Success -> {
+                        hideProgressBar()
+                        if (response.data?.status == 1) {
+
+                            if (arrSports != null && arrSports!!.size > 0) {
+                                arrSports!!.clear()
+                            }
+
+                            if (response.data?.sports != null && response.data?.sports.isNotEmpty()) {
+                                arrSports = response.data.sports
+
+                                if (response.data?.sports != null && response.data?.sports.isNotEmpty()) {
+                                    arrSports = response.data.sports
+
+                                    if (arrSports != null && arrSports!!.isNotEmpty()) {
+                                        for (i in arrSports!!.indices) {
+                                            arrSports!![i].isSelect = arrSports!![i].id == sportId
+                                        }
+                                        mSportAdapter.setSportIdData(sportId!!,arrSports!!)
+                                    }
+                                }
+                            }
+
+                            binding.tvMatch.text = response.data?.MATCH_LABEL
+                            binding.tvCompetition.text = response.data?.COMPETITIONS_LABEL
+                            binding.tvTeams.text = response.data?.TEAMS_LABEL
+
+
+                        } else {
+                            Toast.makeText(this, "Data not found", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    is Resource.Error -> {
+                        hideProgressBar()
+                        response.message?.let { message ->
+                            Log.e("error", message)
+                        }
+                    }
+
+                    is Resource.Loading -> {
+                        showProgressBar()
+                    }
+                }
+            }
+        }
     }
 
     override fun clickDateItem(date: String) {
@@ -280,6 +330,9 @@ class FavouriteActivity : BaseActivity(), SportsFavAdapter.onClickListner,
             }
             mDateWiseAdapter.setData(arrDate!!, chooseDate)
         }
+
+        val body = RequestBodies.DashboardBody(PreferenceHelper.deviceId, sportId!!, chooseDate!!)
+        viewModel.getFavFilter(body)
 
         when (selectedTab) {
             0 -> {
@@ -321,6 +374,9 @@ class FavouriteActivity : BaseActivity(), SportsFavAdapter.onClickListner,
             }
             mSportAdapter.setSportIdData(sportId!!, arrSports!!)
         }
+
+        val body = RequestBodies.DashboardBody(PreferenceHelper.deviceId, sportId!!, chooseDate!!)
+        viewModel.getFavFilter(body)
 
         if (sportId == "9" || sportId == "13") {
             binding.tvMatch.visibility = View.GONE

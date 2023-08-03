@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "235929322657",
+    "project_id": "milione-sports",
+    "storage_bucket": "milione-sports.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:235929322657:android:c531489921e52d8cd21ce0",
+        "android_client_info": {
+          "package_name": "com.forthpro.millionsport"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "235929322657-f666o78l6knj87obcin2jniqvv1u9199.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHVSI5h4I1vvwasteyKOSUfdlLLgt3Xyk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "235929322657-f666o78l6knj87obcin2jniqvv1u9199.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:235929322657:android:eb3603b4ecda8cebd21ce0",
+        "android_client_info": {
+          "package_name": "com.forthpro.millionsport.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "235929322657-f666o78l6knj87obcin2jniqvv1u9199.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHVSI5h4I1vvwasteyKOSUfdlLLgt3Xyk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "235929322657-f666o78l6knj87obcin2jniqvv1u9199.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
