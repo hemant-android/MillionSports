@@ -65,8 +65,7 @@ class MatchFragment(val sportId: String?, val chooseDate: String?) : Fragment() 
                             }
 
                         } else {
-                            Toast.makeText(requireActivity(), "Data not found", Toast.LENGTH_SHORT)
-                                .show()
+//                            Toast.makeText(requireActivity(), "Data not found", Toast.LENGTH_SHORT).show()
                         }
                     }
 

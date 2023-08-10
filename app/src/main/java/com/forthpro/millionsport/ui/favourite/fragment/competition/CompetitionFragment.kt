@@ -101,8 +101,7 @@ class CompetitionFragment(var sportId: String?, var chooseDate: String?) : Fragm
                             }
 
                         } else {
-                            Toast.makeText(requireActivity(), "Data not found", Toast.LENGTH_SHORT)
-                                .show()
+//                            Toast.makeText(requireActivity(), "Data not found", Toast.LENGTH_SHORT).show()
                         }
                     }
 
@@ -231,12 +230,7 @@ class CompetitionFragment(var sportId: String?, var chooseDate: String?) : Fragm
                                 viewModel.getFav(body)
 
                             } else {
-                                Toast.makeText(
-                                    requireActivity(),
-                                    "Data not found",
-                                    Toast.LENGTH_SHORT
-                                )
-                                    .show()
+//                                Toast.makeText(requireActivity(),"Data not found",Toast.LENGTH_SHORT).show()
                             }
                         }
 
