@@ -46,7 +46,8 @@ data class DashboardResponse(
             val id: String,
             val prediction_date: String,
             val prediction_name: String,
-            val prediction_time: String
+            val prediction_time: String,
+            val match_actual_time: String
         )
     }
 
@@ -77,7 +78,8 @@ data class DashboardResponse(
             val id: String,
             val prediction_date: String,
             val prediction_name: String,
-            val prediction_time: String
+            val prediction_time: String,
+            val match_actual_time: String
         )
     }
 

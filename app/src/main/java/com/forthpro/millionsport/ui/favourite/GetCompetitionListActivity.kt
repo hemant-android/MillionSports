@@ -122,8 +122,7 @@ class GetCompetitionListActivity : BaseActivity(), GetCompetitionListAdapter.onC
                             }
 
                         } else {
-                            Toast.makeText(this, "Data not found", Toast.LENGTH_SHORT)
-                                .show()
+//                            Toast.makeText(this, "Data not found", Toast.LENGTH_SHORT).show()
                         }
                     }
 
@@ -256,8 +255,7 @@ class GetCompetitionListActivity : BaseActivity(), GetCompetitionListAdapter.onC
                                 if (response.data?.status == 1) {
 
                                 } else {
-                                    Toast.makeText(this, "Data not found", Toast.LENGTH_SHORT)
-                                        .show()
+                                    Toast.makeText(this, "Data not found", Toast.LENGTH_SHORT).show()
                                 }
                             }
 
@@ -324,8 +322,7 @@ class GetCompetitionListActivity : BaseActivity(), GetCompetitionListAdapter.onC
                                 adapter.notifyDataSetChanged()*/
 //                            viewModel.getTeamListData(RequestBodies.GetTeamListBody(PreferenceHelper.deviceId, "1"))
                             } else {
-                                Toast.makeText(this, "Data not found", Toast.LENGTH_SHORT)
-                                    .show()
+//                                Toast.makeText(this, "Data not found", Toast.LENGTH_SHORT).show()
                             }
                         }
 

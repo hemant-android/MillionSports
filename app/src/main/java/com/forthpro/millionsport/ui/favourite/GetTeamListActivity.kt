@@ -121,8 +121,7 @@ class GetTeamListActivity : BaseActivity(), GetTeamListAdapter.onClickListner {
                             }
 
                         } else {
-                            Toast.makeText(this, "Data not found", Toast.LENGTH_SHORT)
-                                .show()
+//                            Toast.makeText(this, "Data not found", Toast.LENGTH_SHORT).show()
                         }
                     }
 
@@ -251,16 +250,8 @@ class GetTeamListActivity : BaseActivity(), GetTeamListAdapter.onClickListner {
                             is Resource.Success -> {
                                 hideProgressBar()
                                 if (response.data?.status == 1) {
-                                    /*if (allTeams!![position].favourite == 0) {
-                                        allTeams!![position].favourite = 1
-                                    } else {
-                                        allTeams!![position].favourite = 0
-                                    }
-                                    adapter.notifyDataSetChanged()*/
-//                            viewModel.getTeamListData(RequestBodies.GetTeamListBody(PreferenceHelper.deviceId, "1"))
                                 } else {
-                                    Toast.makeText(this, "Data not found", Toast.LENGTH_SHORT)
-                                        .show()
+//                                    Toast.makeText(this, "Data not found", Toast.LENGTH_SHORT).show()
                                 }
                             }
 
@@ -327,8 +318,7 @@ class GetTeamListActivity : BaseActivity(), GetTeamListAdapter.onClickListner {
                                 adapter.notifyDataSetChanged()*/
 //                            viewModel.getTeamListData(RequestBodies.GetTeamListBody(PreferenceHelper.deviceId, "1"))
                             } else {
-                                Toast.makeText(this, "Data not found", Toast.LENGTH_SHORT)
-                                    .show()
+//                                Toast.makeText(this, "Data not found", Toast.LENGTH_SHORT).show()
                             }
                         }
 

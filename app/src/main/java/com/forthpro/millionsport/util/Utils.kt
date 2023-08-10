@@ -54,41 +54,23 @@ object Utils {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getWeekName(getDate: String?): String? {
-        val sdfWeekName = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
-        val dateWeekName = sdfWeekName.parse(getDate)
-        sdfWeekName.applyPattern("EEE")
-        return sdfWeekName.format(dateWeekName)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun convertTimeCurrentTimeZone(getDate: String?, timeFormat: String): String? {
-        var timeSelection = if (timeFormat == "1") {
-            "hh.mm"
+    fun convertPredictionTimeToHHMM(getDate: String?, timeFormat: String): String? {
+        return if (timeFormat == "1") {
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            val date = LocalDateTime.parse(getDate, formatter)
+            val formatter2 = DateTimeFormatter.ofPattern("hh:mm a")
+            formatter2.format(date)
         } else {
-            "HH.mm"
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            val date = LocalDateTime.parse(getDate, formatter)
+            val formatter2 = DateTimeFormatter.ofPattern("HH:mm")
+            formatter2.format(date)
         }
-        val sdfWeekName = SimpleDateFormat("$timeSelection", Locale.getDefault())
-        sdfWeekName.timeZone = TimeZone.getDefault()
-        val dateWeekName = sdfWeekName.parse(getDate)
-        sdfWeekName.applyPattern(timeSelection)
-        return sdfWeekName.format(dateWeekName)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun convertPredictionTimeCurrentTimeZone(getDate: String?, timeFormat: String): String? {
-        /*var timeSelection = if (timeFormat == "1") {
-            "hh:mm"
-        } else {
-            "HH:mm"
-        }
-        val sdfWeekName = SimpleDateFormat("$timeSelection", Locale.getDefault())
-        sdfWeekName.timeZone = TimeZone.getDefault()
-        val dateWeekName = sdfWeekName.parse(getDate)
-        sdfWeekName.applyPattern(timeSelection)
-        return sdfWeekName.format(dateWeekName)*/
-
-        return if (timeFormat == "1") {
+        /*return if (timeFormat == "1") {
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
             val date = LocalDateTime.parse(getDate, formatter)
             val formatter2 = DateTimeFormatter.ofPattern("hh:mm a")
@@ -98,8 +80,34 @@ object Utils {
             val date = LocalDateTime.parse(getDate, formatter)
             val formatter2 = DateTimeFormatter.ofPattern("HH:mm")
             formatter2.format(date)
-        }
+        }*/
 
+        var newDate = getDate
+        return if (timeFormat == "1") {
+            try {
+                val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm")
+                formatter.timeZone = TimeZone.getTimeZone("GMT")
+                val value = formatter.parse(newDate.toString())
+                val dateFormatter = SimpleDateFormat("hh:mm a")
+                dateFormatter.timeZone = TimeZone.getDefault()
+                newDate = dateFormatter.format(value)
+            } catch (e: Exception) {
+                newDate = "0000-00-00 00:00"
+            }
+            return newDate
+        } else {
+            try {
+                val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm")
+                formatter.timeZone = TimeZone.getTimeZone("GMT")
+                val value = formatter.parse(newDate.toString())
+                val dateFormatter = SimpleDateFormat("HH:mm")
+                dateFormatter.timeZone = TimeZone.getDefault()
+                newDate = dateFormatter.format(value)
+            } catch (e: Exception) {
+                newDate = "0000-00-00 00:00"
+            }
+            return newDate
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

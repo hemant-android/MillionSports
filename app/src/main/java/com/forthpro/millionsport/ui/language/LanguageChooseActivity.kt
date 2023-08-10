@@ -1,7 +1,10 @@
 package com.forthpro.millionsport.ui.language
 
+import android.Manifest
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
@@ -20,6 +23,13 @@ import com.forthpro.millionsport.util.Resource
 import com.forthpro.millionsport.viewmodel.ViewModelProviderFactory
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.DexterError
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import java.util.TimeZone
 
 
 class LanguageChooseActivity : BaseActivity(), LanguageChooseAdapter.onClickListner {
@@ -38,6 +48,10 @@ class LanguageChooseActivity : BaseActivity(), LanguageChooseAdapter.onClickList
         PreferenceHelper.languageHeader = ""
 
         setupViewModel()
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.S_V2) {
+            requestPermissionsAbove12()
+        }
 
         viewModel.getAllLanguageList()
 
@@ -128,10 +142,13 @@ class LanguageChooseActivity : BaseActivity(), LanguageChooseAdapter.onClickList
 
         PreferenceHelper.languageHeader = languageId
 
+        var tz = TimeZone.getDefault()
+        var timeZone = tz.getDisplayName(true, TimeZone.SHORT)
+
         val body = RequestBodies.ChangeLanguageBody(
             "Android",
             PreferenceHelper.deviceId,
-            PreferenceHelper.deviceToken
+            PreferenceHelper.deviceToken,timeZone,tz.id
         )
         viewModel.changeLanguage(body)
 
@@ -169,5 +186,33 @@ class LanguageChooseActivity : BaseActivity(), LanguageChooseAdapter.onClickList
         val repository = AppRepository()
         val factory = ViewModelProviderFactory(this.application, repository)
         viewModel = ViewModelProvider(this, factory)[LanguageChooseViewModel::class.java]
+    }
+
+    private fun requestPermissionsAbove12() {
+        Dexter.withActivity(this) // below line is use to request the number of permissions which are required in our app.
+            .withPermissions(Manifest.permission.POST_NOTIFICATIONS) // after adding permissions we are calling an with listener method.
+            .withListener(object : MultiplePermissionsListener {
+                override fun onPermissionsChecked(multiplePermissionsReport: MultiplePermissionsReport) {
+                    // this method is called when all permissions are granted
+                    if (multiplePermissionsReport.areAllPermissionsGranted()) {
+                        // do you work now
+                    }
+                    // check for permanent denial of any permission
+                    if (multiplePermissionsReport.isAnyPermissionPermanentlyDenied) {
+                        // permission is denied permanently, we will show user a dialog message.
+                    }
+                }
+
+                override fun onPermissionRationaleShouldBeShown(
+                    list: List<PermissionRequest?>?,
+                    permissionToken: PermissionToken,
+                ) {
+                    // this method is called when user grants some permission and denies some of them.
+                    permissionToken.continuePermissionRequest()
+                }
+            }).withErrorListener { error: DexterError? ->
+                // we are displaying a toast message for error message.
+            } // below line is use to run the permissions on same thread and to check the permissions
+            .onSameThread().check()
     }
 }

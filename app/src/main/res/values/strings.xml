@@ -9,4 +9,5 @@
     <string name="Zeiteinstellungen">Zeiteinstellungen</string>
     <string name="POPULAR_COMPETITIONS">POPULAR COMPETITIONS</string>
     <string name="COMPETITIONS_BY_COUNTRY">COMPETITIONS BY COUNTRY</string>
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
 </resources>

@@ -8,6 +8,7 @@ import com.forthpro.millionsport.config.PreferenceHelper
 import com.forthpro.millionsport.databinding.ActivitySplashBinding
 import com.forthpro.millionsport.ui.home.HomeActivity
 import com.forthpro.millionsport.ui.language.LanguageChooseActivity
+import java.util.TimeZone
 
 
 class SplashActivity : AppCompatActivity() {
@@ -23,7 +24,11 @@ class SplashActivity : AppCompatActivity() {
 
         startTimerThread()
 
-//        val mDeviceId = Utils.getDeviceId(this)
+        var tz = TimeZone.getDefault()
+        var timeZone = tz.getDisplayName(true, TimeZone.SHORT)
+
+        PreferenceHelper.userTimezoneID = tz.id
+        PreferenceHelper.userTimezone = timeZone
 
     }
 

@@ -38,4 +38,12 @@ object PreferenceHelper {
     var deviceToken: String
         get() = preferences.get(PrefKey.deviceToken, "")
         set(deviceToken) = preferences.set(PrefKey.deviceToken, deviceToken)
+
+    var userTimezone: String
+        get() = preferences.get(PrefKey.userTimezone, "")
+        set(userTimezone) = preferences.set(PrefKey.userTimezone, userTimezone)
+
+    var userTimezoneID: String
+        get() = preferences.get(PrefKey.userTimezoneID, "")
+        set(userTimezoneID) = preferences.set(PrefKey.userTimezoneID, userTimezoneID)
 }

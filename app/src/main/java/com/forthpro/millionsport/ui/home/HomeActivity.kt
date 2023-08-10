@@ -1,12 +1,15 @@
 package com.forthpro.millionsport.ui.home
 
+import android.Manifest
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.core.view.get
 import androidx.drawerlayout.widget.DrawerLayout
@@ -28,6 +31,12 @@ import com.forthpro.millionsport.ui.notification.NotificationActivity
 import com.forthpro.millionsport.util.Resource
 import com.forthpro.millionsport.viewmodel.ViewModelProviderFactory
 import com.google.android.material.navigation.NavigationView
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.DexterError
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 
 class HomeActivity : BaseActivity() {
     private var arrNotification: ArrayList<SideMenuResponse.SideBar.LabelArray>? = arrayListOf()
@@ -46,6 +55,10 @@ class HomeActivity : BaseActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_dashboard) as NavHostFragment
 
         navControllerMain = navHostFragment.findNavController()
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.S_V2) {
+            requestPermissionsAbove12()
+        }
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
@@ -202,5 +215,33 @@ class HomeActivity : BaseActivity() {
         val factory = ViewModelProviderFactory(this.application, repository)
         viewModel = ViewModelProvider(this, factory)[HomeViewModel::class.java]
 
+    }
+
+    private fun requestPermissionsAbove12() {
+        Dexter.withActivity(this) // below line is use to request the number of permissions which are required in our app.
+            .withPermissions(Manifest.permission.POST_NOTIFICATIONS) // after adding permissions we are calling an with listener method.
+            .withListener(object : MultiplePermissionsListener {
+                override fun onPermissionsChecked(multiplePermissionsReport: MultiplePermissionsReport) {
+                    // this method is called when all permissions are granted
+                    if (multiplePermissionsReport.areAllPermissionsGranted()) {
+                        // do you work now
+                    }
+                    // check for permanent denial of any permission
+                    if (multiplePermissionsReport.isAnyPermissionPermanentlyDenied) {
+                        // permission is denied permanently, we will show user a dialog message.
+                    }
+                }
+
+                override fun onPermissionRationaleShouldBeShown(
+                    list: List<PermissionRequest?>?,
+                    permissionToken: PermissionToken,
+                ) {
+                    // this method is called when user grants some permission and denies some of them.
+                    permissionToken.continuePermissionRequest()
+                }
+            }).withErrorListener { error: DexterError? ->
+                // we are displaying a toast message for error message.
+            } // below line is use to run the permissions on same thread and to check the permissions
+            .onSameThread().check()
     }
 }

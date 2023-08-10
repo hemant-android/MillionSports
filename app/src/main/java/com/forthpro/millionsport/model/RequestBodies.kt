@@ -11,6 +11,8 @@ object RequestBodies {
         val platform: String,
         val device_id: String,
         val device_token: String,
+        val userTimeZone: String,
+        val userTimeZone1: String,
     )
 
     data class DashboardBody(

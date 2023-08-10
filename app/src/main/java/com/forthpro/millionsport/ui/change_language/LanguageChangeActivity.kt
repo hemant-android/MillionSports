@@ -17,6 +17,7 @@ import com.forthpro.millionsport.ui.change_language.viewmodel.LanguageChangeView
 import com.forthpro.millionsport.ui.home.HomeActivity
 import com.forthpro.millionsport.util.Resource
 import com.forthpro.millionsport.viewmodel.ViewModelProviderFactory
+import java.util.TimeZone
 
 
 class LanguageChangeActivity : BaseActivity(), LanguageChangeAdapter.onClickListner {
@@ -133,7 +134,15 @@ class LanguageChangeActivity : BaseActivity(), LanguageChangeAdapter.onClickList
 
         PreferenceHelper.languageHeader = languageId
 
-        val body = RequestBodies.ChangeLanguageBody("Android",PreferenceHelper.deviceId,PreferenceHelper.deviceToken)
+        var tz = TimeZone.getDefault()
+        var timeZone = tz.getDisplayName(true, TimeZone.SHORT)
+
+        val body = RequestBodies.ChangeLanguageBody(
+            "Android",
+            PreferenceHelper.deviceId,
+            PreferenceHelper.deviceToken,
+            timeZone,tz.id
+        )
         viewModel.changeLanguage(body)
 
         Intent(this, HomeActivity::class.java).also {

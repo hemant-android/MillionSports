@@ -90,7 +90,8 @@ class ExpandablePopularCompetitionByCountryAdapter(
             }
         }
 
-        var timing = Utils.convertPredictionTimeCurrentTimeZone(mChild.prediction_date + " " + mChild.prediction_time,PreferenceHelper.timeFormat)
+//        var timing = Utils.convertPredictionTimeCurrentTimeZone(mChild.prediction_date + " " + mChild.prediction_time,PreferenceHelper.timeFormat)
+        var timing = Utils.convertPredictionTimeToHHMM(mChild.match_actual_time,PreferenceHelper.timeFormat)
         if (timing!!.contains(" "))
         {
             var time = timing.split(" ")[0]
@@ -103,6 +104,7 @@ class ExpandablePopularCompetitionByCountryAdapter(
                 PreferenceHelper.timeFormat
             )
         }
+
         when (mParent.sport_id) {
             1 -> {
                 box1.visibility = View.VISIBLE

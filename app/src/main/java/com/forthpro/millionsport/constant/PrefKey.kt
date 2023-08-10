@@ -9,4 +9,6 @@ object PrefKey {
     const val token = "token"
     const val deviceId = "deviceId"
     const val deviceToken = "deviceToken"
+    const val userTimezone = "userTimezone"
+    const val userTimezoneID = "userTimezoneID"
 }

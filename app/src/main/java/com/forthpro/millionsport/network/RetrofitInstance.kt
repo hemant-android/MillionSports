@@ -18,6 +18,8 @@ class RetrofitInstance {
                     val newRequest = chain.request().newBuilder()
                         .addHeader("language", PreferenceHelper.languageHeader)
                         .addHeader("timeFormat", PreferenceHelper.timeFormat)
+                        .addHeader("userTimeZone", PreferenceHelper.userTimezone)
+                        .addHeader("userTimeZone1", PreferenceHelper.userTimezoneID)
                         .build()
                     chain.proceed(newRequest)
                 }

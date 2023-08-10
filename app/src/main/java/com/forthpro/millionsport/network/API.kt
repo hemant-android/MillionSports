@@ -24,7 +24,7 @@ interface API {
     @POST("api/getSideBar")
     suspend fun getSideMenuData(): Response<SideMenuResponse>
 
-    @POST("api/dashboard")
+    @POST("api/dashboard1")
     suspend fun getDashboardData(@Body body: RequestBodies.DashboardBody): Response<DashboardResponse>
 
     @POST("api/getNotificationSetting")

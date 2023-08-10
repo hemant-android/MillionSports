@@ -137,8 +137,8 @@
                                 android:gravity="center"
                                 android:lineSpacingExtra="1sp"
                                 android:textColor="@color/white"
-                                android:textSize="@dimen/_12sdp"
-                                android:translationY="0.47sp" />
+                                android:textSize="@dimen/_10sdp"
+                                android:translationY="-0.77sp" />
                         </LinearLayout>
 
                         <LinearLayout
