@@ -52,7 +52,7 @@ class GetCompetitionListAdapter(private val mContext: Context) :
 
         holder.imgFav!!.setOnClickListener {
 
-            onclick.clickFavUnFav(position,items[position].id,items[position].sport_id,items[position].country_id,items[position].name,items[position].favourite,items[position].country.country_logo)
+            onclick.clickFavUnFav(position,items[position].id,items[position].sport_id,items[position].country_id,items[position].default_name,items[position].favourite,items[position].country.country_logo)
         }
     }
 

@@ -46,7 +46,7 @@ class CompetitionAdapter(private val mContext: Context) :
         holder.tvTeamName!!.text = "" + items[position].name
 
         holder.imgFav!!.setOnClickListener {
-            onclick.clickFavUnFav(position,items[position].sport_id,items[position].country_id,items[position].name,items[position].favourite,items[position].country_logo)
+            onclick.clickFavUnFav(position,items[position].sport_id,items[position].country_id,items[position].default_name,items[position].favourite,items[position].country_logo)
         }
     }
 
