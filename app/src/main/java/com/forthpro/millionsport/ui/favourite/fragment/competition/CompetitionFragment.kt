@@ -148,12 +148,14 @@ class CompetitionFragment(var sportId: String?, var chooseDate: String?) : Fragm
 
     override fun clickFavUnFav(
         position: Int,
-        sportId: Int,
+        sport_Id: Int,
         country_id: Int,
         team_name: String,
         favourite: Int,
         flag: String,
     ) {
+
+        sportId = sport_Id.toString()
 
         val dialog = Dialog(requireActivity())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)

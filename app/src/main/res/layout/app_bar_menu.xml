@@ -273,9 +273,9 @@
                 android:gravity="center"
                 android:lineHeight="10.4px"
                 android:text="5"
-                android:visibility="gone"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_5sdp" />
+                android:textSize="@dimen/_5sdp"
+                android:visibility="gone" />
         </RelativeLayout>
 
 
