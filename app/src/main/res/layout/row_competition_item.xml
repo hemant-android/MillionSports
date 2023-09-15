@@ -29,6 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_toLeftOf="@+id/imgFav"
             android:layout_toRightOf="@+id/imgFlag"
             android:orientation="vertical">
 

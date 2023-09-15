@@ -1,11 +1,13 @@
 package com.forthpro.millionsport.ui.favourite.fragment.match.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import com.bumptech.glide.Glide
@@ -13,6 +15,7 @@ import com.forthpro.millionsport.BuildConfig
 import com.forthpro.millionsport.R
 import com.forthpro.millionsport.config.PreferenceHelper
 import com.forthpro.millionsport.model.response.MatchResponse
+import com.forthpro.millionsport.ui.details.PredictionDetailActivity
 import com.forthpro.millionsport.util.Utils
 import com.google.android.material.imageview.ShapeableImageView
 
@@ -40,22 +43,25 @@ class MatchAdapter(private val mContext: Context) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         if (items!![position].country.country_logo != null && items!![position].country.country_logo.isNotEmpty()) {
-            Glide.with(mContext).load(BuildConfig.SERVER_URL + items!![position].country.country_logo)
+            Glide.with(mContext)
+                .load(BuildConfig.SERVER_URL + items!![position].country.country_logo)
                 .centerCrop()
                 .into(holder.imgFlag!!)
         }
 
         holder.tvCountryName!!.text = "" + items[position].country.name
 
-        var timing = Utils.convertPredictionTimeCurrentTimeZone(items[position].prediction_date+" "+items[position].prediction_time, PreferenceHelper.timeFormat)
+        var timing = Utils.convertPredictionTimeCurrentTimeZone(
+            items[position].prediction_date + " " + items[position].prediction_time,
+            PreferenceHelper.timeFormat
+        )
 
-        if (timing!!.contains(" "))
-        {
+        if (timing!!.contains(" ")) {
             var time = timing.split(" ")[0]
             var ampm = timing.split(" ")[1]
 
-            holder.tvTime!!.text = time+"\n"+ampm.uppercase()
-        }else {
+            holder.tvTime!!.text = time + "\n" + ampm.uppercase()
+        } else {
             holder.tvTime!!.text = Utils.convertPredictionTimeCurrentTimeZone(
                 items[position].prediction_date + " " + items[position].prediction_time,
                 PreferenceHelper.timeFormat
@@ -207,6 +213,14 @@ class MatchAdapter(private val mContext: Context) :
             }
         }
 
+        holder.rlTime!!.setOnClickListener {
+            Intent(mContext, PredictionDetailActivity::class.java).also {
+                it.putExtra("sportId", items[position].sport_id.toString())
+                it.putExtra("predictionId", items[position].id)
+                mContext.startActivity(it)
+            }
+        }
+
     }
 
     // Inflates the item views
@@ -222,6 +236,7 @@ class MatchAdapter(private val mContext: Context) :
     }
 
     class ViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
+        val rlTime: RelativeLayout? = view.findViewById(R.id.rlTime)
         val imgFlag: ShapeableImageView? = view.findViewById(R.id.imgFlag)
         val tvCountryName: TextView? = view.findViewById(R.id.tvCountryName)
         val tvTime: TextView? = view.findViewById(R.id.tvTime)

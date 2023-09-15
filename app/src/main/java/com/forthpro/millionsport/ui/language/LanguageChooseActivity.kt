@@ -148,7 +148,7 @@ class LanguageChooseActivity : BaseActivity(), LanguageChooseAdapter.onClickList
         val body = RequestBodies.ChangeLanguageBody(
             "Android",
             PreferenceHelper.deviceId,
-            PreferenceHelper.deviceToken,timeZone,tz.id
+            PreferenceHelper.deviceToken, timeZone, tz.id
         )
         viewModel.changeLanguage(body)
 
