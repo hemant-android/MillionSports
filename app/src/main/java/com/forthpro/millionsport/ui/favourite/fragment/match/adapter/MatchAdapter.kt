@@ -42,14 +42,14 @@ class MatchAdapter(private val mContext: Context) :
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        if (items!![position].country.country_logo != null && items!![position].country.country_logo.isNotEmpty()) {
+        if (items!![position].country?.country_logo != null && items!![position].country.country_logo.isNotEmpty()) {
             Glide.with(mContext)
                 .load(BuildConfig.SERVER_URL + items!![position].country.country_logo)
                 .centerCrop()
                 .into(holder.imgFlag!!)
         }
 
-        holder.tvCountryName!!.text = "" + items[position].country.name
+        holder.tvCountryName!!.text = "" + items[position].prediction_name
 
         var timing = Utils.convertPredictionTimeCurrentTimeZone(
             items[position].prediction_date + " " + items[position].prediction_time,
