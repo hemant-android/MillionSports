@@ -41,6 +41,7 @@ class TeamAdapter(private val mContext: Context) :
                 .into(holder.imgFlag!!)
         }
 
+        holder.tvCountryName!!.visibility = View.GONE
         holder.tvCountryName!!.text = "(" + items[position].country.name + ")"
         holder.tvTeamName!!.text = "" + items[position].team_name
 

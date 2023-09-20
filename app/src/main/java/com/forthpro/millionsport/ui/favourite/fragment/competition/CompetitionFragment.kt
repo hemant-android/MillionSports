@@ -153,6 +153,7 @@ class CompetitionFragment(var sportId: String?, var chooseDate: String?) : Fragm
         team_name: String,
         favourite: Int,
         flag: String,
+        name: String,
     ) {
 
         sportId = sport_Id.toString()
@@ -183,7 +184,7 @@ class CompetitionFragment(var sportId: String?, var chooseDate: String?) : Fragm
                 .into(imgFlag)
         }
 
-        tvLeagueName.text = team_name
+        tvLeagueName.text = name
 
         if (label != null && !TextUtils.isEmpty(label)) {
             tvLabel.text = label

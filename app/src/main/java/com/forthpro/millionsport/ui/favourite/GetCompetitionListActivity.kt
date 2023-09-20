@@ -170,6 +170,7 @@ class GetCompetitionListActivity : BaseActivity(), GetCompetitionListAdapter.onC
         team_name: String,
         fav: Int,
         flag: String,
+        name: String,
     ) {
 
         if (fav == 1) {
@@ -199,7 +200,7 @@ class GetCompetitionListActivity : BaseActivity(), GetCompetitionListAdapter.onC
                     .into(imgFlag)
             }
 
-            tvLeagueName.text = team_name
+            tvLeagueName.text = name
             tvLabel.text = label
             tvYes.text = yes
             tvNo.text = no
