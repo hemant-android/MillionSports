@@ -130,7 +130,7 @@ class FavouriteSportActivity : BaseActivity(),
     }
 
     override fun dragAndDropSportItem(fromPosition: Int, toPosition: Int) {
-        val body = RequestBodies.UpdatedSportItemBody(PreferenceHelper.deviceId,arrFavSport[fromPosition].id,arrFavSport[fromPosition].position,arrFavSport[toPosition].id,arrFavSport[toPosition].position)
+        /*val body = RequestBodies.UpdatedSportItemBody(PreferenceHelper.deviceId,arrFavSport[fromPosition].id,arrFavSport[fromPosition].position,arrFavSport[toPosition].id,arrFavSport[toPosition].position)
         viewModel.updateSportItem(body)
 
         viewModel.updateSportItemResponse.observe(this) { event ->
@@ -140,7 +140,42 @@ class FavouriteSportActivity : BaseActivity(),
                         hideProgressBar()
 
                         if (response.data?.status == 1) {
-//                            Toast.makeText(this, response.data?.message, Toast.LENGTH_SHORT).show()
+                            PreferenceHelper.isFavSport = true
+                        } else {
+                            Toast.makeText(
+                                this,
+                                "Data not found",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+
+                    is Resource.Error -> {
+                        hideProgressBar()
+                        response.message?.let { message ->
+                            Log.e("error", message)
+                        }
+                    }
+
+                    is Resource.Loading -> {
+                        showProgressBar()
+                    }
+                }
+            }
+        }*/
+    }
+
+    override fun updatePosition(updateItem: String) {
+        val body = RequestBodies.UpdatedSportPositionBody(PreferenceHelper.deviceId,updateItem)
+        viewModel.updateSportItem(body)
+
+        viewModel.updateSportItemResponse.observe(this) { event ->
+            event?.getContentIfNotHandled()?.let { response ->
+                when (response) {
+                    is Resource.Success -> {
+                        hideProgressBar()
+
+                        if (response.data?.status == 1) {
                             PreferenceHelper.isFavSport = true
                         } else {
                             Toast.makeText(

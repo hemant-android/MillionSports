@@ -225,6 +225,7 @@ class CompetitionFragment(var sportId: String?, var chooseDate: String?) : Fragm
                             hideProgressBar()
                             if (response.data?.status == 1) {
 
+                                PreferenceHelper.isFav = true
                                 val body = RequestBodies.FavBody(
                                     PreferenceHelper.deviceId,
                                     sportId!!.toString(),

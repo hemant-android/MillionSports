@@ -170,6 +170,10 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
 
             val body = RequestBodies.DashboardBody(PreferenceHelper.deviceId, "", "")
             viewModel.getDashboard(body)
+        } else if (PreferenceHelper.isFav) {
+            PreferenceHelper.isFav = false
+            val body = RequestBodies.DashboardBody(PreferenceHelper.deviceId, sportId!!, chooseDate!!)
+            viewModel.getDashboardFilter(body)
         }
     }
 

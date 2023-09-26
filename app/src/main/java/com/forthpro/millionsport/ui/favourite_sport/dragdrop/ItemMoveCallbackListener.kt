@@ -2,6 +2,7 @@ package com.forthpro.millionsport.ui.favourite_sport.dragdrop
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.forthpro.millionsport.model.response.FavouriteSportResponse
 import com.forthpro.millionsport.ui.favourite_sport.adapter.FavSportsDragDropAdapter
 
 class ItemMoveCallbackListener(val adapter: FavSportsDragDropAdapter) : ItemTouchHelper.Callback() {
@@ -35,9 +36,17 @@ class ItemMoveCallbackListener(val adapter: FavSportsDragDropAdapter) : ItemTouc
     }
     override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
         super.clearView(recyclerView, viewHolder)
-        if (viewHolder is FavSportsDragDropAdapter.ViewHolder) {
+
+        viewHolder.itemView.requestLayout()
+        adapter.onUpdateArr(adapter.items)
+
+        val itemViewHolder = viewHolder as FavSportsDragDropAdapter.ViewHolder
+//        itemViewHolder.onItemMovedCallback(adapter.items)
+
+
+        /*if (viewHolder is FavSportsDragDropAdapter.ViewHolder) {
             adapter.onRowClear(viewHolder)
-        }
+        }*/
     }
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
     }
@@ -45,5 +54,6 @@ class ItemMoveCallbackListener(val adapter: FavSportsDragDropAdapter) : ItemTouc
         fun onRowMoved(fromPosition: Int, toPosition: Int)
         fun onRowSelected(itemViewHolder: FavSportsDragDropAdapter.ViewHolder)
         fun onRowClear(itemViewHolder: FavSportsDragDropAdapter.ViewHolder)
+        fun onUpdateArr(items: ArrayList<FavouriteSportResponse.SportsArray>?)
     }
 }

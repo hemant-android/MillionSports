@@ -3,30 +3,29 @@ package com.forthpro.millionsport.ui.favourite_sport.adapter
 import android.content.Context
 import android.text.TextUtils
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.forthpro.millionsport.BuildConfig
 import com.forthpro.millionsport.R
+import com.forthpro.millionsport.config.PreferenceHelper
 import com.forthpro.millionsport.model.response.FavouriteSportResponse
 import com.forthpro.millionsport.ui.favourite_sport.dragdrop.ItemMoveCallbackListener
 import com.forthpro.millionsport.ui.favourite_sport.dragdrop.OnStartDragListener
+import org.json.JSONArray
+import org.json.JSONObject
 import java.util.Collections
 
 
 class FavSportsDragDropAdapter(
     private val mContext: Context,
     private val startDragListener: OnStartDragListener,
-) : RecyclerView.Adapter<FavSportsDragDropAdapter.ViewHolder>(), ItemMoveCallbackListener.Listener  {
-    private val items: ArrayList<FavouriteSportResponse.SportsArray>? = arrayListOf()
+) : RecyclerView.Adapter<FavSportsDragDropAdapter.ViewHolder>(), ItemMoveCallbackListener.Listener {
+    val items: ArrayList<FavouriteSportResponse.SportsArray>? = arrayListOf()
 
     private var sportId = ""
 
@@ -34,6 +33,7 @@ class FavSportsDragDropAdapter(
 
     interface onClickListner {
         fun dragAndDropSportItem(fromPosition: Int, toPosition: Int)
+        fun updatePosition(updateItem: String)
     }
 
     fun setClickListner(onclick: onClickListner) {
@@ -92,6 +92,7 @@ class FavSportsDragDropAdapter(
             )
         )
     }
+
     override fun getItemCount(): Int {
         return items!!.size
     }
@@ -115,15 +116,28 @@ class FavSportsDragDropAdapter(
         notifyItemMoved(fromPosition, toPosition)
 
 
-        onclick.dragAndDropSportItem(fromPosition,toPosition)
+//        onclick.dragAndDropSportItem(fromPosition, toPosition)
 
-//        Toast.makeText(mContext, "from pos:----$fromPosition ---toPosition--- $toPosition",Toast.LENGTH_SHORT).show()
     }
 
     override fun onRowSelected(itemViewHolder: ViewHolder) {
     }
 
     override fun onRowClear(itemViewHolder: ViewHolder) {
+    }
+
+    override fun onUpdateArr(items: ArrayList<FavouriteSportResponse.SportsArray>?) {
+        val array = JSONArray()
+        for(item in items!!){
+            val jsonObject = JSONObject()
+            jsonObject.put("device_id", PreferenceHelper.deviceId)
+            jsonObject.put("sport_id", item.id)
+            jsonObject.put("position", item.position)
+            array.put(jsonObject)
+        }
+        array.toString()
+        onclick.updatePosition(array.toString())
+
     }
 }
 

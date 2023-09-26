@@ -223,6 +223,8 @@ class TeamFragment(var sportId: String?, var chooseDate: String?) : Fragment(),
                             hideProgressBar()
                             if (response.data?.status == 1) {
 
+                                PreferenceHelper.isFav = true
+
                                 val body = RequestBodies.FavBody(
                                     PreferenceHelper.deviceId,
                                     sportId!!.toString(),

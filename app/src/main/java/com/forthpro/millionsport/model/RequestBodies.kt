@@ -71,4 +71,9 @@ object RequestBodies {
         val toSportId: String,
         val toposition: String,
     )
+
+    data class UpdatedSportPositionBody(
+        val device_id: String,
+        val updateSports: String
+    )
 }

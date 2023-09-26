@@ -220,7 +220,7 @@ class GetCompetitionListActivity : BaseActivity(), GetCompetitionListAdapter.onC
                 }
 
                 for (position in allTeams!!.indices) {
-                    if (allTeams!![position].id == id){
+                    if (allTeams!![position].id == id) {
                         if (allTeams!![position].favourite == 0) {
                             allTeams!![position].favourite = 1
                         } else {
@@ -254,9 +254,10 @@ class GetCompetitionListActivity : BaseActivity(), GetCompetitionListAdapter.onC
                             is Resource.Success -> {
                                 hideProgressBar()
                                 if (response.data?.status == 1) {
-
+                                    PreferenceHelper.isFav = true
                                 } else {
-                                    Toast.makeText(this, "Data not found", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(this, "Data not found", Toast.LENGTH_SHORT)
+                                        .show()
                                 }
                             }
 
@@ -282,7 +283,7 @@ class GetCompetitionListActivity : BaseActivity(), GetCompetitionListAdapter.onC
             }
 
             for (position in allTeams!!.indices) {
-                if (allTeams!![position].id == id){
+                if (allTeams!![position].id == id) {
                     if (allTeams!![position].favourite == 0) {
                         allTeams!![position].favourite = 1
                     } else {
@@ -315,13 +316,7 @@ class GetCompetitionListActivity : BaseActivity(), GetCompetitionListAdapter.onC
                         is Resource.Success -> {
                             hideProgressBar()
                             if (response.data?.status == 1) {
-                                /*if (allTeams!![position].favourite == 0) {
-                                    allTeams!![position].favourite = 1
-                                } else {
-                                    allTeams!![position].favourite = 0
-                                }
-                                adapter.notifyDataSetChanged()*/
-//                            viewModel.getTeamListData(RequestBodies.GetTeamListBody(PreferenceHelper.deviceId, "1"))
+                                PreferenceHelper.isFav = true
                             } else {
 //                                Toast.makeText(this, "Data not found", Toast.LENGTH_SHORT).show()
                             }

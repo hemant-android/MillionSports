@@ -24,9 +24,6 @@ class FavouriteSportViewModel(app: Application, private val appRepository: AppRe
     private val _getFavouriteResponse = MutableLiveData<Event<Resource<FavouriteSportResponse>>>()
     val getFavouriteResponse: LiveData<Event<Resource<FavouriteSportResponse>>> =_getFavouriteResponse
 
-    private val _updateNotificationResponse = MutableLiveData<Event<Resource<CommonResponse>>>()
-    val updateNotificationResponse: LiveData<Event<Resource<CommonResponse>>> = _updateNotificationResponse
-
     private val _updateSportItemResponse = MutableLiveData<Event<Resource<CommonResponse>>>()
     val updateSportItemResponse: LiveData<Event<Resource<CommonResponse>>> = _updateSportItemResponse
 
@@ -34,14 +31,9 @@ class FavouriteSportViewModel(app: Application, private val appRepository: AppRe
         getFavouriteData(body)
     }
 
-    fun updateSportItem(body: RequestBodies.UpdatedSportItemBody) = viewModelScope.launch {
+    fun updateSportItem(body: RequestBodies.UpdatedSportPositionBody) = viewModelScope.launch {
         updateSportData(body)
     }
-
-    fun updateNotificationItem(body: RequestBodies.UpdatedNotificationBody) =
-        viewModelScope.launch {
-            updateNotificationData(body)
-        }
 
     private suspend fun getFavouriteData(body: RequestBodies.GetNotificationBody) {
         _getFavouriteResponse.postValue(Event(Resource.Loading()))
@@ -85,7 +77,7 @@ class FavouriteSportViewModel(app: Application, private val appRepository: AppRe
         }
     }
 
-    private suspend fun updateSportData(body: RequestBodies.UpdatedSportItemBody) {
+    private suspend fun updateSportData(body: RequestBodies.UpdatedSportPositionBody) {
         _updateSportItemResponse.postValue(Event(Resource.Loading()))
         try {
             if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
@@ -127,53 +119,6 @@ class FavouriteSportViewModel(app: Application, private val appRepository: AppRe
         }
     }
 
-    private suspend fun updateNotificationData(body: RequestBodies.UpdatedNotificationBody) {
-        _updateNotificationResponse.postValue(Event(Resource.Loading()))
-        try {
-            if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
-                val response = appRepository.updateNotificationData(body)
-                _updateNotificationResponse.postValue(response?.let {
-                    handleUpdateNotificationResponse(
-                        it
-                    )
-                })
-            } else {
-                _updateNotificationResponse.postValue(
-                    Event(
-                        Resource.Error(
-                            getApplication<MyApplication>().getString(
-                                R.string.no_internet_connection
-                            )
-                        )
-                    )
-                )
-            }
-        } catch (t: Throwable) {
-            when (t) {
-                is IOException -> {
-                    _updateNotificationResponse.postValue(
-                        Event(
-                            Resource.Error(
-                                getApplication<MyApplication>().getString(
-                                    R.string.network_failure
-                                )
-                            )
-                        )
-                    )
-                }
-
-                else -> {
-                    _updateNotificationResponse.postValue(
-                        Event(
-                            Resource.Error(t.localizedMessage)
-                        )
-                    )
-                }
-            }
-        }
-    }
-
-
     private fun handleResponse(response: retrofit2.Response<FavouriteSportResponse>): Event<Resource<FavouriteSportResponse>>? {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
@@ -184,15 +129,6 @@ class FavouriteSportViewModel(app: Application, private val appRepository: AppRe
     }
 
     private fun handleSportItemResponse(response: retrofit2.Response<CommonResponse>): Event<Resource<CommonResponse>>? {
-        if (response.isSuccessful) {
-            response.body()?.let { resultResponse ->
-                return Event(Resource.Success(resultResponse))
-            }
-        }
-        return Event(Resource.Error(response.message()))
-    }
-
-    private fun handleUpdateNotificationResponse(response: retrofit2.Response<CommonResponse>): Event<Resource<CommonResponse>>? {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
                 return Event(Resource.Success(resultResponse))

@@ -15,6 +15,10 @@ object PreferenceHelper {
         get() = preferences.get(PrefKey.isFavSport, false)
         set(isFavSport) = preferences.set(PrefKey.isFavSport, isFavSport)
 
+    var isFav: Boolean
+        get() = preferences.get(PrefKey.isFav, false)
+        set(isFav) = preferences.set(PrefKey.isFav, isFav)
+
     var userId: String
         get() = preferences.get(PrefKey.userId, "")
         set(userId) = preferences.set(PrefKey.userId, userId)

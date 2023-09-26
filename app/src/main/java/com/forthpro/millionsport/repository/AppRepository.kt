@@ -11,7 +11,7 @@ class AppRepository {
     suspend fun getSideMenuData() = RetrofitInstance().retrofitApi?.getSideMenuData()
     suspend fun getNotificationData(body: RequestBodies.GetNotificationBody) =RetrofitInstance().retrofitApi?.getNotificationData(body)
     suspend fun getFavouriteSportData(body: RequestBodies.GetNotificationBody) =RetrofitInstance().retrofitApi?.getFavouriteSPortData(body)
-    suspend fun updateSportData(body: RequestBodies.UpdatedSportItemBody) =RetrofitInstance().retrofitApi?.updateSPortItemData(body)
+    suspend fun updateSportData(body: RequestBodies.UpdatedSportPositionBody) =RetrofitInstance().retrofitApi?.updateSPortItemData(body)
     suspend fun updateNotificationData(body: RequestBodies.UpdatedNotificationBody) =RetrofitInstance().retrofitApi?.updateNotificationData(body)
     suspend fun getDashboardData(body: RequestBodies.DashboardBody) =RetrofitInstance().retrofitApi?.getDashboardData(body)
     suspend fun getMatchData(body: RequestBodies.FavBody) =RetrofitInstance().retrofitApi?.getMatchData(body)
