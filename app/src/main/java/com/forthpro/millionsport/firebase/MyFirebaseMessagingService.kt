@@ -5,17 +5,22 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
+import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import com.forthpro.millionsport.R
 import com.forthpro.millionsport.config.PreferenceHelper
 import com.forthpro.millionsport.ui.home.HomeActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import java.util.*
+import kotlin.random.Random
+import kotlin.random.nextInt
 
 
 open class MyFirebaseMessagingService : FirebaseMessagingService() {
@@ -55,7 +60,8 @@ open class MyFirebaseMessagingService : FirebaseMessagingService() {
             Log.d(TAG, "Message data payload: ${remoteMessage.data}")
             sendNotification(
                 remoteMessage.data["title"]!!,
-                remoteMessage.data["message"]!!)
+                remoteMessage.data["message"]!!
+            )
 
         } else {
             sendNotification(
@@ -81,33 +87,34 @@ open class MyFirebaseMessagingService : FirebaseMessagingService() {
         PreferenceHelper.deviceToken = token!!
     }
 
-    /**
-     * Create and show a simple notification containing the received FCM message.
-     *
-     * @param messageBody FCM message body received.
-     */
     private fun sendNotification(
         title: String?,
         message: String?,
-        type: String?){
+    ) {
+        var notificationId = Random
+
 
         var intent: Intent? = Intent(this, HomeActivity::class.java)
         intent!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
-        val pendingIntent = PendingIntent.getActivity(
-            this, 0 /* Request code */, intent, PendingIntent.FLAG_MUTABLE
-        )
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_MUTABLE)
 
         val channelId = getString(R.string.default_notification_channel_id)
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
-        notificationBuilder.setSmallIcon(R.mipmap.ic_notification).setContentTitle(title)
-            .setContentText(message).setAutoCancel(true).setSound(defaultSoundUri)
+        notificationBuilder
+            .setAutoCancel(true)
+            .setSmallIcon(getNotificationIcon(notificationBuilder))
+            .setSound(defaultSoundUri)
             .setContentIntent(pendingIntent)
+            .setContentTitle(title)
+            .setContentText(message)
+            .setOnlyAlertOnce(true)
+            .setColorized(true).color = ContextCompat.getColor(this, R.color.accent)
 
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
         // Since android Oreo notification channel is needed.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
@@ -116,39 +123,15 @@ open class MyFirebaseMessagingService : FirebaseMessagingService() {
             notificationManager.createNotificationChannel(channel)
         }
 
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build())
+        notificationManager.notify(notificationId.nextInt(100), notificationBuilder.build())
     }
 
-    private fun sendNotification(
-        title: String?,
-        message: String?,
-    ) {
-        var intent: Intent? = Intent(this, HomeActivity::class.java)
-        intent!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-
-        val pendingIntent = PendingIntent.getActivity(this,0, intent, PendingIntent.FLAG_MUTABLE)
-
-        val channelId = getString(R.string.default_notification_channel_id)
-        val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val notificationBuilder = NotificationCompat.Builder(this, channelId)
-        notificationBuilder
-            .setSmallIcon(R.mipmap.ic_notification)
-            .setAutoCancel(true)
-            .setSound(defaultSoundUri)
-            .setContentTitle(title)
-            .setContentText(message)
-            .setContentIntent(pendingIntent)
-
-        val notificationManager =
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-        // Since android Oreo notification channel is needed.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                channelId, "Channel human readable title", NotificationManager.IMPORTANCE_DEFAULT
-            )
-            notificationManager.createNotificationChannel(channel)       }
-
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build())
+    private fun getNotificationIcon(notificationBuilder: NotificationCompat.Builder): Int {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val color = 0x21282D
+            notificationBuilder.setSmallIcon(R.drawable.ic_notification)
+            notificationBuilder.color = color
+        }
+        return R.drawable.ic_notification
     }
 }

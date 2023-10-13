@@ -8,5 +8,5 @@
     <color name="darkGray">#727272</color>
     <color name="grayLight">#dbdbdb</color>
     <color name="red">#FF0B0B</color>
-
+    <color name="ic_launcher_background">#000000</color>
 </resources>
