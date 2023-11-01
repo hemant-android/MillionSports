@@ -30,7 +30,7 @@ android {
     productFlavors {
         Develop {
             applicationId "com.forthpro.millionsport.dev"
-            buildConfigField "String", "SERVER_URL", '"https://cool-lalande.82-165-251-149.plesk.page/"'
+            buildConfigField "String", "SERVER_URL", '"https://app.milionesports.de/"'
             signingConfig signingConfigs.debug
         }
         Prod {
