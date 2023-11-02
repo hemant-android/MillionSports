@@ -7,6 +7,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+        storeFile file('D:\\Personal\\Mickey\\MillionSports\\keyStore\\milionejks.jks')
+            storePassword 'milione123'
+            keyAlias 'milione'
+            keyPassword 'milione123'
+        }
+    }
     compileSdk 33
     flavorDimensions "default"
     defaultConfig {
@@ -22,6 +30,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
         debug {
             signingConfig signingConfigs.debug
