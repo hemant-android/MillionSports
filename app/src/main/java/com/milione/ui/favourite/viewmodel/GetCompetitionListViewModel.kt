@@ -1,0 +1,139 @@
+package com.milione.ui.favourite.viewmodel
+
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import app.milionesports.de.R
+import com.milione.app.MyApplication
+import com.milione.model.RequestBodies
+import com.milione.model.response.CommonResponse
+import com.milione.model.response.GetCompetitionListResponse
+import com.milione.repository.AppRepository
+import com.milione.util.Event
+import com.milione.util.Resource
+import com.milione.util.Utils
+import kotlinx.coroutines.launch
+import java.io.IOException
+
+class GetCompetitionListViewModel(app: Application, private val appRepository: AppRepository) :
+    AndroidViewModel(app) {
+
+    private val _getTeamListResponse = MutableLiveData<Event<Resource<GetCompetitionListResponse>>>()
+    val getTeamListResponse: LiveData<Event<Resource<GetCompetitionListResponse>>> = _getTeamListResponse
+
+    private val _favAddRemoveResponse = MutableLiveData<Event<Resource<CommonResponse>>>()
+    val favAddRemoveResponse: LiveData<Event<Resource<CommonResponse>>> = _favAddRemoveResponse
+
+    fun getTeamListData(body: RequestBodies.GetTeamListBody) = viewModelScope.launch {
+        getTeamListDetail(body)
+    }
+
+    fun favAddRemoveData(body: RequestBodies.FavAddRemoveCompetitionBody) = viewModelScope.launch {
+        favAddRemoveDetail(body)
+    }
+
+
+    private suspend fun getTeamListDetail(body: RequestBodies.GetTeamListBody) {
+        _getTeamListResponse.postValue(Event(Resource.Loading()))
+        try {
+            if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
+                val response = appRepository.getCompetitionListData(body)
+                _getTeamListResponse.postValue(response?.let { handleResponse(it) })
+            } else {
+                _getTeamListResponse.postValue(
+                    Event(
+                        Resource.Error(
+                            getApplication<MyApplication>().getString(
+                                R.string.no_internet_connection
+                            )
+                        )
+                    )
+                )
+            }
+        } catch (t: Throwable) {
+            when (t) {
+                is IOException -> {
+                    _getTeamListResponse.postValue(
+                        Event(
+                            Resource.Error(
+                                getApplication<MyApplication>().getString(
+                                    R.string.network_failure
+                                )
+                            )
+                        )
+                    )
+                }
+
+                else -> {
+                    _getTeamListResponse.postValue(
+                        Event(
+                            Resource.Error(t.localizedMessage)
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    private suspend fun favAddRemoveDetail(body: RequestBodies.FavAddRemoveCompetitionBody) {
+        _favAddRemoveResponse.postValue(Event(Resource.Loading()))
+        try {
+            if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
+                val response = appRepository.favAddRemoveCompetitionData(body)
+                _favAddRemoveResponse.postValue(response?.let { handleFavAddRemoveResponse(it) })
+            } else {
+                _favAddRemoveResponse.postValue(
+                    Event(
+                        Resource.Error(
+                            getApplication<MyApplication>().getString(
+                                R.string.no_internet_connection
+                            )
+                        )
+                    )
+                )
+            }
+        } catch (t: Throwable) {
+            when (t) {
+                is IOException -> {
+                    _favAddRemoveResponse.postValue(
+                        Event(
+                            Resource.Error(
+                                getApplication<MyApplication>().getString(
+                                    R.string.network_failure
+                                )
+                            )
+                        )
+                    )
+                }
+
+                else -> {
+                    _favAddRemoveResponse.postValue(
+                        Event(
+                            Resource.Error(t.localizedMessage)
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    private fun handleResponse(response: retrofit2.Response<GetCompetitionListResponse>): Event<Resource<GetCompetitionListResponse>>? {
+        if (response.isSuccessful) {
+            response.body()?.let { resultResponse ->
+                return Event(Resource.Success(resultResponse))
+            }
+        }
+        return Event(Resource.Error(response.message()))
+    }
+
+    private fun handleFavAddRemoveResponse(response: retrofit2.Response<CommonResponse>): Event<Resource<CommonResponse>>? {
+        if (response.isSuccessful) {
+            response.body()?.let { resultResponse ->
+                return Event(Resource.Success(resultResponse))
+            }
+        }
+        return Event(Resource.Error(response.message()))
+    }
+}

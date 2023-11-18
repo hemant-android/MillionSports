@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primary"
-    tools:context=".ui.home.HomeActivity">
+    tools:context="com.milione.ui.home.HomeActivity">
 
 
     <ScrollView
@@ -70,7 +70,7 @@
                     android:translationY="-0.9sp" />
 
 
-                <com.forthpro.millionsport.util.NonScrollExpandableListView
+                <com.milione.util.NonScrollExpandableListView
                     android:id="@+id/expendablePopularCompetitions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
                 android:textSize="@dimen/_10sdp"
                 android:translationY="-0.9sp" />
 
-                <com.forthpro.millionsport.util.NonScrollExpandableListView
+                <com.milione.util.NonScrollExpandableListView
                     android:id="@+id/expendableCompetitionsByCountry"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/primary"
     android:orientation="vertical"
-    tools:context=".ui.notification.NotificationActivity">
+    tools:context="com.milione.ui.notification.NotificationActivity">
 
     <RelativeLayout
         android:id="@+id/rlHeader"

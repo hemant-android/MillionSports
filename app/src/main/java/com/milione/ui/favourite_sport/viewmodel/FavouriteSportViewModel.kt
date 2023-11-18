@@ -1,0 +1,138 @@
+package com.milione.ui.favourite_sport.viewmodel
+
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import app.milionesports.de.R
+import com.milione.app.MyApplication
+import com.milione.model.RequestBodies
+import com.milione.model.response.CommonResponse
+import com.milione.model.response.FavouriteSportResponse
+import com.milione.repository.AppRepository
+import com.milione.util.Event
+import com.milione.util.Resource
+import com.milione.util.Utils
+import kotlinx.coroutines.launch
+import java.io.IOException
+
+class FavouriteSportViewModel(app: Application, private val appRepository: AppRepository) :
+    AndroidViewModel(app) {
+
+    private val _getFavouriteResponse = MutableLiveData<Event<Resource<FavouriteSportResponse>>>()
+    val getFavouriteResponse: LiveData<Event<Resource<FavouriteSportResponse>>> =_getFavouriteResponse
+
+    private val _updateSportItemResponse = MutableLiveData<Event<Resource<CommonResponse>>>()
+    val updateSportItemResponse: LiveData<Event<Resource<CommonResponse>>> = _updateSportItemResponse
+
+    fun getFavouriteSportItem(body: RequestBodies.GetNotificationBody) = viewModelScope.launch {
+        getFavouriteData(body)
+    }
+
+    fun updateSportItem(body: RequestBodies.UpdatedSportPositionBody) = viewModelScope.launch {
+        updateSportData(body)
+    }
+
+    private suspend fun getFavouriteData(body: RequestBodies.GetNotificationBody) {
+        _getFavouriteResponse.postValue(Event(Resource.Loading()))
+        try {
+            if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
+                val response = appRepository.getFavouriteSportData(body)
+                _getFavouriteResponse.postValue(response?.let { handleResponse(it) })
+            } else {
+                _getFavouriteResponse.postValue(
+                    Event(
+                        Resource.Error(
+                            getApplication<MyApplication>().getString(
+                                R.string.no_internet_connection
+                            )
+                        )
+                    )
+                )
+            }
+        } catch (t: Throwable) {
+            when (t) {
+                is IOException -> {
+                    _getFavouriteResponse.postValue(
+                        Event(
+                            Resource.Error(
+                                getApplication<MyApplication>().getString(
+                                    R.string.network_failure
+                                )
+                            )
+                        )
+                    )
+                }
+
+                else -> {
+                    _getFavouriteResponse.postValue(
+                        Event(
+                            Resource.Error(t.localizedMessage)
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    private suspend fun updateSportData(body: RequestBodies.UpdatedSportPositionBody) {
+        _updateSportItemResponse.postValue(Event(Resource.Loading()))
+        try {
+            if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
+                val response = appRepository.updateSportData(body)
+                _updateSportItemResponse.postValue(response?.let { handleSportItemResponse(it) })
+            } else {
+                _updateSportItemResponse.postValue(
+                    Event(
+                        Resource.Error(
+                            getApplication<MyApplication>().getString(
+                                R.string.no_internet_connection
+                            )
+                        )
+                    )
+                )
+            }
+        } catch (t: Throwable) {
+            when (t) {
+                is IOException -> {
+                    _updateSportItemResponse.postValue(
+                        Event(
+                            Resource.Error(
+                                getApplication<MyApplication>().getString(
+                                    R.string.network_failure
+                                )
+                            )
+                        )
+                    )
+                }
+
+                else -> {
+                    _updateSportItemResponse.postValue(
+                        Event(
+                            Resource.Error(t.localizedMessage)
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    private fun handleResponse(response: retrofit2.Response<FavouriteSportResponse>): Event<Resource<FavouriteSportResponse>>? {
+        if (response.isSuccessful) {
+            response.body()?.let { resultResponse ->
+                return Event(Resource.Success(resultResponse))
+            }
+        }
+        return Event(Resource.Error(response.message()))
+    }
+
+    private fun handleSportItemResponse(response: retrofit2.Response<CommonResponse>): Event<Resource<CommonResponse>>? {
+        if (response.isSuccessful) {
+            response.body()?.let { resultResponse ->
+                return Event(Resource.Success(resultResponse))
+            }
+        }
+        return Event(Resource.Error(response.message()))
+    }
+}

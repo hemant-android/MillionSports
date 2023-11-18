@@ -12,7 +12,7 @@
         tools:node="remove"/>
 
     <application
-        android:name=".app.MyApplication"
+        android:name="com.milione.app.MyApplication"
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -23,84 +23,84 @@
         android:theme="@style/Theme.DemoAppNoTitle"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.favourite_sport.FavouriteSportActivity"
+            android:name="com.milione.ui.favourite_sport.FavouriteSportActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.favourite.GetCompetitionListActivity"
+            android:name="com.milione.ui.favourite.GetCompetitionListActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.favourite.GetTeamListActivity"
+            android:name="com.milione.ui.favourite.GetTeamListActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.change_time.ChangeTimeFormatActivity"
+            android:name="com.milione.ui.change_time.ChangeTimeFormatActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.change_language.LanguageChangeActivity"
+            android:name="com.milione.ui.change_language.LanguageChangeActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.notification.NotificationActivity"
+            android:name="com.milione.ui.notification.NotificationActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.favourite.FavouriteActivity"
+            android:name="com.milione.ui.favourite.FavouriteActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.details.PredictionDetailActivity"
+            android:name="com.milione.ui.details.PredictionDetailActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.home.HomeActivity"
+            android:name="com.milione.ui.home.HomeActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.timing.ChooseTimeFormatActivity"
+            android:name="com.milione.ui.timing.ChooseTimeFormatActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.language.LanguageChooseActivity"
+            android:name="com.milione.ui.language.LanguageChooseActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.splash.SplashActivity"
+            android:name="com.milione.ui.splash.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -114,7 +114,7 @@
         </activity>
 
         <service
-            android:name=".firebase.MyFirebaseMessagingService"
+            android:name="com.milione.firebase.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

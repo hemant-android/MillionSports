@@ -20,7 +20,7 @@ android {
     defaultConfig {
         minSdk 21
         targetSdk 33
-        versionCode 2
+        versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -38,12 +38,12 @@ android {
     }
     productFlavors {
         Develop {
-            applicationId "com.forthpro.millionsport.dev"
+            applicationId "app.milionesports.de.dev"
             buildConfigField "String", "SERVER_URL", '"https://app.milionesports.de/"'
             signingConfig signingConfigs.debug
         }
         Prod {
-            applicationId "com.forthpro.millionsport"
+            applicationId "app.milionesports.de"
             buildConfigField "String", "SERVER_URL", '"https://app.milionesports.de/"'
         }
     }
@@ -58,7 +58,7 @@ android {
         viewBinding true
         dataBinding true
     }
-    namespace 'com.forthpro.millionsport'
+    namespace 'app.milionesports.de'
 }
 
 dependencies {

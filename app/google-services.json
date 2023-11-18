@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:235929322657:android:c531489921e52d8cd21ce0",
+        "mobilesdk_app_id": "1:235929322657:android:34d182ae27185a95d21ce0",
         "android_client_info": {
-          "package_name": "com.forthpro.millionsport"
+          "package_name": "app.milionesports.de"
         }
       },
       "oauth_client": [
@@ -36,9 +36,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:235929322657:android:eb3603b4ecda8cebd21ce0",
+        "mobilesdk_app_id": "1:235929322657:android:2edf133c58c2356dd21ce0",
         "android_client_info": {
-          "package_name": "com.forthpro.millionsport.dev"
+          "package_name": "app.milionesports.de.dev"
         }
       },
       "oauth_client": [

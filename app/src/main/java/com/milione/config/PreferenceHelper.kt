@@ -1,0 +1,53 @@
+package com.milione.config
+
+import com.milione.app.MyApplication
+import com.milione.app.getPref
+import com.milione.constant.PrefKey
+
+object PreferenceHelper {
+    private val preferences: SharedPreferenceUtils by lazy { MyApplication.getPref() }
+
+    var loggedIn: Boolean
+        get() = preferences.get(PrefKey.IsLoggedIn, false)
+        set(loggedIn) = preferences.set(PrefKey.IsLoggedIn, loggedIn)
+
+    var isFavSport: Boolean
+        get() = preferences.get(PrefKey.isFavSport, false)
+        set(isFavSport) = preferences.set(PrefKey.isFavSport, isFavSport)
+
+    var isFav: Boolean
+        get() = preferences.get(PrefKey.isFav, false)
+        set(isFav) = preferences.set(PrefKey.isFav, isFav)
+
+    var userId: String
+        get() = preferences.get(PrefKey.userId, "")
+        set(userId) = preferences.set(PrefKey.userId, userId)
+
+    var languageHeader: String
+        get() = preferences.get(PrefKey.languageHeader, "")
+        set(languageHeader) = preferences.set(PrefKey.languageHeader, languageHeader)
+
+    var timeFormat: String
+        get() = preferences.get(PrefKey.timeFormat, "")
+        set(timeFormat) = preferences.set(PrefKey.timeFormat, timeFormat)
+
+    var token: String
+        get() = preferences.get(PrefKey.token, "")
+        set(token) = preferences.set(PrefKey.token, token)
+
+    var deviceId: String
+        get() = preferences.get(PrefKey.deviceId, "")
+        set(deviceId) = preferences.set(PrefKey.deviceId, deviceId)
+
+    var deviceToken: String
+        get() = preferences.get(PrefKey.deviceToken, "")
+        set(deviceToken) = preferences.set(PrefKey.deviceToken, deviceToken)
+
+    var userTimezone: String
+        get() = preferences.get(PrefKey.userTimezone, "")
+        set(userTimezone) = preferences.set(PrefKey.userTimezone, userTimezone)
+
+    var userTimezoneID: String
+        get() = preferences.get(PrefKey.userTimezoneID, "")
+        set(userTimezoneID) = preferences.set(PrefKey.userTimezoneID, userTimezoneID)
+}
