@@ -9,7 +9,7 @@ plugins {
 android {
     signingConfigs {
         release {
-        storeFile file('D:\\Personal\\Mickey\\MillionSports\\keyStore\\milionejks.jks')
+        storeFile file('D:\\Freelancing\\Mickey\\Million\\workSpace\\MillionSports\\app\\milionejks.jks')
             storePassword 'milione123'
             keyAlias 'milione'
             keyPassword 'milione123'
@@ -20,8 +20,8 @@ android {
     defaultConfig {
         minSdk 21
         targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -107,4 +107,7 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation 'com.google.firebase:firebase-messaging-ktx:23.2.0'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
+
+    // Ads
+    implementation 'com.google.android.gms:play-services-ads:22.6.0'
 }

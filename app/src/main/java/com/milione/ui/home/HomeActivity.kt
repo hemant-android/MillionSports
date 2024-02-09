@@ -1,6 +1,7 @@
 package com.milione.ui.home
 
 import android.Manifest
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -9,6 +10,7 @@ import android.util.Log
 import android.view.View
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.core.view.get
 import androidx.drawerlayout.widget.DrawerLayout
@@ -19,6 +21,10 @@ import androidx.navigation.fragment.findNavController
 import com.milione.BaseActivity
 import app.milionesports.de.R
 import app.milionesports.de.databinding.ActivityHomeBinding
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
 import com.milione.model.response.SideMenuResponse
 import com.milione.repository.AppRepository
 import com.milione.ui.change_language.LanguageChangeActivity
@@ -47,6 +53,40 @@ class HomeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        MobileAds.initialize(this) {}
+
+        val adRequest = AdRequest.Builder().build()
+        binding.adView.loadAd(adRequest)
+
+        binding.adView.adListener = object: AdListener() {
+            override fun onAdClicked() {
+                // Code to be executed when the user clicks on an ad.
+            }
+
+            override fun onAdClosed() {
+                // Code to be executed when the user is about to return
+                // to the app after tapping on an ad.
+            }
+
+            override fun onAdFailedToLoad(adError : LoadAdError) {
+                // Code to be executed when an ad request fails.
+            }
+
+            override fun onAdImpression() {
+                // Code to be executed when an impression is recorded
+                // for an ad.
+            }
+
+            override fun onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+            }
+
+            override fun onAdOpened() {
+                // Code to be executed when an ad opens an overlay that
+                // covers the screen.
+            }
+        }
 
         setupViewModel()
 
@@ -137,10 +177,21 @@ class HomeActivity : BaseActivity() {
 
         rlShare.setOnClickListener {
             drawerLayout.closeDrawers()
+
+            val sharingIntent = Intent(Intent.ACTION_SEND)
+            sharingIntent.type = "text/plain"
+            sharingIntent.putExtra(
+                Intent.EXTRA_TEXT,
+                """ ${resources.getString(R.string.shareContentTitle)}     
+     https://play.google.com/store/apps/details?id=app.milionesports.de """.trimIndent()
+            )
+            startActivity(Intent.createChooser(sharingIntent, "Milione Sports"))
         }
 
         rlRateApp.setOnClickListener {
             drawerLayout.closeDrawers()
+
+            launchMarket()
         }
 
         rlTermUse.setOnClickListener {
@@ -242,5 +293,15 @@ class HomeActivity : BaseActivity() {
                 // we are displaying a toast message for error message.
             } // below line is use to run the permissions on same thread and to check the permissions
             .onSameThread().check()
+    }
+
+    private fun launchMarket() {
+        val uri = Uri.parse("market://details?id=app.milionesports.de")
+        val myAppLinkToMarket = Intent(Intent.ACTION_VIEW, uri)
+        try {
+            startActivity(myAppLinkToMarket)
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(this, " unable to find market app", Toast.LENGTH_LONG).show()
+        }
     }
 }
