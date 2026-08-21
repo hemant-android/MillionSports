@@ -2,6 +2,7 @@ package com.milione.ui.home.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,12 @@ import app.milionesports.de.BuildConfig
 import app.milionesports.de.R
 import com.milione.config.PreferenceHelper
 import app.milionesports.de.databinding.FragmentHomeBinding
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.milione.model.RequestBodies
 import com.milione.model.response.DashboardResponse
 import com.milione.repository.AppRepository
@@ -23,8 +30,14 @@ import com.milione.ui.home.adapter.ExpandablePopularCompetitionAdapter
 import com.milione.ui.home.adapter.ExpandablePopularCompetitionByCountryAdapter
 import com.milione.ui.home.adapter.SportsAdapter
 import com.milione.ui.home.viewmodel.DashboardViewModel
+import com.milione.util.GoogleMobileAdsConsentManager
 import com.milione.util.Resource
 import com.milione.viewmodel.ViewModelProviderFactory
+import java.util.concurrent.atomic.AtomicBoolean
+
+
+const val GAME_LENGTH_MILLISECONDS = 3000L
+const val AD_UNIT_ID = "ca-app-pub-4415895153703860/6767338269"
 
 class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.onClickListner {
 
@@ -49,6 +62,63 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
     var sportId: String? = ""
     var chooseDate: String? = ""
 
+    private val isMobileAdsInitializeCalled = AtomicBoolean(false)
+    private lateinit var googleMobileAdsConsentManager: GoogleMobileAdsConsentManager
+    private var interstitialAd: InterstitialAd? = null
+    private var countdownTimer: CountDownTimer? = null
+    private var gamePaused = false
+    private var gameOver = false
+    private var adIsLoading: Boolean = false
+    private var timerMilliseconds = 0L
+
+    private companion object {
+        const val TAG = "HomeFragment"
+    }
+    private fun initializeMobileAdsSdk() {
+        if (isMobileAdsInitializeCalled.getAndSet(true)) {
+            return
+        }
+
+        // Initialize the Mobile Ads SDK.
+        MobileAds.initialize(requireContext()) {
+            // Load an ad.
+            loadAd()
+        }
+    }
+
+    private fun loadAd() {
+        // Request a new ad if one isn't already loaded.
+        if (adIsLoading || interstitialAd != null) {
+            return
+        }
+        adIsLoading = true
+
+        val adRequest = AdRequest.Builder().build()
+
+        InterstitialAd.load(
+            requireContext(),
+            AD_UNIT_ID,
+            adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    Log.d(TAG, adError.message)
+                    interstitialAd = null
+                    adIsLoading = false
+                    val error =
+                        "domain: ${adError.domain}, code: ${adError.code}, " + "message: ${adError.message}"
+                    Toast.makeText(requireContext(),"onAdFailedToLoad() with error $error",Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onAdLoaded(ad: InterstitialAd) {
+                    Log.d(TAG, "Ad was loaded.")
+                    interstitialAd = ad
+                    adIsLoading = false
+                    Toast.makeText(requireContext(), "onAdLoaded()", Toast.LENGTH_SHORT).show()
+                }
+            }
+        )
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -57,6 +127,32 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
         binding = FragmentHomeBinding.inflate(inflater)
 
         setupViewModel()
+
+        googleMobileAdsConsentManager = GoogleMobileAdsConsentManager.getInstance(requireContext())
+        googleMobileAdsConsentManager.gatherConsent(requireActivity()) { consentError ->
+            if (consentError != null) {
+                // Consent not obtained in current session.
+                Log.w(TAG, "${consentError.errorCode}: ${consentError.message}")
+            }
+            if (googleMobileAdsConsentManager.canRequestAds) {
+                initializeMobileAdsSdk()
+            }
+            if (googleMobileAdsConsentManager.isPrivacyOptionsRequired) {
+                // Regenerate the options menu to include a privacy setting.
+//                invalidateOptionsMenu()
+            }
+        }
+
+        if (googleMobileAdsConsentManager.canRequestAds) {
+            initializeMobileAdsSdk()
+        }
+
+        /*MobileAds.setRequestConfiguration(
+            RequestConfiguration.Builder().setTestDeviceIds(listOf("ABCDEF012345")).build()
+        )*/
+
+
+
 
         binding.rvDateWise.adapter = mDateWiseAdapter
         mDateWiseAdapter.setClickListner(this)
@@ -172,7 +268,8 @@ class HomeFragment : Fragment(), SportsAdapter.onClickListner, DateWiseAdapter.o
             viewModel.getDashboard(body)
         } else if (PreferenceHelper.isFav) {
             PreferenceHelper.isFav = false
-            val body = RequestBodies.DashboardBody(PreferenceHelper.deviceId, sportId!!, chooseDate!!)
+            val body =
+                RequestBodies.DashboardBody(PreferenceHelper.deviceId, sportId!!, chooseDate!!)
             viewModel.getDashboardFilter(body)
         }
     }
